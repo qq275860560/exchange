@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ghf.exchange</groupId>
+    <artifactId>exchange</artifactId>
+    <version>20211108</version>
+    <packaging>pom</packaging>
+
+    <modules>
+	    <module>exchange-common</module>
+        <module>exchange-api</module>
+    </modules>
+
+
+
+    <properties>
+        <java.version>1.8</java.version>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.host.url>http://192.168.0.41:9000</sonar.host.url>
+        <sonar.login>admin</sonar.login>
+        <sonar.password>ZJzl@2021</sonar.password>
+        <sonar.language>java</sonar.language>
+        <sonar.scm.disabled>true</sonar.scm.disabled>
+        <sonar.inclusions>src/main/java/**/*.java</sonar.inclusions>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.ws.timeout>300</sonar.ws.timeout>
+    </properties>
+
+
+
+
+
+
+</project>

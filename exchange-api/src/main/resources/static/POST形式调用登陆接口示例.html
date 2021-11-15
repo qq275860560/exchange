@@ -1,0 +1,53 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script>
+
+        function post(url, jsonObject, success) {
+
+            fetch(url, {
+                method: "POST", body: JSON.stringify(jsonObject), mode: "cors",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then((response) => {
+                if (response.status == 200) {
+                    return response.json();
+                } else if (response.status == 401) {
+                    console.log("认证失败");
+                } else {
+                    console.error(response);
+                }
+            }).then((result) => {
+                console.log("receive=", result);
+                success(result);
+            }).catch((e) => {
+                console.log(e);
+            });
+        }
+
+
+        let url = "http://localhost:8080/api/user/login";
+        let jsonObject = {};
+        jsonObject.username="admin";
+        jsonObject.password="123456";
+
+        let success = function (result) {
+            alert(JSON.stringify(result));
+            localStorage.setItem('token_type', result.data.tokenType);//通常是登陆后把token_type存储到localStorage
+            localStorage.setItem('access_token', result.data.accessToken);//通常是登陆后把access_token存储到localStorage
+            localStorage.setItem('user_name', result.data.username);//通常是登陆后把用户基本信息存储到localStorage，以便其他前端模块使用
+        };
+        post(url, jsonObject, success);
+
+    </script>
+
+
+</head>
+<body>
+
+
+</body>
+
+</html>

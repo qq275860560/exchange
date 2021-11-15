@@ -1,0 +1,31 @@
+﻿
+DROP TABLE  IF EXISTS 	t_org ;
+CREATE TABLE t_org  (
+                         id bigint(16) NOT NULL,
+                         orgname VARCHAR ( 128 ) DEFAULT NULL comment '组织名称,组织英文名称，组织编码，唯一',
+                         orgdesc VARCHAR ( 128 ) DEFAULT NULL comment '组织描述,组织中文名称，页面显示名称',
+                         org_type  tinyint(4) unsigned DEFAULT 0 comment '组织类型,组织级别，默认为0，其中1:一级组织，2：二级组织,3:三级组织，4:四级组织，5:五级组织，以此类推',
+                         order_num  tinyint(4) unsigned DEFAULT 0 comment '排序,指的是同级顺序，拥有同一父亲时，兄弟间的顺序,0>1>2>3>4,数字小的优先',
+                         parent_org_id VARCHAR ( 32 ) DEFAULT NULL comment '父级组织id',
+                         parent_orgname VARCHAR ( 128 ) DEFAULT NULL comment '父级组织名称,组织英文名称，父组织编码',
+                         parent_orgdesc VARCHAR ( 128 ) DEFAULT NULL comment '父级组织描述,组织中文名称，页面显示名称',
+                         full_org_id VARCHAR ( 512 ) DEFAULT NULL comment '完整组织id，逗号隔开,前后都有逗号',
+                         full_orgname VARCHAR ( 512 ) DEFAULT NULL comment '完整组织名称,完整组织英文名称，完整组织编码，逗号隔开,前后都有逗号',
+                         full_orgdesc VARCHAR ( 512 ) DEFAULT NULL comment '完整组织描述,完整组织中文名称，页面显示的完整名称，逗号隔开,前后都有逗号',
+                         deep tinyint(4) unsigned  DEFAULT null comment '当前节点深度,冗余，根节点为1，第二层为为2，第三层为3，以此类推',
+                         rolenames        VARCHAR(128)       DEFAULT NULL comment '角色名称列表，冗余,逗号隔开，前后都有逗号',
+                         roledescs        VARCHAR(128)        DEFAULT NULL comment '角色描述列表，冗余,逗号隔开，前后都有逗号',
+                         areaname VARCHAR ( 128 ) DEFAULT NULL comment '地区名称,地区英文名称，地区编码',
+                         areadesc VARCHAR ( 128 ) DEFAULT NULL comment '地区描述,地区中文名称，页面显示名称',
+                         full_areaname VARCHAR ( 512 ) DEFAULT NULL comment '完整地区名称,完整地区英文名称，完整地区编码，逗号隔开,前后都有逗号',
+                         full_areadesc VARCHAR ( 512 ) DEFAULT NULL comment '完整地区描述,完整地区中文名称，页面显示的完整名称，逗号隔开,前后都有逗号',
+                         status           tinyint(1) unsigned not null DEFAULT 1 comment '状态,0:禁用,1:启用',
+                         create_user_id bigint(16) DEFAULT 0,
+                         create_user_name VARCHAR ( 128 ) DEFAULT NULL,
+                         create_time datetime DEFAULT NULL,
+                         remark text DEFAULT NULL comment '备注',
+                         PRIMARY KEY ( id ),
+                         UNIQUE KEY(orgname),
+                         INDEX index_orgdesc(orgdesc),
+                         INDEX index_parent_orgnname(parent_orgname)
+) DEFAULT CHARSET=utf8mb4  comment '组织';

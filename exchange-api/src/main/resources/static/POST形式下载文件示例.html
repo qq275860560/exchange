@@ -1,0 +1,63 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script>
+
+        let token_type="bearer";
+        let access_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI4YWFjOWVkNS00Y2M3LTRhNTItOWU1ZC1hNGM5YmEwNWMwZDciLCJjbGllbnRfaWQiOiJmaWMtYXBpIn0.B_ai7AMDyIPmYq1dMGZ-rgGgUDXwLLxeHgTlkQvw8-SGBGNbCUDQK-vEMO9o_AIzLcZxzO3SnQVI7L9oK5cChQ";
+        localStorage.setItem('token_type', token_type);//通常是登陆后把token_type存储到localStorage
+        localStorage.setItem('access_token', access_token);//通常是登陆后把token存储到localStorage
+
+        //下载url，下载保存后的文件名，下载要提交的参数
+        function download(url, filename, jsonObject,success) {
+
+            let token_type = localStorage.getItem('token_type');
+            let access_token = localStorage.getItem('access_token');
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader("Authorization", token_type +" " + access_token);
+            xhr.setRequestHeader("Content-Type","application/json");
+            xhr.responseType = "blob";
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                   success(xhr);
+                } else if (xhr.status == 401) {
+                    console.log("认证失败");
+                } else if (xhr.status == 403) {
+                    console.log("授权失败");
+                } else {
+                    console.error(xhr);
+                }
+            };
+            xhr.send(JSON.stringify(jsonObject));
+        }
+
+        let url = "http://localhost:8080/api/resourceFile/downloadResourceFileByMd5AndName";
+        let filename = "test.png";
+        let jsonObject = {};
+        jsonObject.md5="52e9ba91c1d6370900cf2bb8591badc5";
+        jsonObject.name="test.png";
+       let success = function (xhr) {
+            let blob = xhr.response;
+            let a = document.createElement('a');
+            a.download = filename;
+            a.style.display = 'none';
+            a.href = URL.createObjectURL(blob);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
+
+        download(url, filename, jsonObject,success);
+    </script>
+
+
+</head>
+<body>
+
+
+
+</body>
+
+</html>
