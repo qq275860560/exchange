@@ -73,9 +73,9 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
         if (pageAreaReqDTO.getAreaType() != 0) {
             predicate.and(QArea.area.areaType.eq(pageAreaReqDTO.getAreaType()));
         }
-        PageRespDTO<AreaRespDTO> pageResult = areaService.page(predicate, pageAreaReqDTO, AreaRespDTO.class);
+        PageRespDTO<AreaRespDTO> pageRespDTO = areaService.page(predicate, pageAreaReqDTO, AreaRespDTO.class);
 
-        pageResult.getList().forEach(e -> {
+        pageRespDTO.getList().forEach(e -> {
             if (!ObjectUtils.isEmpty(e.getFullAreaname())) {
                 e.setFullAreanameList(Arrays.stream(e.getFullAreaname().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toList()));
             }
@@ -83,7 +83,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
                 e.setFullAreadescList(Arrays.stream(e.getFullAreadesc().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toList()));
             }
         });
-        return new Result<>(pageResult);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "Area", key = "'treeArea:'.concat(#p0.areaname).concat(#p0.treeDeep)")

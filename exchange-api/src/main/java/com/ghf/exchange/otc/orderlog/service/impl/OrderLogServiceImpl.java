@@ -76,8 +76,8 @@ public class OrderLogServiceImpl extends BaseServiceImpl<OrderLog, Long> impleme
             predicate.and(QOrderLog.orderLog.orderLogCode.contains(pageOrderLogReqDTO.getOrderLogCode()));
         }
 
-        PageRespDTO<OrderLogRespDTO> pageResult = orderLogService.page(predicate, pageOrderLogReqDTO, OrderLogRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<OrderLogRespDTO> pageRespDTO = orderLogService.page(predicate, pageOrderLogReqDTO, OrderLogRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Override

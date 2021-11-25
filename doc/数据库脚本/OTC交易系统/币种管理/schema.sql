@@ -14,6 +14,6 @@ CREATE TABLE t_coin
     create_time      datetime            DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY (coin_code)
-) DEFAULT CHARSET = utf8mb4 comment '货币';
+) DEFAULT CHARSET = utf8mb4 comment '币种';
 
 

@@ -58,8 +58,8 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long> implements Dict
         if (!ObjectUtils.isEmpty(pageDictReqDTO.getDictkey())) {
             predicate.and(QDict.dict.dictkey.contains(pageDictReqDTO.getDictkey()));
         }
-        PageRespDTO<DictRespDTO> pageResult = this.page(predicate, pageDictReqDTO, DictRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<DictRespDTO> pageRespDTO = this.page(predicate, pageDictReqDTO, DictRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "Dict", key = "'listDictByDicttypeAndDictkey:'.concat(#p0.dicttype)")

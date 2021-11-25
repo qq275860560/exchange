@@ -184,8 +184,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public JwtAccessTokenConverter jwtAccessTokenConverter(KeyPair keyPair) {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         jwtAccessTokenConverter.setKeyPair(keyPair);
-        DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
-        accessTokenConverter.setUserTokenConverter(new DefaultUserAuthenticationConverter() {
+
+        DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter() {
             @Override
             public Map<String, ?> convertUserAuthentication(Authentication authentication) {
                 Map<String, Object> response = new LinkedHashMap<>();
@@ -196,7 +196,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 }
                 return response;
             }
-        });
+        };
+        defaultUserAuthenticationConverter.setUserDetailsService(userDetailsService());
+        DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
+        accessTokenConverter.setUserTokenConverter(defaultUserAuthenticationConverter);
         jwtAccessTokenConverter.setAccessTokenConverter(accessTokenConverter);
 
         return jwtAccessTokenConverter;

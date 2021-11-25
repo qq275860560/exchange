@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.convention.NameTransformers;
 import org.modelmapper.convention.NamingConventions;
-import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,6 +58,5 @@ public class AutoMapUtils {
         }
         return MODEL_MAPPER.map(source, targetClass);
     }
-
 
 }

@@ -121,8 +121,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
         if (!ObjectUtils.isEmpty(pageUserReqDTO.getRolename())) {
             predicate.and(QUser.user.rolenames.contains("," + pageUserReqDTO.getRolename() + ","));
         }
-        PageRespDTO<UserRespDTO> pageResult = userService.page(predicate, pageUserReqDTO, UserRespDTO.class);
-        pageResult.getList().forEach(e -> {
+        PageRespDTO<UserRespDTO> pageRespDTO = userService.page(predicate, pageUserReqDTO, UserRespDTO.class);
+        pageRespDTO.getList().forEach(e -> {
             if (!ObjectUtils.isEmpty(e.getRolenames())) {
                 e.setRolenameSet(Arrays.stream(e.getRolenames().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
             }
@@ -136,7 +136,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
                 e.setOrgdescSet(Arrays.stream(e.getOrgdescs().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
             }
         });
-        return new Result<>(pageResult);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "User", key = "'listUser:'.concat(':').concat(#p0.username).concat(':').concat(#p0.orgname).concat(':').concat(#p0.rolename)", condition = " T(org.springframework.util.StringUtils).isEmpty(#p0.nickname)  && T(org.springframework.util.StringUtils).isEmpty(#p0.orgdesc)  && T(org.springframework.util.StringUtils).isEmpty(#p0.roledesc) ")

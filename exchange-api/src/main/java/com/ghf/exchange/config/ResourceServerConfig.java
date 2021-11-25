@@ -43,7 +43,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 //直接放行
                 .antMatchers("/api/user/login", "/api/validateCode/generateValidateCode", "/api/validateCode/checkValidateCode").permitAll()
                 // 需要认证需要客户端范围需要用户角色
-                .antMatchers("/api/**").access("@rolePermissionService.decideRole(request,authentication)");
+                .antMatchers("/api/**", "/websocket/**").access("@rolePermissionService.decideRole(request,authentication)");
     }
 
     @Resource

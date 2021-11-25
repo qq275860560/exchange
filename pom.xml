@@ -18,9 +18,9 @@
     <properties>
         <java.version>1.8</java.version>
          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sonar.host.url>http://192.168.0.41:9000</sonar.host.url>
-        <sonar.login>admin</sonar.login>
-        <sonar.password>ZJzl@2021</sonar.password>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.login>sonar</sonar.login>
+        <sonar.password>123456</sonar.password>
         <sonar.language>java</sonar.language>
         <sonar.scm.disabled>true</sonar.scm.disabled>
         <sonar.inclusions>src/main/java/**/*.java</sonar.inclusions>

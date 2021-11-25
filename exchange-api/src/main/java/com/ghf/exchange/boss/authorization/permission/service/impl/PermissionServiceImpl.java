@@ -75,8 +75,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long> imp
         if (pagePermissionReqDTO.getPermissionType() != 0) {
             predicate.and(QPermission.permission.permissionType.eq(pagePermissionReqDTO.getPermissionType()));
         }
-        PageRespDTO<PermissionRespDTO> pageResult = permissionService.page(predicate, pagePermissionReqDTO, PermissionRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<PermissionRespDTO> pageRespDTO = permissionService.page(predicate, pagePermissionReqDTO, PermissionRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "Permission", key = "'treePermission:'.concat(#p0.permissionname).concat(#p0.treeDeep)")

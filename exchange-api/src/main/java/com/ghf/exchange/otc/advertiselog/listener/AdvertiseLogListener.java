@@ -45,7 +45,7 @@ public class AdvertiseLogListener {
 
     @Async
     @EventListener
-    public void onAdAdvertiseEvent(AddAdvertiseEvent event) {
+    public void onAddAdvertiseEvent(AddAdvertiseEvent event) {
         log.info("接收到消息={}", JsonUtil.toJsonString(event.getSource()));
         AddAdvertiseLogReqDTO addAdvertiseLogReqDTO = (AddAdvertiseLogReqDTO) event.getSource();
         clientService.loginClient(LoginClientReqDTO.builder().clientId(clientId).clientSecret(secret).build());

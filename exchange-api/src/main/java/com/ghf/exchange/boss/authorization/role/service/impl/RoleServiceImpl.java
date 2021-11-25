@@ -78,9 +78,9 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
         if (!ObjectUtils.isEmpty(pageRoleReqDTO.getPermissionname())) {
             predicate.and(QRole.role.permissionnames.contains("," + pageRoleReqDTO.getPermissionname() + ","));
         }
-        PageRespDTO<RoleRespDTO> pageResult = roleService.page(predicate, pageRoleReqDTO, RoleRespDTO.class);
+        PageRespDTO<RoleRespDTO> pageRespDTO = roleService.page(predicate, pageRoleReqDTO, RoleRespDTO.class);
 
-        pageResult.getList().forEach(e -> {
+        pageRespDTO.getList().forEach(e -> {
             if (!ObjectUtils.isEmpty(e.getPermissionnames())) {
                 e.setPermissionnameSet(Arrays.stream(e.getPermissionnames().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
             }
@@ -89,7 +89,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
             }
 
         });
-        return new Result<>(pageResult);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "Role", key = "'listRole:'.concat(#p0.rolename).concat(':').concat(#p0.permissionname)", condition = "T(org.springframework.util.StringUtils).isEmpty(#p0.roledesc)  && T(org.springframework.util.StringUtils).isEmpty(#p0.permissiondesc)    ")

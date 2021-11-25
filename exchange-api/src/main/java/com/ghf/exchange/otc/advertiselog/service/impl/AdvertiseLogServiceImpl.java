@@ -76,8 +76,8 @@ public class AdvertiseLogServiceImpl extends BaseServiceImpl<AdvertiseLog, Long>
             predicate.and(QAdvertiseLog.advertiseLog.advertiseLogCode.contains(pageAdvertiseLogReqDTO.getAdvertiseLogCode()));
         }
 
-        PageRespDTO<AdvertiseLogRespDTO> pageResult = advertiseLogService.page(predicate, pageAdvertiseLogReqDTO, AdvertiseLogRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<AdvertiseLogRespDTO> pageRespDTO = advertiseLogService.page(predicate, pageAdvertiseLogReqDTO, AdvertiseLogRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Override

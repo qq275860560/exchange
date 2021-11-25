@@ -53,8 +53,8 @@ public class TaskLogServiceImpl extends BaseServiceImpl<TaskLog, Long> implement
             predicate.and(QTaskLog.taskLog.tasklogname.contains(pageTaskLogReqDTO.getTasklogname()));
         }
 
-        PageRespDTO<TaskLogRespDTO> pageResult = tasklogService.page(predicate, pageTaskLogReqDTO, TaskLogRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<TaskLogRespDTO> pageRespDTO = tasklogService.page(predicate, pageTaskLogReqDTO, TaskLogRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Override

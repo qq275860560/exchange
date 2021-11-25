@@ -1,10 +1,10 @@
 package com.ghf.exchange.service.impl;
 
+import com.ghf.exchange.dto.PageReqDTO;
+import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.repository.BaseRepository;
 import com.ghf.exchange.service.BaseService;
 import com.ghf.exchange.util.AutoMapUtils;
-import com.ghf.exchange.dto.PageReqDTO;
-import com.ghf.exchange.dto.PageRespDTO;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -102,32 +102,31 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
     }
 
     @Override
-    public <R> PageRespDTO<R> page(Predicate predicate, PageReqDTO pageQueryReqDTO, Class<R> outputType) {
+    public <R> PageRespDTO<R> page(Predicate predicate, PageReqDTO pageReqDTO, Class<R> outputType) {
         Sort sort = null;
-        if (pageQueryReqDTO.getSort() == null || pageQueryReqDTO.getSort().isEmpty()) {
+        if (pageReqDTO.getSort() == null || pageReqDTO.getSort().isEmpty()) {
             sort = Sort.unsorted();
         } else {
-            List<Sort.Order> orders = pageQueryReqDTO.getSort().stream().map(e ->
+            List<Sort.Order> orders = pageReqDTO.getSort().stream().map(e ->
                     new Sort.Order(Sort.Direction.fromString(e.getDirection()), e.getProperty())
             ).collect(Collectors.toList());
             sort = Sort.by(orders);
         }
-        PageRespDTO<R> pageResult = getPageResult(predicate, pageQueryReqDTO, outputType, sort);
+        PageRespDTO<R> pageRespDTO  = getPageRespDTO(predicate, pageReqDTO, outputType, sort);
         //refactor page[1,max] 超过当前页边界，返回边界页的列表数据
-        if (pageQueryReqDTO.getPageNum() > pageResult.getPages()) {
-            pageQueryReqDTO.setPageNum(pageResult.getPages());
-            pageResult = getPageResult(predicate, pageQueryReqDTO, outputType, sort);
+        if (pageReqDTO.getPageNum() > pageRespDTO.getPages()) {
+            pageReqDTO.setPageNum(pageRespDTO.getPages());
+            pageRespDTO = getPageRespDTO(predicate, pageReqDTO, outputType, sort);
         }
-        return pageResult;
+        return pageRespDTO;
     }
 
-    private <R> PageRespDTO<R> getPageResult(Predicate predicate, PageReqDTO pageReqDTO, Class<R> outputType, Sort sort) {
+    private <R> PageRespDTO<R> getPageRespDTO(Predicate predicate, PageReqDTO pageReqDTO, Class<R> outputType, Sort sort) {
         Pageable pageable = PageRequest.of(pageReqDTO.getPageNum() - 1, pageReqDTO.getPageSize(), sort);
         Page<T> page = baseRepository.findAll(predicate, pageable);
-        List<R> items = AutoMapUtils.mapForList(page.getContent(), outputType);
-        PageRespDTO<R> pageResult = new PageRespDTO<R>(pageReqDTO.getPageNum(), pageReqDTO.getPageSize(), (int) page.getTotalElements());
-        pageResult.setList(items);
-        return pageResult;
+        List<R> list = AutoMapUtils.mapForList(page.getContent(), outputType);
+        return new PageRespDTO<R>(pageReqDTO.getPageNum(), pageReqDTO.getPageSize(), (int) page.getTotalElements(),list);
+
     }
 
     @Override

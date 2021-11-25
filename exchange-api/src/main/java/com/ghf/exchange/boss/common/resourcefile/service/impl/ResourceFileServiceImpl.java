@@ -65,8 +65,8 @@ public class ResourceFileServiceImpl extends BaseServiceImpl<ResourceFile, Long>
         if (!ObjectUtils.isEmpty(pageResourceFileReqDTO.getName())) {
             predicate.and(QResourceFile.resourceFile.name.contains(pageResourceFileReqDTO.getName()));
         }
-        PageRespDTO<ResourceFileRespDTO> pageResult = this.page(predicate, pageResourceFileReqDTO, ResourceFileRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<ResourceFileRespDTO> pageRespDTO = this.page(predicate, pageResourceFileReqDTO, ResourceFileRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Override

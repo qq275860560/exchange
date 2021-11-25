@@ -2,13 +2,19 @@ package com.ghf.exchange.otc.ordermessage.controller;
 
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
-import com.ghf.exchange.otc.ordermessage.dto.*;
+import com.ghf.exchange.otc.ordermessage.dto.AddOrderMessageReqDTO;
+import com.ghf.exchange.otc.ordermessage.dto.GetOrderMessageByOrderMessageCodeReqDTO;
+import com.ghf.exchange.otc.ordermessage.dto.OrderMessageRespDTO;
+import com.ghf.exchange.otc.ordermessage.dto.PageOrderMessageReqDTO;
 import com.ghf.exchange.otc.ordermessage.service.OrderMessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,18 +55,10 @@ public class OrderMessageController {
         return orderMessageService.existsOrderMessageByOrderMessageCode(getOrderMessageByOrderMessageCodeReqDTO);
     }
 
-    @ApiOperation(value = "新建消息", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/ordermessage/addOrderMessage")
-    @SneakyThrows
-    public Result<Void> addOrderMessage(@RequestBody AddOrderMessageReqDTO addOrderMessageReqDTO) {
-        return orderMessageService.addOrderMessage(addOrderMessageReqDTO);
-    }
+    @MessageMapping("/message")
+    public void message(OAuth2Authentication oAuth2Authentication, AddOrderMessageReqDTO addOrderMessageReqDTO) {
+        SecurityContextHolder.getContext().setAuthentication(oAuth2Authentication);
+        orderMessageService.addOrderMessage(addOrderMessageReqDTO);
 
-    @ApiOperation(value = "读取消息", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/ordermessage/readOrderMessage")
-    @SneakyThrows
-    public Result<Void> readOrderMessage(@RequestBody ReadOrderMessageReqDTO readOrderMessageReqDTO) {
-        return orderMessageService.readOrderMessage(readOrderMessageReqDTO);
     }
-
 }

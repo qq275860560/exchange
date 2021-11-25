@@ -93,8 +93,8 @@ public class OrgRoleServiceImpl extends BaseServiceImpl<OrgRole, Long> implement
         if (!ObjectUtils.isEmpty(pageOrgRoleReqDTO.getRolename())) {
             predicate.and(QOrgRole.orgRole.rolename.contains(pageOrgRoleReqDTO.getRolename()));
         }
-        PageRespDTO<OrgRoleRespDTO> pageResult = orgRoleService.page(predicate, pageOrgRoleReqDTO, OrgRoleRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<OrgRoleRespDTO> pageRespDTO = orgRoleService.page(predicate, pageOrgRoleReqDTO, OrgRoleRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "OrgRole", key = "'listOrgRoleByOrgname:'+#p0.orgname")

@@ -17,7 +17,6 @@ import com.ghf.exchange.otc.order.enums.OrderCustomerPaymentTermTypeEnum;
 import com.ghf.exchange.otc.order.enums.OrderSourceEnum;
 import com.ghf.exchange.otc.order.service.OrderService;
 import com.ghf.exchange.otc.ordermessage.dto.*;
-import com.ghf.exchange.otc.ordermessage.enums.OrderMessageStatusEnum;
 import com.ghf.exchange.util.AutoMapUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -174,17 +173,9 @@ public class OrderMessageServiceTest {
         GetOrderMessageByOrderMessageCodeReqDTO getMessageByMessageCodeReqDTO = new GetOrderMessageByOrderMessageCodeReqDTO();
         getMessageByMessageCodeReqDTO.setOrderMessageCode(addMessageReqDTO.getOrderMessageCode());
         OrderMessageRespDTO messageRespDTO = messageService.getOrderMessageByOrderMessageCode(getMessageByMessageCodeReqDTO).getData();
-        Assert.assertTrue(messageRespDTO.getStatus() == OrderMessageStatusEnum.UN_READ.getCode());
 
-        //读取消息
-        userService.login(LoginReqDTO.builder().username(BUSINESS_USER_NAME).password(BUSINESS_PASSWORD).build());
-        ReadOrderMessageReqDTO readOrderMessageReqDTO = new ReadOrderMessageReqDTO();
-        readOrderMessageReqDTO.setOrderMessageCode(addMessageReqDTO.getOrderMessageCode());
 
-        messageService.readOrderMessage(readOrderMessageReqDTO);
 
-        messageRespDTO = messageService.getOrderMessageByOrderMessageCode(getMessageByMessageCodeReqDTO).getData();
-        Assert.assertTrue(messageRespDTO.getStatus() == OrderMessageStatusEnum.READ.getCode());
 
     }
 

@@ -154,7 +154,6 @@ public enum ResultCodeEnum {
 
     ORDER_LOG_EXISTS(140002, "订单日志已经存在"),
 
-
     ;
 
     ResultCodeEnum(int code, String msg) {

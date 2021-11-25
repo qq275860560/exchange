@@ -81,14 +81,14 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, Long> implements 
         if (!ObjectUtils.isEmpty(pageClientReqDTO.getClientId())) {
             predicate.and(QClient.client.clientId.contains(pageClientReqDTO.getClientId()));
         }
-        PageRespDTO<ClientRespDTO> pageResult = this.page(predicate, pageClientReqDTO, ClientRespDTO.class);
+        PageRespDTO<ClientRespDTO> pageRespDTO = this.page(predicate, pageClientReqDTO, ClientRespDTO.class);
 
-        pageResult.getList().forEach(e -> {
+        pageRespDTO.getList().forEach(e -> {
             if (!ObjectUtils.isEmpty(e.getScopes())) {
                 e.setScopeSet(Arrays.stream(e.getScopes().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
             }
         });
-        return new Result<>(pageResult);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "Client", key = "'listClient:'+#p0.clientId")

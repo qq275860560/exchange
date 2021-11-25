@@ -83,8 +83,8 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, Long> impleme
         if (!ObjectUtils.isEmpty(pageUserRoleReqDTO.getRolename())) {
             predicate.and(QUserRole.userRole.rolename.contains(pageUserRoleReqDTO.getRolename()));
         }
-        PageRespDTO<UserRoleRespDTO> pageResult = userRoleService.page(predicate, pageUserRoleReqDTO, UserRoleRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<UserRoleRespDTO> pageRespDTO = userRoleService.page(predicate, pageUserRoleReqDTO, UserRoleRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "UserRole", key = "'listUserRoleByUsername:'+#p0.username")

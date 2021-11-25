@@ -151,9 +151,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
             predicate.and(QOrder.order.status.eq(pageOrderReqDTO.getStatus()));
         }
 
-        PageRespDTO<OrderRespDTO> pageResult = orderService.page(predicate, pageOrderReqDTO, OrderRespDTO.class);
+        PageRespDTO<OrderRespDTO> pageRespDTO = orderService.page(predicate, pageOrderReqDTO, OrderRespDTO.class);
 
-        return new Result<>(pageResult);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "Order", key = "'getOrderByOrderCode:'+#p0.orderCode")

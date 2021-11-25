@@ -1,9 +1,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <script>
-        let token_type="bearer";
+        let token_type = "bearer";
         let access_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI4YWFjOWVkNS00Y2M3LTRhNTItOWU1ZC1hNGM5YmEwNWMwZDciLCJjbGllbnRfaWQiOiJmaWMtYXBpIn0.B_ai7AMDyIPmYq1dMGZ-rgGgUDXwLLxeHgTlkQvw8-SGBGNbCUDQK-vEMO9o_AIzLcZxzO3SnQVI7L9oK5cChQ";
         localStorage.setItem('token_type', token_type);//通常是登陆后把token_type存储到localStorage
         localStorage.setItem('access_token', access_token);//通常是登陆后把token存储到localStorage
@@ -15,25 +15,32 @@
             fetch(url, {
                 method: "POST", body: JSON.stringify(jsonObject), mode: "cors",
                 headers: {
-                    "Authorization": token_type+" " + access_token,
+                    "Authorization": token_type + " " + access_token,
                     "Content-Type": "application/json"
                 }
-            }).then((response) => {
-                if (response.status == 200) {
-                    return response.json();
-                } else if (response.status == 401) {
-                    console.log("认证失败");
-                } else if (response.status == 403) {
-                    console.log("授权失败");
-                } else {
-                    console.error(response);
-                }
-            }).then((result) => {
+            }).then((response) = > {
+                if(response.status == 200
+        )
+            {
+                return response.json();
+            }
+        else
+            if (response.status == 401) {
+                console.log("认证失败");
+            } else if (response.status == 403) {
+                console.log("授权失败");
+            } else {
+                console.error(response);
+            }
+        }).
+            then((result) = > {
                 console.log("receive=", result);
-                success(result);
-            }).catch((e) => {
+            success(result);
+        }).
+            catch((e) = > {
                 console.log(e);
-            });
+        })
+            ;
         }
 
 
@@ -41,13 +48,12 @@
         let jsonObject = {};
 
         let success = function (result) {
-            document.querySelector("#name").value=result.data.name
-            document.querySelector("#myimg").src="data:image/png;base64,"+result.data.imageBase64String;
-
+            document.querySelector("#name").value = result.data.name
+            document.querySelector("#myimg").src = "data:image/png;base64," + result.data.imageBase64String;
 
 
         };
-       post(url, jsonObject, success);
+        post(url, jsonObject, success);
 
     </script>
 
@@ -55,9 +61,9 @@
 </head>
 <body>
 <div>
-    <input id="name" type="hidden"  >
-    <img   id="myimg" width="100" height="50" src="" />
-    <input id="value" type="text"  >
+    <input id="name" type="hidden">
+    <img id="myimg" width="100" height="50" src=""/>
+    <input id="value" type="text">
 </div>
 </body>
 

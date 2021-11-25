@@ -23,7 +23,6 @@ public class PageRespDTO<T> implements Serializable {
     @ApiModelProperty(value = "当前页集合")
     private List<T> list;
 
-
     @ApiModelProperty(value = "当前页码")
     private int pageNum;
 

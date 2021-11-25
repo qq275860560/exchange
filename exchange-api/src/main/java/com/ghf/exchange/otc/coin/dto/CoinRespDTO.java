@@ -1,6 +1,5 @@
 package com.ghf.exchange.otc.coin.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import java.math.BigDecimal;
@@ -62,7 +60,6 @@ public class CoinRespDTO {
     @ApiModelProperty("最大付款期限")
 
     private int maxPaymentTermTime;
-
 
     @ApiModelProperty("操作时间")
     @Column(name = "create_time")

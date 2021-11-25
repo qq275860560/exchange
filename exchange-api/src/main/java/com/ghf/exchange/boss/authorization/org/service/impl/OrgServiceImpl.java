@@ -87,8 +87,8 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
         if (!ObjectUtils.isEmpty(pageOrgReqDTO.getRolename())) {
             predicate.and(QOrg.org.rolenames.contains("," + pageOrgReqDTO.getRolename() + ","));
         }
-        PageRespDTO<OrgRespDTO> pageResult = orgService.page(predicate, pageOrgReqDTO, OrgRespDTO.class);
-        pageResult.getList().forEach(e -> {
+        PageRespDTO<OrgRespDTO> pageRespDTO = orgService.page(predicate, pageOrgReqDTO, OrgRespDTO.class);
+        pageRespDTO.getList().forEach(e -> {
             if (!ObjectUtils.isEmpty(e.getRolenames())) {
                 e.setRolenameSet(Arrays.stream(e.getRolenames().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
             }
@@ -109,7 +109,7 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
             }
 
         });
-        return new Result<>(pageResult);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "Org", key = "'treeOrg:'.concat(#p0.orgname).concat(#p0.treeDeep)")

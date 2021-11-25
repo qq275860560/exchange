@@ -9,28 +9,35 @@ import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.otc.order.dto.GetOrderByOrderCodeReqDTO;
 import com.ghf.exchange.otc.order.dto.OrderRespDTO;
 import com.ghf.exchange.otc.order.service.OrderService;
-import com.ghf.exchange.otc.ordermessage.dto.*;
+import com.ghf.exchange.otc.ordermessage.dto.AddOrderMessageReqDTO;
+import com.ghf.exchange.otc.ordermessage.dto.GetOrderMessageByOrderMessageCodeReqDTO;
+import com.ghf.exchange.otc.ordermessage.dto.OrderMessageRespDTO;
+import com.ghf.exchange.otc.ordermessage.dto.PageOrderMessageReqDTO;
 import com.ghf.exchange.otc.ordermessage.entity.OrderMessage;
-import com.ghf.exchange.otc.ordermessage.entity.QOrderMessage;
-import com.ghf.exchange.otc.ordermessage.enums.OrderMessageStatusEnum;
+import com.ghf.exchange.otc.ordermessage.entity.OrderMessageWithMongo;
+import com.ghf.exchange.otc.ordermessage.event.AddOrderMessageEvent;
 import com.ghf.exchange.otc.ordermessage.repository.OrderMessageRepository;
 import com.ghf.exchange.otc.ordermessage.service.OrderMessageService;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
 import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author jiangyuanlin@163.com
@@ -40,12 +47,15 @@ import java.util.Date;
 @Slf4j
 public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long> implements OrderMessageService {
 
+    @Resource
+    private MongoTemplate mongoTemplate;
+
     @Lazy
     @Resource
     private UserService userService;
     @Lazy
     @Resource
-    private OrderMessageService appealService;
+    private OrderMessageService orderMessageService;
 
     @Lazy
     @Resource
@@ -59,40 +69,98 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
     @Resource
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+
     public OrderMessageServiceImpl(OrderMessageRepository repository) {
         super(repository);
     }
 
-    @Cacheable(cacheNames = "OrderMessage", key = "'pageOrderMessage:'.concat(#p0.pageNum).concat(':').concat(#p0.pageSize).concat(':').concat(#p0.sort[0].property).concat(':').concat(#p0.sort[0].direction).concat(':').concat(#p0.orderCode).concat(':').concat(#p0.status) ", condition = "        #p0.sort!=null && #p0.sort.size()==1   ")
     @Override
     @SneakyThrows
     public Result<PageRespDTO<OrderMessageRespDTO>> pageOrderMessage(PageOrderMessageReqDTO pageOrderMessageReqDTO) {
+
+        //获取当前登陆用户详情
+        UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
+        String username = currentLoginUser.getUsername();
+
+  /*mysql方式
         BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(QOrderMessage.orderMessage.orderMessageReceiverUsername.eq(username).or(QOrderMessage.orderMessage.orderMessageSenderUsername.eq(username)));
 
         if (!ObjectUtils.isEmpty(pageOrderMessageReqDTO.getOrderCode())) {
             predicate.and(QOrderMessage.orderMessage.orderCode.eq(pageOrderMessageReqDTO.getOrderCode()));
         }
-
-        if (pageOrderMessageReqDTO.getStatus() == OrderMessageStatusEnum.UN_READ.getCode() || pageOrderMessageReqDTO.getStatus() == OrderMessageStatusEnum.READ.getCode()) {
-            predicate.and(QOrderMessage.orderMessage.status.eq(pageOrderMessageReqDTO.getStatus()));
+        if (pageOrderMessageReqDTO.getBeginCreateTime() != null) {
+            predicate.and(QOrderMessage.orderMessage.createTime.goe(pageOrderMessageReqDTO.getBeginCreateTime()));
+        }
+        if (pageOrderMessageReqDTO.getEndCreateTime() != null) {
+            predicate.and(QOrderMessage.orderMessage.createTime.loe(pageOrderMessageReqDTO.getEndCreateTime()));
         }
 
-        PageRespDTO<OrderMessageRespDTO> pageResult = appealService.page(predicate, pageOrderMessageReqDTO, OrderMessageRespDTO.class);
 
-        return new Result<>(pageResult);
+        PageRespDTO<OrderMessageRespDTO> pageRespDTO = orderMessageService.page(predicate, pageOrderMessageReqDTO, OrderMessageRespDTO.class);
+*/
+        //
+        Query query = new Query();
+        query.addCriteria(new Criteria().orOperator(Criteria.where("order_message_sender_username").is(username), Criteria.where("order_message_receiver_username").is(username)));
+        if (!ObjectUtils.isEmpty(pageOrderMessageReqDTO.getOrderCode())) {
+            query.addCriteria(Criteria.where("order_code").is(pageOrderMessageReqDTO.getOrderCode()));
+
+        }
+
+        if (pageOrderMessageReqDTO.getBeginCreateTime() != null && pageOrderMessageReqDTO.getEndCreateTime() != null) {
+            query.addCriteria(Criteria.where("create_time").lte(pageOrderMessageReqDTO.getEndCreateTime()).andOperator(Criteria.where("create_time").gte(pageOrderMessageReqDTO.getBeginCreateTime())));
+        } else if (pageOrderMessageReqDTO.getBeginCreateTime() == null && pageOrderMessageReqDTO.getEndCreateTime() != null) {
+            query.addCriteria(Criteria.where("create_time").lte(pageOrderMessageReqDTO.getEndCreateTime()));
+        } else if (pageOrderMessageReqDTO.getBeginCreateTime() != null && pageOrderMessageReqDTO.getEndCreateTime() == null) {
+            query.addCriteria(Criteria.where("create_time").gte(pageOrderMessageReqDTO.getBeginCreateTime()));
+        }
+
+        long total = mongoTemplate.count(query, OrderMessageWithMongo.class);
+
+        Sort sort = null;
+        if (pageOrderMessageReqDTO.getSort() == null || pageOrderMessageReqDTO.getSort().isEmpty()) {
+            sort = Sort.unsorted();
+        } else {
+            List<Sort.Order> orders = pageOrderMessageReqDTO.getSort().stream().map(e ->
+                    new Sort.Order(Sort.Direction.fromString(e.getDirection()), e.getProperty())
+            ).collect(Collectors.toList());
+            sort = Sort.by(orders);
+        }
+        query.with(sort);
+
+        query.skip((pageOrderMessageReqDTO.getPageNum() - 1) * pageOrderMessageReqDTO.getPageSize());
+        query.limit(pageOrderMessageReqDTO.getPageSize());
+        List<OrderMessageRespDTO> list = AutoMapUtils.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
+
+        PageRespDTO<OrderMessageRespDTO> pageRespDTO = new PageRespDTO<OrderMessageRespDTO>(pageOrderMessageReqDTO.getPageNum(), pageOrderMessageReqDTO.getPageSize(), (int) total, list);
+
+        //refactor page[1,max] 超过当前页边界，返回边界页的列表数据
+        if (pageOrderMessageReqDTO.getPageNum() > pageRespDTO.getPages()) {
+            pageOrderMessageReqDTO.setPageNum(pageRespDTO.getPages());
+            query.skip((pageOrderMessageReqDTO.getPageNum() - 1) * pageOrderMessageReqDTO.getPageSize());
+            list = AutoMapUtils.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
+        }
+        pageRespDTO = new PageRespDTO<OrderMessageRespDTO>(pageOrderMessageReqDTO.getPageNum(), pageOrderMessageReqDTO.getPageSize(), (int) total, list);
+
+        return new Result<>(pageRespDTO);
     }
 
-    @Cacheable(cacheNames = "OrderMessage", key = "'getOrderMessageByOrderMessageCode:' +':'+#p0.orderMessageCode")
     @Override
     @SneakyThrows
     public Result<OrderMessageRespDTO> getOrderMessageByOrderMessageCode(GetOrderMessageByOrderMessageCodeReqDTO getOrderMessageByOrderMessageCodeReqDTO) {
 
         String orderMessageCode = getOrderMessageByOrderMessageCodeReqDTO.getOrderMessageCode();
-        Predicate predicate = QOrderMessage.orderMessage.orderMessageCode.eq(orderMessageCode);
-        OrderMessage orderMessage = appealService.get(predicate);
 
-        //返回
-        OrderMessageRespDTO orderMessageRespDTO = AutoMapUtils.map(orderMessage, OrderMessageRespDTO.class);
+          /*mysql方式
+          Predicate predicate = QOrderMessage.orderMessage.orderMessageCode.eq(orderMessageCode);
+         OrderMessage orderMessage = orderMessageService.get(predicate);
+         OrderMessageRespDTO orderMessageRespDTO = AutoMapUtils.map(orderMessage, OrderMessageRespDTO.class);
+*/
+        Query query = Query.query(Criteria.where("order_message_code").is(orderMessageCode));
+        OrderMessageWithMongo orderMessageWithMongo = mongoTemplate.find(query, OrderMessageWithMongo.class).get(0);
+        OrderMessageRespDTO orderMessageRespDTO = AutoMapUtils.map(orderMessageWithMongo, OrderMessageRespDTO.class);
 
         return new Result<>(orderMessageRespDTO);
     }
@@ -102,12 +170,16 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
     public Result<Boolean> existsOrderMessageByOrderMessageCode(GetOrderMessageByOrderMessageCodeReqDTO getOrderMessageByOrderMessageCodeReqDTO) {
 
         String orderMessageCode = getOrderMessageByOrderMessageCodeReqDTO.getOrderMessageCode();
+       /*mysql方式
         Predicate predicate = QOrderMessage.orderMessage.orderMessageCode.eq(orderMessageCode);
-        boolean b = appealService.exists(predicate);
+        boolean b = orderMessageService.exists(predicate);
+*/
+        Query query = Query.query(Criteria.where("order_message_code").is(orderMessageCode));
+        boolean b = mongoTemplate.exists(query, OrderMessageWithMongo.class);
+
         return new Result<>(b);
     }
 
-    @CacheEvict(cacheNames = "OrderMessage", allEntries = true)
     @Override
     @SneakyThrows
     public Result<Void> addOrderMessage(AddOrderMessageReqDTO addOrderMessageReqDTO) {
@@ -121,7 +193,7 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
             String orderMessageCode = addOrderMessageReqDTO.getOrderMessageCode();
             GetOrderMessageByOrderMessageCodeReqDTO getAppealByAppealCodeReqDTO = new GetOrderMessageByOrderMessageCodeReqDTO();
             getAppealByAppealCodeReqDTO.setOrderMessageCode(orderMessageCode);
-            boolean b = appealService.existsOrderMessageByOrderMessageCode(getAppealByAppealCodeReqDTO).getData();
+            boolean b = orderMessageService.existsOrderMessageByOrderMessageCode(getAppealByAppealCodeReqDTO).getData();
             if (b) {
                 return new Result<>(ResultCodeEnum.ORDER_MESSAGE_EXISTS);
             }
@@ -141,70 +213,36 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
         String username = currentLoginUser.getUsername();
 
-        if (currentLoginUser.getUsername().equals(orderRespDTO.getOrderCustomerUsername())) {
+        if (username.equals(orderRespDTO.getOrderCustomerUsername())) {
             //订单顾客,有权限消息
             flag = true;
             orderMessage.setOrderMessageReceiverUsername(orderRespDTO.getAdvertiseBusinessUsername());
-        } else if (currentLoginUser.getUsername().equals(orderRespDTO.getAdvertiseBusinessUsername())) {
+        } else if (username.equals(orderRespDTO.getAdvertiseBusinessUsername())) {
             //广告商家,有权限消息
             flag = true;
             orderMessage.setOrderMessageReceiverUsername(orderRespDTO.getOrderCustomerUsername());
         }
         if (!flag) {
-            //无权限取消订单，直接返回403
+            //无权限，直接返回403
             return new Result<>(ResultCodeEnum.FORBIDDEN);
         }
 
+        orderMessage.setOrderMessageSenderUsername(username);
         orderMessage.setOrderCode(orderRespDTO.getOrderCode());
 
         orderMessage.setOrderMessageContent(addOrderMessageReqDTO.getOrderMessageContent());
 
         orderMessage.setCreateTime(new Date());
-        orderMessage.setStatus(OrderMessageStatusEnum.UN_READ.getCode());
 
         //持久化到数据库
-        appealService.add(orderMessage);
+          /*mysql方式
+          orderMessageService.add(orderMessage);
+           */
+        OrderMessageWithMongo orderMessageWithMongo = AutoMapUtils.map(orderMessage, OrderMessageWithMongo.class);
+        mongoTemplate.save(orderMessageWithMongo);
 
-        return new Result<>(ResultCodeEnum.OK);
-    }
-
-    @CacheEvict(cacheNames = "OrderMessage", allEntries = true)
-    @Override
-    @SneakyThrows
-    public Result<Void> readOrderMessage(ReadOrderMessageReqDTO readOrderMessageReqDTO) {
-
-        String orderMessageCode = readOrderMessageReqDTO.getOrderMessageCode();
-        GetOrderMessageByOrderMessageCodeReqDTO getOrderMessageByOrderMessageCodeReqDTO = new GetOrderMessageByOrderMessageCodeReqDTO();
-        getOrderMessageByOrderMessageCodeReqDTO.setOrderMessageCode(orderMessageCode);
-        OrderMessageRespDTO orderMessageRespDTO = appealService.getOrderMessageByOrderMessageCode(getOrderMessageByOrderMessageCodeReqDTO).getData();
-        OrderMessage afterOrderMessage = AutoMapUtils.map(orderMessageRespDTO, OrderMessage.class);
-
-        //未读状态的消息才允许被审核
-        if (afterOrderMessage.getStatus() != OrderMessageStatusEnum.UN_READ.getCode()) {
-            return new Result<>(ResultCodeEnum.ORDER_MESSAGE_STATUS_IS_READ);
-        }
-
-        //默认无权限
-        boolean flag = false;
-        //获取当前登陆用户详情
-        UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
-        String username = currentLoginUser.getUsername();
-
-        if (username.equals(orderMessageRespDTO.getOrderMessageReceiverUsername())) {
-
-            //管理员角色的,才有权限审核
-            flag = true;
-        }
-        if (!flag) {
-            //无权限取消订单，直接返回403
-            return new Result<>(ResultCodeEnum.FORBIDDEN);
-        }
-
-        afterOrderMessage.setReadTime(new Date());
-        afterOrderMessage.setStatus(OrderMessageStatusEnum.READ.getCode());
-
-        //持久化到数据库
-        appealService.update(afterOrderMessage);
+        //发送到消息队列
+        applicationEventPublisher.publishEvent(new AddOrderMessageEvent(orderMessage));
 
         return new Result<>(ResultCodeEnum.OK);
     }

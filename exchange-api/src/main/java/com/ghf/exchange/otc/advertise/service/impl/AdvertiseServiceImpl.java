@@ -128,9 +128,9 @@ public class AdvertiseServiceImpl extends BaseServiceImpl<Advertise, Long> imple
             predicate.and(QAdvertise.advertise.status.eq(pageAdvertiseReqDTO.getStatus()));
         }
 
-        PageRespDTO<AdvertiseRespDTO> pageResult = advertiseService.page(predicate, pageAdvertiseReqDTO, AdvertiseRespDTO.class);
+        PageRespDTO<AdvertiseRespDTO> pageRespDTO = advertiseService.page(predicate, pageAdvertiseReqDTO, AdvertiseRespDTO.class);
 
-        return new Result<>(pageResult);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "Advertise", key = "'getAdvertiseByAdvertiseCode:'+#p0.advertiseCode")

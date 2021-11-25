@@ -2,10 +2,8 @@ package com.ghf.exchange.config;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.ReturnedMessage;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -15,11 +13,9 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.Resource;
-
 
 /**
  * @author jiangyuanlin@163.com
@@ -58,8 +54,8 @@ public class RabbitConfig implements ApplicationRunner {
             log.debug("消息发送成功,correlationData={},ack={},cause={}", correlationData, ack, cause);
         });
 
-        rabbitTemplate.setReturnsCallback((ReturnedMessage returnedMessage ) -> {
-            log.error("消息发送失败,message={},replyCode={},replyText={},exchange={},routingKey={}", returnedMessage.getMessage(), returnedMessage.getReplyCode(),returnedMessage.getReplyText(),returnedMessage.getExchange(),returnedMessage.getRoutingKey());
+        rabbitTemplate.setReturnsCallback((ReturnedMessage returnedMessage) -> {
+            log.error("消息发送失败,message={},replyCode={},replyText={},exchange={},routingKey={}", returnedMessage.getMessage(), returnedMessage.getReplyCode(), returnedMessage.getReplyText(), returnedMessage.getExchange(), returnedMessage.getRoutingKey());
         });
         log.info("初始化rabbit结束");
 

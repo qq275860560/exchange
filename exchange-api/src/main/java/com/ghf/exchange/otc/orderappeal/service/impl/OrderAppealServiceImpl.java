@@ -84,9 +84,9 @@ public class OrderAppealServiceImpl extends BaseServiceImpl<OrderAppeal, Long> i
             predicate.and(QOrderAppeal.orderAppeal.status.eq(pageOrderAppealReqDTO.getStatus()));
         }
 
-        PageRespDTO<OrderAppealRespDTO> pageResult = appealService.page(predicate, pageOrderAppealReqDTO, OrderAppealRespDTO.class);
+        PageRespDTO<OrderAppealRespDTO> pageRespDTO = appealService.page(predicate, pageOrderAppealReqDTO, OrderAppealRespDTO.class);
 
-        return new Result<>(pageResult);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "OrderAppeal", key = "'getOrderAppealByOrderAppealCode:' +':'+#p0.orderAppealCode")

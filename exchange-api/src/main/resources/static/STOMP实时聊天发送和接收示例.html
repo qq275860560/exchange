@@ -1,0 +1,140 @@
+<meta charset="UTF-8">
+<script type="text/javascript" src="http://cdn.bootcss.com/sockjs-client/1.1.1/sockjs.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.js"></script>
+<html>
+<body>
+<script>
+    function post(url, jsonObject, success) {
+
+        let token_type = localStorage.getItem('token_type');
+        let access_token = localStorage.getItem('access_token');
+        fetch(url, {
+            method: "POST", body: JSON.stringify(jsonObject), mode: "cors",
+            headers: {
+                "Authorization": token_type + " " + access_token,
+                "Content-Type": "application/json"
+            }
+        }).then((response) = > {
+            if(response.status == 200
+    )
+        {
+            return response.json();
+        }
+    else
+        if (response.status == 401) {
+            console.log("认证失败");
+        } else if (response.status == 403) {
+            console.log("授权失败");
+        } else {
+            console.error(response);
+        }
+    }).
+        then((result) = > {
+            console.log("receive=", result);
+        success(result);
+    }).
+        catch((e) = > {
+            console.log(e);
+    })
+        ;
+    }
+
+
+    let stomp = null;//定义全局变量，代表一个session
+    function connect() {	//定义连接函数
+        if (stomp == null || !stomp.connected) {
+            let url = 'http://localhost:8080/websocket';
+
+            let token_type = localStorage.getItem('token_type');
+            let access_token = localStorage.getItem('access_token');
+
+            var headers = {
+                "Authorization": token_type + " " + access_token
+            };
+            var sockJS = new SockJS(url);
+            stomp = Stomp.over(sockJS);
+            stomp.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
+            stomp.heartbeat.incoming = 20000; //
+            console.log("当前处于断开状态,尝试连接");
+            stomp.connect(headers, connectCallback, errorCallback);
+
+        } else {
+            console.log("当前处于连接状态");
+        }
+    }
+
+    function connectCallback(frame) {  //连接成功时的回调函数
+        console.log("当前用户名=" + frame.username);
+        //同一个用户可以同时通过app客户端，浏览器客户端，桌面客户端等方式登录，每条消息在各端都能保持同步
+        //用户的任意一个websocket连接都可能连接到任意一个后端服务器,断线重连后又可能连接到任意后端服务器
+        //用户在其中一个客户端发出消息后，会广播到对方所有的登录端，也会广播给自己的所有客户端，包括自身
+        //用户在客户端发出消息网络正常时都会得到返回， 如果发出10条，只接收到9条，说明有一条是失败的，可根据需要提醒用户重试
+        //用户点击聊天记录可以获取自己发给别人的或别人发给自己的消息，/api/ordermessage/pageOrderMessage
+        //websocket首次连接成功后，用户可以根据订单号拉取最近10条消息显示在空白聊天窗口
+        //主动拉取的历史消息，有可能和客户端本地消息重复，可以消息编号确定
+        //所有接收到的消息都有可能是自己发送的，也可能是别人发送的，可以根据当前用户名确定
+        //消息的先后顺序可以根据消息编号或消息时间确定，消息编号越大的，说明消息越新
+        let url = "/api/ordermessage/pageOrderMessage";
+        let jsonObject = {
+            "beginCreateTime": "",
+            "endCreateTime": "",
+            "orderCode": "",
+            "pageNum": 1,
+            "pageSize": 10,
+            "sort": [
+                {
+                    "direction": "desc",
+                    "property": "createTime"
+                }
+            ]
+        };
+        let success = function (result) {
+            document.getElementById("msgList").innerHTML += "<li>连接成功接收的最近十条消息记录:" + "</li>";
+            let list = result.data.list;
+            for (let i = list.length - 1; i >= 0; i--) {
+                document.getElementById("msgList").innerHTML += "<li>连接成功接收历史消息:" + JSON.stringify(list[i]) + "</li>";
+            }
+        };
+        post(url, jsonObject, success);
+
+        stomp.subscribe("/user/queue/notifications", function (result) {
+            let content = result.body;
+            console.log("接收实时消息=" + content);
+            document.getElementById("msgList").innerHTML += "<li>接收实时消息:" + content + "</li>";
+
+        }, {});
+
+
+    }
+
+    function errorCallback() {//连接失败时的回调函数，此函数重新调用连接方法，形成循环，直到连接成功
+        //login.info("重新连接...")
+        //connect();
+    }
+
+    connect();//建立连接
+
+
+    function send() {
+        let content = document.getElementById("content").value;
+        stomp.send("/message", {}, content);
+
+
+    }
+
+</script>
+
+
+<button type="button" onclick="connect()">连接</button>
+
+内容：<input id="content" value='{"orderCode":"test-顾客在广告区买币-20211115174206","orderMessageContent":"你好"}'>
+<button type="button" onclick="javascript:send()">发送</button>
+
+
+<div id="msgList">
+
+</div>
+
+</body>
+</html>
+

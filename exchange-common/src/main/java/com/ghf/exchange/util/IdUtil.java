@@ -3,7 +3,6 @@ package com.ghf.exchange.util;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 /**
  * @author jiangyuanlin@163.com

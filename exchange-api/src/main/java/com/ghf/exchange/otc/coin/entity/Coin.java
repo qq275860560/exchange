@@ -69,7 +69,6 @@ public class Coin {
     @Column(name = "max_payment_term_time")
     private int maxPaymentTermTime;
 
-
     @ApiModelProperty("操作时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

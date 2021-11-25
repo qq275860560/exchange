@@ -78,8 +78,8 @@ public class UserOrgServiceImpl extends BaseServiceImpl<UserOrg, Long> implement
         if (!ObjectUtils.isEmpty(pageUserOrgReqDTO.getOrgname())) {
             predicate.and(QUserOrg.userOrg.orgname.contains(pageUserOrgReqDTO.getOrgname()));
         }
-        PageRespDTO<UserOrgRespDTO> pageResult = userOrgService.page(predicate, pageUserOrgReqDTO, UserOrgRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<UserOrgRespDTO> pageRespDTO = userOrgService.page(predicate, pageUserOrgReqDTO, UserOrgRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "UserOrg", key = "'listUserOrgByUsername:'+#p0.username")

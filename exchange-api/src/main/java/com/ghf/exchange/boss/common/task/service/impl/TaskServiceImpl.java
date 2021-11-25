@@ -198,8 +198,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
         if (!ObjectUtils.isEmpty(pageTaskReqDTO.getTaskdesc())) {
             predicate.and(QTask.task.taskdesc.contains(pageTaskReqDTO.getTaskdesc()));
         }
-        PageRespDTO<TaskRespDTO> pageResult = taskService.page(predicate, pageTaskReqDTO, TaskRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<TaskRespDTO> pageRespDTO = taskService.page(predicate, pageTaskReqDTO, TaskRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Override

@@ -49,6 +49,18 @@ public class JsonUtil {
     }
 
     /**
+     * 将字节数组反序列化成对象
+     *
+     * @param byteArray
+     * @param clazz
+     * @return
+     */
+    @SneakyThrows
+    public static <T> T parse(byte[] byteArray, Class<T> clazz) {
+        return mapper.readValue(byteArray, clazz);
+    }
+
+    /**
      * 将Json字符串反序列化成对象列表
      *
      * @param jsonString
@@ -61,5 +73,7 @@ public class JsonUtil {
         CollectionType listType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, clazz);
         return mapper.readValue(jsonString, listType);
     }
+
+
 
 }

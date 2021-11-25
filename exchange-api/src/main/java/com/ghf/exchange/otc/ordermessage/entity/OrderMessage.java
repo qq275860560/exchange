@@ -52,20 +52,10 @@ public class OrderMessage {
     @Column(name = "order_message_receiver_username")
     private String orderMessageReceiverUsername;
 
-    @ApiModelProperty("状态,0:未读,1:已读")
-    @Column(name = "status")
-    private int status;
-
     @ApiModelProperty("消息发送时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "create_time")
     private Date createTime;
-
-    @ApiModelProperty("消息读取时间")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @Column(name = "read_time")
-    private Date readTime;
 
 }

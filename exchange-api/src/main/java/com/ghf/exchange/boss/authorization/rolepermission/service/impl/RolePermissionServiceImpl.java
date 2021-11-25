@@ -104,8 +104,8 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermission, L
         if (!ObjectUtils.isEmpty(pageRolePermissionReqDTO.getPermissionname())) {
             predicate.and(QRolePermission.rolePermission.permissionname.contains(pageRolePermissionReqDTO.getPermissionname()));
         }
-        PageRespDTO<RolePermissionRespDTO> pageResult = rolePermissionService.page(predicate, pageRolePermissionReqDTO, RolePermissionRespDTO.class);
-        return new Result<>(pageResult);
+        PageRespDTO<RolePermissionRespDTO> pageRespDTO = rolePermissionService.page(predicate, pageRolePermissionReqDTO, RolePermissionRespDTO.class);
+        return new Result<>(pageRespDTO);
     }
 
     @Cacheable(cacheNames = "RolePermission", key = "'listRolePermissionByRolename:'+#p0.rolename")
