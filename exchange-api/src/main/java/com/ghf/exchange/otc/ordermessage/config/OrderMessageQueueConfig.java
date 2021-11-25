@@ -14,9 +14,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * 监听ContextRefreshedEvent事件，并清除redis指定key
- * 仅使用在开发测试环境
- *
  * @author jiangyuanlin@163.com
  */
 @Component
@@ -32,9 +29,7 @@ public class OrderMessageQueueConfig {
     @EventListener
     @SneakyThrows
     public void init(ContextRefreshedEvent event) {
-        //TODO 放到全局
         redisMessageListenerContainer.addMessageListener(messageListener, new PatternTopic(OrderMessageRedisKeyEnum.ORDER_MESSAGE_QUEUE.getCode()));
-
     }
 
 }

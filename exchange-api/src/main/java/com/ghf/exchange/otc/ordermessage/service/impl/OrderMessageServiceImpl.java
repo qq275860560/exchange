@@ -101,7 +101,7 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
 
         PageRespDTO<OrderMessageRespDTO> pageRespDTO = orderMessageService.page(predicate, pageOrderMessageReqDTO, OrderMessageRespDTO.class);
 */
-        //
+
         Query query = new Query();
         query.addCriteria(new Criteria().orOperator(Criteria.where("order_message_sender_username").is(username), Criteria.where("order_message_receiver_username").is(username)));
         if (!ObjectUtils.isEmpty(pageOrderMessageReqDTO.getOrderCode())) {

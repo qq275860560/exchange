@@ -44,23 +44,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-
-        //注册一个名为/endpointChat的节点，并指定使用SockJS协议。
         stompEndpointRegistry.addEndpoint("/websocket")
                 //.setAllowedOrigins("*")//跨域
                 .withSockJS();//开启socketJs
     }
 
     /**
-     * 配置消息代理（Message Broker），可以理解为信息传输的通道
-     *
      * @param messageBrokerRegistry MessageBrokerRegistry
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry messageBrokerRegistry) {
-        //点对点式应增加一个/queue的消息代理。相应的如果是广播室模式可以设置为"/topic"
-        //messageBrokerRegistry.enableSimpleBroker("/queue");
-
         // 自定义调度器，用于控制心跳线程
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
         // 线程池线程数，心跳连接开线程
@@ -93,28 +86,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         ChannelInterceptor channelInterceptor = new ChannelInterceptor() {
 
             @Override
-
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
-
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-
                 //连接请求
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-
                     List<String> nativeHeader = accessor.getNativeHeader("Authorization");
-
                     String authorization = nativeHeader.get(0);
-
                     String tokenValue = authorization.substring(OAuth2AccessToken.BEARER_TYPE.length()).trim();
-
                     PreAuthenticatedAuthenticationToken authentication = new PreAuthenticatedAuthenticationToken(tokenValue, "");
-
                     if (authentication == null) {
                         log.error("token无效");
                         return null;
-
                     }
-
                     OAuth2AccessToken accessToken = jwtTokenStore.readAccessToken(tokenValue);
                     if (accessToken == null) {
                         throw new InvalidTokenException("Invalid access token: " + tokenValue);
@@ -129,8 +112,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         throw new InvalidTokenException("Invalid access token: " + tokenValue);
                     }
 
-                    ClientDetails
-                            client = clientService.getClientDetailsByClientId(oAuth2Authentication.getOAuth2Request().getClientId());
+                    ClientDetails client = clientService.getClientDetailsByClientId(oAuth2Authentication.getOAuth2Request().getClientId());
 
                     Set<String> allowed = client.getScope();
                     for (String scope : oAuth2Authentication.getOAuth2Request().getScope()) {
@@ -151,7 +133,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     applicationEventPublisher.publishEvent(webSocketConnectEvent);
                     return message;
                 } else if (StompCommand.DISCONNECT.equals(accessor.getCommand())) {
-
                     OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) accessor.getUser();
                     String username = ((org.springframework.security.core.userdetails.User) oAuth2Authentication.getUserAuthentication().getPrincipal()).getUsername();
                     String sessionId = accessor.getSessionId();
@@ -159,7 +140,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     webSocketDisConnectEvent.setUsername(username);
                     webSocketDisConnectEvent.setSessionId(sessionId);
                     applicationEventPublisher.publishEvent(webSocketDisConnectEvent);
-
                     return null;
                 } else if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
                     return message;
@@ -177,15 +157,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         applicationEventPublisher.publishEvent(webSocketHeartBeatEvent);
                         return message;
                     }
-
                     return message;
                 }
-
             }
-
         };
         registration.interceptors(channelInterceptor);
-
     }
 }
 
