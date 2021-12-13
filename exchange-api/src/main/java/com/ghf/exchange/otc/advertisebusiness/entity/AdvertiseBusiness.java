@@ -140,6 +140,41 @@ public class AdvertiseBusiness {
     @Column(name = "order_last_appeal_time")
     private Date orderLastAppealTime;
 
+
+    @ApiModelProperty("订单当月下单总数")
+    @Column(name = "order_month_buy_sell_count")
+    private int orderMonthBuySellCount;
+    @ApiModelProperty("订单当月放行总数")
+    @Column(name = "order_month_buy_sell_release_count")
+    private int orderMonthBuySellReleaseCount;
+    @ApiModelProperty("订单当月放行比例")
+    @Column(name = "order_month_buy_sell_release_rate")
+    private BigDecimal orderMonthBuySellReleaseRate;
+    @ApiModelProperty("卖币订单总额")
+    @Column(name = "order_sell_total_price")
+    private BigDecimal orderSellTotalPrice;
+    @ApiModelProperty("买币订单总额")
+    @Column(name = "order_buy_total_price")
+    private BigDecimal orderBuyTotalPrice;
+    @ApiModelProperty("订单最后下单时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Column(name = "order_last_add_time")
+    private Date orderLastAddTime;
+    @ApiModelProperty("订单最后放行时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Column(name = "order_last_release_time")
+    private Date orderLastReleaseTime;
+
+
+
+
+
+
+
+
+
     @ApiModelProperty("状态,0:禁用,1:启用")
     @Column(name = "status")
     private int status;

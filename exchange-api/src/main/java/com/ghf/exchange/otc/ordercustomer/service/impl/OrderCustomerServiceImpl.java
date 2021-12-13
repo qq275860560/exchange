@@ -82,6 +82,27 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         PageRespDTO<OrderCustomerRespDTO> pageRespDTO = orderCustomerService.page(predicate, pageOrderCustomerReqDTO, OrderCustomerRespDTO.class);
 
+        pageRespDTO.getList()  .forEach(orderCustomerRespDTO -> {
+            if (orderCustomerRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+                //重置订单当月下单总数为0
+                orderCustomerRespDTO.setOrderMonthBuySellCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastReleaseTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastReleaseTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+                //重置订单当月放行总数为0
+                orderCustomerRespDTO.setOrderMonthBuySellReleaseCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastAppealTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastAppealTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                //重置订单当日申诉次数为0
+                orderCustomerRespDTO.setOrderTodayAppealCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastCancelTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastCancelTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                //重置订单当日取消次数为0
+                orderCustomerRespDTO.setOrderTodayCancelCount(0);
+            }
+        });
         return new Result<>(pageRespDTO);
     }
 
@@ -100,6 +121,27 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         PageRespDTO<OrderCustomerRespDTO> pageRespDTO = orderCustomerService.page(predicate, pageOrderCustomerForAdminReqDTO, OrderCustomerRespDTO.class);
 
+        pageRespDTO.getList()  .forEach(orderCustomerRespDTO -> {
+            if (orderCustomerRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+                //重置订单当月下单总数为0
+                orderCustomerRespDTO.setOrderMonthBuySellCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastReleaseTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastReleaseTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+                //重置订单当月放行总数为0
+                orderCustomerRespDTO.setOrderMonthBuySellReleaseCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastAppealTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastAppealTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                //重置订单当日申诉次数为0
+                orderCustomerRespDTO.setOrderTodayAppealCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastCancelTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastCancelTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                //重置订单当日取消次数为0
+                orderCustomerRespDTO.setOrderTodayCancelCount(0);
+            }
+        });
         return new Result<>(pageRespDTO);
     }
 
@@ -123,6 +165,27 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         List<OrderCustomerRespDTO> list = orderCustomerService.list(predicate, OrderCustomerRespDTO.class);
 
+        list.forEach(orderCustomerRespDTO -> {
+            if (orderCustomerRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+                //重置订单当月下单总数为0
+                orderCustomerRespDTO.setOrderMonthBuySellCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastReleaseTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastReleaseTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+                //重置订单当月放行总数为0
+                orderCustomerRespDTO.setOrderMonthBuySellReleaseCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastAppealTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastAppealTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                //重置订单当日申诉次数为0
+                orderCustomerRespDTO.setOrderTodayAppealCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastCancelTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastCancelTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                //重置订单当日取消次数为0
+                orderCustomerRespDTO.setOrderTodayCancelCount(0);
+            }
+        });
         return new Result<>(list);
     }
 
@@ -142,6 +205,27 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         List<OrderCustomerRespDTO> list = orderCustomerService.list(predicate, OrderCustomerRespDTO.class);
 
+        list.forEach(orderCustomerRespDTO -> {
+            if (orderCustomerRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+                //重置订单当月下单总数为0
+                orderCustomerRespDTO.setOrderMonthBuySellCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastReleaseTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastReleaseTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+                //重置订单当月放行总数为0
+                orderCustomerRespDTO.setOrderMonthBuySellReleaseCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastAppealTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastAppealTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                //重置订单当日申诉次数为0
+                orderCustomerRespDTO.setOrderTodayAppealCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastCancelTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastCancelTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                //重置订单当日取消次数为0
+                orderCustomerRespDTO.setOrderTodayCancelCount(0);
+            }
+        });
         return new Result<>(list);
     }
 
@@ -160,6 +244,27 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         List<OrderCustomerRespDTO> list = orderCustomerService.list(predicate, OrderCustomerRespDTO.class);
 
+        list.forEach(orderCustomerRespDTO -> {
+            if (orderCustomerRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+                //重置订单当月下单总数为0
+                orderCustomerRespDTO.setOrderMonthBuySellCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastReleaseTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastReleaseTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+                //重置订单当月放行总数为0
+                orderCustomerRespDTO.setOrderMonthBuySellReleaseCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastAppealTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastAppealTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                //重置订单当日申诉次数为0
+                orderCustomerRespDTO.setOrderTodayAppealCount(0);
+            }
+
+            if (orderCustomerRespDTO.getOrderLastCancelTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastCancelTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+                //重置订单当日取消次数为0
+                orderCustomerRespDTO.setOrderTodayCancelCount(0);
+            }
+        });
         return new Result<>(list);
     }
 
@@ -174,6 +279,26 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
         //返回
         OrderCustomerRespDTO orderCustomerRespDTO = ModelMapperUtil.map(orderCustomer, OrderCustomerRespDTO.class);
 
+
+        if (orderCustomerRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+            //重置订单当月下单总数为0
+            orderCustomerRespDTO.setOrderMonthBuySellCount(0);
+        }
+
+        if (orderCustomerRespDTO.getOrderLastReleaseTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastReleaseTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
+            //重置订单当月放行总数为0
+            orderCustomerRespDTO.setOrderMonthBuySellReleaseCount(0);
+        }
+
+        if (orderCustomerRespDTO.getOrderLastAppealTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastAppealTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+            //重置订单当日申诉次数为0
+            orderCustomerRespDTO.setOrderTodayAppealCount(0);
+        }
+
+        if (orderCustomerRespDTO.getOrderLastCancelTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastCancelTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))) {
+            //重置订单当日取消次数为0
+            orderCustomerRespDTO.setOrderTodayCancelCount(0);
+        }
         return new Result<>(orderCustomerRespDTO);
     }
 
@@ -378,6 +503,17 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
         //设置总完成率=(买币订单放行次数+卖币订单放行次数)/订单顾客下单次数
         afterOrderCustomer.setOrderBuySellReleaseRate(BigDecimal.valueOf(orderCustomerRespDTO.getOrderBuyReleaseCount() + orderCustomerRespDTO.getOrderSellReleaseCount()).divide(BigDecimal.valueOf(orderCustomerRespDTO.getOrderBuySellCount() + 1), 8, BigDecimal.ROUND_UP));
 
+
+
+
+        //设置订单当月下单总数
+        afterOrderCustomer.setOrderMonthBuySellCount(orderCustomerRespDTO.getOrderMonthBuySellCount() + 1);
+
+        //设置订单最后下单时间
+        afterOrderCustomer.setOrderLastAddTime(updateOrderCustomerOnAddOrderEventForClientReqDTO.getAddTime());
+
+
+
 //更新到数据库
         orderCustomerService.update(afterOrderCustomer);
 
@@ -429,6 +565,33 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
         //设置订单平均放行时间
         afterOrderCustomer.setOrderBuySellAvgReleaseTime((orderCustomerRespDTO.getOrderBuyTotalReleaseTime() + orderCustomerRespDTO.getOrderSellTotalReleaseTime() + updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getReleaseTime().getTime() - updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getPayTime().getTime()) / orderCustomerRespDTO.getOrderBuySellCount());
 
+
+
+        //创建时间也是当前月才计入
+        if(new SimpleDateFormat("yyyy-MM").format(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getReleaseTime()))) {
+
+
+
+            //设置订单当月放行总数
+            afterOrderCustomer.setOrderMonthBuySellReleaseCount(orderCustomerRespDTO.getOrderMonthBuySellReleaseCount() + 1);
+            //设置订单当月放行比例
+            afterOrderCustomer.setOrderMonthBuySellReleaseRate(BigDecimal.valueOf(orderCustomerRespDTO.getOrderMonthBuySellReleaseCount() + 1).divide(BigDecimal.valueOf(orderCustomerRespDTO.getOrderMonthBuySellCount()), 8, BigDecimal.ROUND_UP));
+
+
+            //设置订单最后放行时间
+            afterOrderCustomer.setOrderLastReleaseTime(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getReleaseTime());
+
+        }
+
+        if (updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getOrderBuySellType() == OrderBuySellTypeEnum.BUY.getCode()) {
+            //设置买币订单总额
+            afterOrderCustomer.setOrderBuyTotalPrice(orderCustomerRespDTO.getOrderBuyTotalPrice().add(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getOrderTotalPrice()));
+        } else if (updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getOrderBuySellType() == OrderBuySellTypeEnum.SELL.getCode()) {
+            //设置卖币订单总额
+            afterOrderCustomer.setOrderSellTotalPrice(orderCustomerRespDTO.getOrderSellTotalPrice().add(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getOrderTotalPrice()));
+        }
+
+
 //更新到数据库
         orderCustomerService.update(afterOrderCustomer);
 
@@ -455,12 +618,11 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         OrderCustomer afterOrderCustomer = ModelMapperUtil.map(orderCustomerRespDTO, OrderCustomer.class);
 
+
+
         //设置订单当日申诉次数
-        if (orderCustomerRespDTO.getOrderLastAppealTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastAppealTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(updateOrderCustomerOnAppealOrderEventForClientReqDTO.getAppealTime()))) {
-            afterOrderCustomer.setOrderTodayAppealCount(1);
-        } else {
             afterOrderCustomer.setOrderTodayAppealCount(orderCustomerRespDTO.getOrderTodayAppealCount() + 1);
-        }
+
         //设置订单最后申诉时间
         afterOrderCustomer.setOrderLastAppealTime(updateOrderCustomerOnAppealOrderEventForClientReqDTO.getAppealTime());
         //更新到数据库
@@ -489,12 +651,11 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         OrderCustomer afterOrderCustomer = ModelMapperUtil.map(orderCustomerRespDTO, OrderCustomer.class);
 
+
+
         //设置订单当日取消次数
-        if (orderCustomerRespDTO.getOrderLastCancelTime() == null || !new SimpleDateFormat("yyyy-MM-dd").format(orderCustomerRespDTO.getOrderLastCancelTime()).equals(new SimpleDateFormat("yyyy-MM-dd").format(updateOrderCustomerOnCancelOrderEventForClientReqDTO.getCancelTime()))) {
-            afterOrderCustomer.setOrderTodayCancelCount(1);
-        } else {
-            afterOrderCustomer.setOrderTodayCancelCount(orderCustomerRespDTO.getOrderTodayCancelCount() + 1);
-        }
+        afterOrderCustomer.setOrderTodayCancelCount(orderCustomerRespDTO.getOrderTodayCancelCount() + 1);
+
         //设置订单最后取消时间
         afterOrderCustomer.setOrderLastCancelTime(updateOrderCustomerOnCancelOrderEventForClientReqDTO.getCancelTime());
         //更新到数据库

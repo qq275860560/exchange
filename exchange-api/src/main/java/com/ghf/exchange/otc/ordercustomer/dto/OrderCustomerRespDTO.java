@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -135,6 +136,35 @@ public class OrderCustomerRespDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 
     private Date orderLastCancelTime;
+
+
+    @ApiModelProperty("订单当月下单总数")
+    @Column(name = "order_month_buy_sell_count")
+    private int orderMonthBuySellCount;
+    @ApiModelProperty("订单当月放行总数")
+    @Column(name = "order_month_buy_sell_release_count")
+    private int orderMonthBuySellReleaseCount;
+    @ApiModelProperty("订单当月放行比例")
+    @Column(name = "order_month_buy_sell_release_rate")
+    private BigDecimal orderMonthBuySellReleaseRate;
+    @ApiModelProperty("卖币订单总额")
+    @Column(name = "order_sell_total_price")
+    private BigDecimal orderSellTotalPrice;
+    @ApiModelProperty("买币订单总额")
+    @Column(name = "order_buy_total_price")
+    private BigDecimal orderBuyTotalPrice;
+    @ApiModelProperty("订单最后下单时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date orderLastAddTime;
+    @ApiModelProperty("订单最后放行时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date orderLastReleaseTime;
+
+
+
+
 
     @ApiModelProperty("状态,0:禁用,1:启用")
 

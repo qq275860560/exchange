@@ -30,6 +30,15 @@ CREATE TABLE t_order_customer
     order_last_appeal_time     datetime            DEFAULT NULL  comment '订单最后一次申诉时间',
     order_today_cancel_count int DEFAULT 0 comment '订单当日取消次数，如果大于等于系统规定的取消次数就禁止当天继续下单',
     order_last_cancel_time     datetime            DEFAULT NULL  comment '订单最后一次取消时间',
+
+    order_month_buy_sell_count int DEFAULT 0 comment '订单当月下单总数',
+    order_month_buy_sell_release_count int DEFAULT 0 comment '订单当月放行总数',
+    order_month_buy_sell_release_rate DECIMAL(18,2) DEFAULT 0 comment '订单当月放行比例',
+    order_sell_total_price DECIMAL(18,2) DEFAULT 0 comment '卖币订单总额',
+    order_buy_total_price DECIMAL(18,2) DEFAULT 0 comment '买币订单总额',
+    order_last_add_time     datetime            DEFAULT NULL  comment '订单最后下单时间',
+    order_last_release_time     datetime            DEFAULT NULL  comment '订单最后放行时间',
+
     status           tinyint(1) unsigned not null DEFAULT 1 comment '状态,0:禁用,1:启用',
     create_time      datetime            DEFAULT NULL,
     PRIMARY KEY (id),

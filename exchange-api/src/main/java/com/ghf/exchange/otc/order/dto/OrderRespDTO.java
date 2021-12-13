@@ -63,8 +63,8 @@ public class OrderRespDTO {
     @ApiModelProperty("订单法币成交单价，后台计算，如果是广告区选中下单，使用广告对应的单价，如果使用快捷区下单，使用系统一键匹配的单价")
 
     private BigDecimal orderPrice;
-    @ApiModelProperty("订单法币成交总价,后台计算")
 
+    @ApiModelProperty("订单法币成交总价,后台计算")
     private BigDecimal orderTotalPrice;
 
     @ApiModelProperty("订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡")

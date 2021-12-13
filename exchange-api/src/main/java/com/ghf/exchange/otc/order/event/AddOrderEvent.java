@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -86,6 +87,8 @@ public class AddOrderEvent extends ApplicationEvent {
 
     @ApiModelProperty("订单买卖类型,1:买币,2:卖币，跟广告买卖类型相反")
     private int orderBuySellType;
+    @ApiModelProperty("订单法币成交总价,后台计算")
+    private BigDecimal orderTotalPrice;
     @ApiModelProperty("订单顾客的登陆用户名,用户英文名称，用户编码")
     private String orderCustomerUsername;
     @ApiModelProperty("广告商家的登陆用户名,用户英文名称，用户编码")
