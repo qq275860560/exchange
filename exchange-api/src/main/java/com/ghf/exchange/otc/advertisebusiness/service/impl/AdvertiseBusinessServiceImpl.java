@@ -9,6 +9,7 @@ import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.otc.advertisebusiness.dto.*;
 import com.ghf.exchange.otc.advertisebusiness.entity.AdvertiseBusiness;
 import com.ghf.exchange.otc.advertisebusiness.entity.QAdvertiseBusiness;
+import com.ghf.exchange.otc.advertisebusiness.enums.AdvertiseBusinessKycEnum;
 import com.ghf.exchange.otc.advertisebusiness.enums.AdvertiseBusinessStatusEnum;
 import com.ghf.exchange.otc.advertisebusiness.repository.AdvertiseBusinessRepository;
 import com.ghf.exchange.otc.advertisebusiness.service.AdvertiseBusinessService;
@@ -336,6 +337,13 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
         advertiseBusiness.setLegalCurrencyUnit(legalCurrencyRespDTO.getLegalCurrencyUnit());
         //设置保证金
         advertiseBusiness.setDeposit(addAdvertiseBusinessForAdminReqDTO.getDeposit());
+
+        //判断kyc
+        if(addAdvertiseBusinessForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_1.getCode()          && addAdvertiseBusinessForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_2.getCode() &&      addAdvertiseBusinessForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_3.getCode()){
+            return new Result<>(ResultCodeEnum.ADVERTISE_BUSINESS_KYC_NOT_EXISTS);
+        }
+        //设置kyc
+        advertiseBusiness.setKyc(addAdvertiseBusinessForAdminReqDTO.getKyc());
         advertiseBusiness.setAdvertisePermission(addAdvertiseBusinessForAdminReqDTO.getAdvertisePermission());
         //设置状态
         advertiseBusiness.setStatus(AdvertiseBusinessStatusEnum.ENABLE.getCode());
@@ -390,6 +398,12 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
 
         //设置保证金
         afterAdvertiseBusiness.setDeposit(updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getDeposit());
+        //判断kyc
+        if(updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_1.getCode()          && updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_2.getCode() &&      updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_3.getCode()){
+            return new Result<>(ResultCodeEnum.ADVERTISE_BUSINESS_KYC_NOT_EXISTS);
+        }
+        //设置kyc
+        afterAdvertiseBusiness.setKyc(updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getKyc());
         afterAdvertiseBusiness.setAdvertisePermission(updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getAdvertisePermission());
 
         //设置状态

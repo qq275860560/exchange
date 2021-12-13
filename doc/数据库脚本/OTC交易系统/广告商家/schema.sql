@@ -16,6 +16,7 @@ CREATE TABLE t_advertise_business
     legal_currency_symbol        VARCHAR(16)   DEFAULT NULL comment '法币符号',
     legal_currency_unit        VARCHAR(16)   DEFAULT NULL comment '法币单位',
     deposit           DECIMAL(18,2) DEFAULT NULL comment '保证金(美元)',
+    kyc tinyint(1) unsigned not null DEFAULT 1 comment 'kyc认证,1:kyc1,2:kyc2,3:kyc3',
     advertise_permission tinyint(1) unsigned not null DEFAULT 1 comment '广告权限,0:加V,1:不加V',
     advertise_put_on_shelves_count int DEFAULT 0 comment '上架的广告数量',
     order_buy_sell_count int DEFAULT 0 comment '发布广告后，订单顾客下单次数',

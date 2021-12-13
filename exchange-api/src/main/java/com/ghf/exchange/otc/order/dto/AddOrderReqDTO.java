@@ -36,7 +36,7 @@ public class AddOrderReqDTO {
     @ApiModelProperty("订单交易量，必填")
     private BigDecimal orderAmount;
 
-    @ApiModelProperty("订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡")
+    @ApiModelProperty("订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡，4：现金")
 
     private int orderCustomerPaymentType;
 

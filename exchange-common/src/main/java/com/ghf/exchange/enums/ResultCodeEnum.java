@@ -207,6 +207,7 @@ public enum ResultCodeEnum {
     ADVERTISE_BUSINESS_USERNAME_EXISTS(170004, "广告商家用户名已经存在"),
     ADVERTISE_BUSINESS_STATUS_DISABLE(170006, "广告商家状态已经禁用"),
     ADVERTISE_BUSINESS_STATUS_ENABLE(170007, "广告商家状态已经启用"),
+    ADVERTISE_BUSINESS_KYC_NOT_EXISTS(170008, "广告商家kyc不存在"),
 
     /**
      * 订单顾客

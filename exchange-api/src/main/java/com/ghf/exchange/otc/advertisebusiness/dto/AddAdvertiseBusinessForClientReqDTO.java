@@ -60,6 +60,9 @@ public class AddAdvertiseBusinessForClientReqDTO {
 
     private String deposit;
 
+    @ApiModelProperty("kyc认证,1:kyc1,2:kyc2,3:kyc3")
+    private int kyc;
+
     @ApiModelProperty("广告权限,0:加V,1:不加V")
 
     private int advertisePermission;

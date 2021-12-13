@@ -25,7 +25,7 @@ public class GetPaymentByPaymentTypeForClientReqDTO {
 
     private String username;
 
-    @ApiModelProperty("收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分")
+    @ApiModelProperty("收付款类型:1:支付宝，2：微信，3：银行卡，4：现金,逗号区分")
 
     private int paymentType;
 }

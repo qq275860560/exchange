@@ -89,6 +89,10 @@ public class AdvertiseBusiness {
     @Column(name = "deposit")
     private String deposit;
 
+    @ApiModelProperty("kyc认证,1:kyc1,2:kyc2,3:kyc3")
+    @Column(name = "kyc")
+    private int kyc;
+
     @ApiModelProperty("广告权限,0:加V,1:不加V")
     @Column(name = "advertise_permission")
     private int advertisePermission;

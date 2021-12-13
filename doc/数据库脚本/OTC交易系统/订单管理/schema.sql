@@ -12,7 +12,7 @@ CREATE TABLE t_order
     order_amount  DECIMAL(18,8) DEFAULT NULL comment '订单交易量',
     order_price  DECIMAL(18,8) DEFAULT NULL comment '订单法币成交单价，后台计算，如果是广告区选中下单，使用广告对应的单价，如果使用快捷区下单，使用系统一键匹配的单价',
     order_total_price  DECIMAL(18,8) DEFAULT NULL comment '订单法币成交总价,后台计算',
-    order_customer_payment_type   tinyint(4) unsigned not null DEFAULT 1 comment '订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡',
+    order_customer_payment_type   tinyint(4) unsigned not null DEFAULT 1 comment '订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡，4：现金',
 
     order_customer_username         VARCHAR(64)         DEFAULT NULL comment '订单顾客的登陆用户名,用户英文名称，用户编码',
     order_customer_nickname         VARCHAR(64)         DEFAULT NULL comment '订单顾客的用户昵称，用户中文名称，可以随时修改',

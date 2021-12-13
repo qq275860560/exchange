@@ -29,7 +29,7 @@ public class PageOrderReqDTO extends PageReqDTO {
 
     private String advertiseCode;
 
-    @ApiModelProperty("订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡")
+    @ApiModelProperty("订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡，4：现金")
 
     private int orderCustomerPaymentType;
 

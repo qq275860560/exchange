@@ -71,7 +71,7 @@ public class Order {
     @Column(name = "order_total_price")
     private BigDecimal orderTotalPrice;
 
-    @ApiModelProperty("订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡")
+    @ApiModelProperty("订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡，4：现金")
     @Column(name = "order_customer_payment_type")
     private int orderCustomerPaymentType;
 

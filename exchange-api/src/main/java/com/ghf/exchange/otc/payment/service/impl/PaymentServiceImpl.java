@@ -66,7 +66,9 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
 
         if (pagePaymentReqDTO.getPaymentType() == PaymentTypeEnum.ALIPAY.getCode()
                 || pagePaymentReqDTO.getPaymentType() == PaymentTypeEnum.WECHAT.getCode()
-                || pagePaymentReqDTO.getPaymentType() == PaymentTypeEnum.BANK.getCode()) {
+                || pagePaymentReqDTO.getPaymentType() == PaymentTypeEnum.BANK.getCode()
+                || pagePaymentReqDTO.getPaymentType() == PaymentTypeEnum.CASH.getCode()
+        ) {
             predicate.and(QPayment.payment.paymentType.eq(pagePaymentReqDTO.getPaymentType()));
         }
 
@@ -86,7 +88,9 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
 
         if (pagePaymentForAdminReqDTO.getPaymentType() == PaymentTypeEnum.ALIPAY.getCode()
                 || pagePaymentForAdminReqDTO.getPaymentType() == PaymentTypeEnum.WECHAT.getCode()
-                || pagePaymentForAdminReqDTO.getPaymentType() == PaymentTypeEnum.BANK.getCode()) {
+                || pagePaymentForAdminReqDTO.getPaymentType() == PaymentTypeEnum.BANK.getCode()
+                || pagePaymentForAdminReqDTO.getPaymentType() == PaymentTypeEnum.CASH.getCode()
+        ) {
             predicate.and(QPayment.payment.paymentType.eq(pagePaymentForAdminReqDTO.getPaymentType()));
         }
 
@@ -106,7 +110,9 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
         BooleanBuilder predicate = new BooleanBuilder();
         if (listPaymentReqDTO.getPaymentType() == PaymentTypeEnum.ALIPAY.getCode()
                 || listPaymentReqDTO.getPaymentType() == PaymentTypeEnum.WECHAT.getCode()
-                || listPaymentReqDTO.getPaymentType() == PaymentTypeEnum.BANK.getCode()) {
+                || listPaymentReqDTO.getPaymentType() == PaymentTypeEnum.BANK.getCode()
+                || listPaymentReqDTO.getPaymentType() == PaymentTypeEnum.CASH.getCode()
+        ) {
             predicate.and(QPayment.payment.paymentType.eq(listPaymentReqDTO.getPaymentType()));
         }
         predicate.and(QPayment.payment.username.eq(currentLoginUser.getUsername()));
@@ -125,7 +131,9 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
 
         if (listPaymentForAdminReqDTO.getPaymentType() == PaymentTypeEnum.ALIPAY.getCode()
                 || listPaymentForAdminReqDTO.getPaymentType() == PaymentTypeEnum.WECHAT.getCode()
-                || listPaymentForAdminReqDTO.getPaymentType() == PaymentTypeEnum.BANK.getCode()) {
+                || listPaymentForAdminReqDTO.getPaymentType() == PaymentTypeEnum.BANK.getCode()
+                || listPaymentForAdminReqDTO.getPaymentType() == PaymentTypeEnum.CASH.getCode()
+        ) {
             predicate.and(QPayment.payment.paymentType.eq(listPaymentForAdminReqDTO.getPaymentType()));
         }
         if (!ObjectUtils.isEmpty(listPaymentForAdminReqDTO.getUsername())) {
@@ -146,7 +154,9 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
 
         if (listPaymentForClientReqDTO.getPaymentType() == PaymentTypeEnum.ALIPAY.getCode()
                 || listPaymentForClientReqDTO.getPaymentType() == PaymentTypeEnum.WECHAT.getCode()
-                || listPaymentForClientReqDTO.getPaymentType() == PaymentTypeEnum.BANK.getCode()) {
+                || listPaymentForClientReqDTO.getPaymentType() == PaymentTypeEnum.BANK.getCode()
+                || listPaymentForClientReqDTO.getPaymentType() == PaymentTypeEnum.CASH.getCode()
+        ) {
             predicate.and(QPayment.payment.paymentType.eq(listPaymentForClientReqDTO.getPaymentType()));
         }
         if (!ObjectUtils.isEmpty(listPaymentForClientReqDTO.getUsername())) {
@@ -270,6 +280,8 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
             payment.setPaymentTypeBankAccount(addPaymentReqDTO.getPaymentTypeBankAccount());
             payment.setPaymentTypeBankRealname(addPaymentReqDTO.getPaymentTypeBankRealname());
 
+        } else if (addPaymentReqDTO.getPaymentType() == PaymentTypeEnum.CASH.getCode()) {
+
         } else {
             return new Result<>(ResultCodeEnum.PAYMENT_NOT_EXISTS);
         }
@@ -339,7 +351,9 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
             afterPayment.setPaymentTypeBankAccount(updatePaymentByPaymentCodeReqDTO.getPaymentTypeBankAccount());
             afterPayment.setPaymentTypeBankRealname(updatePaymentByPaymentCodeReqDTO.getPaymentTypeBankRealname());
 
-        } else {
+        } else if (updatePaymentByPaymentCodeReqDTO.getPaymentType() == PaymentTypeEnum.CASH.getCode()) {
+
+        }else {
             return new Result<>(ResultCodeEnum.PAYMENT_NOT_EXISTS);
         }
         afterPayment.setRemark(updatePaymentByPaymentCodeReqDTO.getRemark());

@@ -66,6 +66,15 @@ http://localhost:8080/doc.html
 
 # TODO LIST
 
+# 单元测试
+# 阅读旧代码
+# 重写oauth2
+# flink
+# 性能测试
+# 统计
+# 基础框架重命名code和规范化异步
+# 统计
+# 对比其他项目
 
 
 

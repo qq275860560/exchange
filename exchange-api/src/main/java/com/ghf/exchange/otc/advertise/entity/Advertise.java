@@ -113,7 +113,7 @@ public class Advertise {
     @Column(name = "advertise_business_payment_codes")
     private String advertiseBusinessPaymentCodes;
 
-    @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分")
+    @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡，4：现金,逗号区分")
     @Column(name = "advertise_business_payment_types")
     private String advertiseBusinessPaymentTypes;
 

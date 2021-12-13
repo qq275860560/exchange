@@ -27,7 +27,7 @@ CREATE TABLE t_advertise
     advertise_auto_reply_content          text default null  comment '自动回复内容',
 
     advertise_business_payment_codes     varchar(256)   not null DEFAULT 1 comment '广告商家支持的付款方式编码，逗号区分',
-    advertise_business_payment_types     varchar(16)   not null DEFAULT 1 comment '广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分',
+    advertise_business_payment_types     varchar(16)   not null DEFAULT 1 comment '广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡，4：现金,逗号区分',
 
 
 

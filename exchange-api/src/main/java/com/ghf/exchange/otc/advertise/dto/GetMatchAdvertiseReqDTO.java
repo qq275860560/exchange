@@ -41,7 +41,7 @@ public class GetMatchAdvertiseReqDTO {
     @ApiModelProperty("溢价率，价格类型变化时才有效")
     private BigDecimal advertisePremiumRate;
 
-    @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡")
+    @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡，4：现金")
     private int advertiseBusinessPaymentType;
 
     @ApiModelProperty("状态,1:上架,2:下架,3:删除")

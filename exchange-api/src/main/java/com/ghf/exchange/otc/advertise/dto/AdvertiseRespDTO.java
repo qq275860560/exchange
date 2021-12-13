@@ -110,7 +110,7 @@ public class AdvertiseRespDTO {
     @ApiModelProperty("广告商家支持的付款方式编码，逗号区分")
     private String advertiseBusinessPaymentCodes;
 
-    @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分")
+    @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡，4：现金,逗号区分")
     private String advertiseBusinessPaymentTypes;
 
     @ApiModelProperty("广告商家的登陆用户名,用户英文名称，用户编码")
