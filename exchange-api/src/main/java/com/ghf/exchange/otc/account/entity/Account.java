@@ -37,7 +37,7 @@ public class Account {
     @Column(name = "username")
     private String username;
 
-    @ApiModelProperty("币种编码")
+    @ApiModelProperty("数字货币编码")
     @Column(name = "coin_code")
     private String coinCode;
 
@@ -52,6 +52,10 @@ public class Account {
     @ApiModelProperty("冻结金额")
     @Column(name = "frozen_balance")
     private BigDecimal frozenBalance;
+
+    @ApiModelProperty("状态,0:禁用,1:启用")
+    @Column(name = "status")
+    private int status;
 
     @ApiModelProperty("操作时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

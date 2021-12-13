@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface CoinService extends BaseService<Coin, Long> {
     /**
-     * 分页搜索币种
+     * 分页搜索数字货币
      *
      * @param pageCoinReqDTO
      * @return
@@ -22,7 +22,7 @@ public interface CoinService extends BaseService<Coin, Long> {
     Result<PageRespDTO<CoinRespDTO>> pageCoin(PageCoinReqDTO pageCoinReqDTO);
 
     /**
-     * 管理员分页搜索币种
+     * 管理员分页搜索数字货币
      *
      * @param pageCoinForAdminReqDTO
      * @return
@@ -30,7 +30,7 @@ public interface CoinService extends BaseService<Coin, Long> {
     Result<PageRespDTO<CoinRespDTO>> pageCoinForAdmin(PageCoinForAdminReqDTO pageCoinForAdminReqDTO);
 
     /**
-     * 列出币种
+     * 列出数字货币
      *
      * @param listCoinReqDTO
      * @return
@@ -38,7 +38,7 @@ public interface CoinService extends BaseService<Coin, Long> {
     Result<List<CoinRespDTO>> listCoin(ListCoinReqDTO listCoinReqDTO);
 
     /**
-     * 管理员列出币种
+     * 管理员列出数字货币
      *
      * @param listCoinForAdminReqDTO
      * @return
@@ -46,7 +46,7 @@ public interface CoinService extends BaseService<Coin, Long> {
     Result<List<CoinRespDTO>> listCoinForAdmin(ListCoinForAdminReqDTO listCoinForAdminReqDTO);
 
     /**
-     * 微服务客户端列出币种
+     * 微服务客户端列出数字货币
      *
      * @param listCoinForClientReqDTO
      * @return
@@ -54,7 +54,7 @@ public interface CoinService extends BaseService<Coin, Long> {
     Result<List<CoinRespDTO>> listCoinForClient(ListCoinForClientReqDTO listCoinForClientReqDTO);
 
     /**
-     * 根据币种编号获取币种详情
+     * 根据数字货币编号获取数字货币详情
      *
      * @param getCoinByCoinCodeReqDTO
      * @return
@@ -62,7 +62,7 @@ public interface CoinService extends BaseService<Coin, Long> {
     Result<CoinRespDTO> getCoinByCoinCode(GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO);
 
     /**
-     * 根据币种编号判断币种是否存在
+     * 根据数字货币编号判断数字货币是否存在
      *
      * @param getCoinByCoinCodeReqDTO
      * @return
@@ -70,7 +70,7 @@ public interface CoinService extends BaseService<Coin, Long> {
     Result<Boolean> existsCoinByCoinCode(GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO);
 
     /**
-     * 管理员新建币种
+     * 管理员新建数字货币
      *
      * @param addCoinForAdminReqDTO
      * @return
@@ -78,7 +78,7 @@ public interface CoinService extends BaseService<Coin, Long> {
     Result<Void> addCoinForAdmin(AddCoinForAdminReqDTO addCoinForAdminReqDTO);
 
     /**
-     * 管理员更新币种
+     * 管理员更新数字货币
      *
      * @param updateCoinByCoinCodeForAdminReqDTO
      * @return
@@ -86,7 +86,7 @@ public interface CoinService extends BaseService<Coin, Long> {
     Result<Void> updateCoinByCoinForAdminCode(UpdateCoinByCoinCodeForAdminReqDTO updateCoinByCoinCodeForAdminReqDTO);
 
     /**
-     * 管理员启用币种
+     * 管理员启用数字货币
      *
      * @param getCoinByCoinCodeReqDTO
      * @return
@@ -94,7 +94,7 @@ public interface CoinService extends BaseService<Coin, Long> {
     Result<Void> enableCoinForAdmin(GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO);
 
     /**
-     * 管理员停用币种
+     * 管理员停用数字货币
      *
      * @param getCoinByCoinCodeReqDTO
      * @return

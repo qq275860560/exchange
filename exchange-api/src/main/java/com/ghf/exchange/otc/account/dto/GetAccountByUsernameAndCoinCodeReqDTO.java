@@ -25,7 +25,7 @@ public class GetAccountByUsernameAndCoinCodeReqDTO {
 
     private String username;
 
-    @ApiModelProperty("币种编码")
+    @ApiModelProperty("数字货币编码")
 
     private String coinCode;
 }

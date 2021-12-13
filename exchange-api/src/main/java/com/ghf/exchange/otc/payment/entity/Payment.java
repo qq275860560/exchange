@@ -36,7 +36,7 @@ public class Payment {
     @Column(name = "payment_code")
     private String paymentCode;
 
-    @ApiModelProperty("收款的登陆用户名,用户英文名称，用户编码")
+    @ApiModelProperty("收付款的登陆用户名,用户英文名称，用户编码")
     @Column(name = "username")
     private String username;
 
@@ -63,7 +63,7 @@ public class Payment {
     @ApiModelProperty("银行方式,银行名称")
     @Column(name = "payment_type_bank_name")
     private String paymentTypeBankName;
-    @ApiModelProperty("银行方式,支行账号")
+    @ApiModelProperty("银行方式,支行名称")
     @Column(name = "payment_type_bank_branch_name")
     private String paymentTypeBankBranchName;
     @ApiModelProperty("银行方式,银行卡号")

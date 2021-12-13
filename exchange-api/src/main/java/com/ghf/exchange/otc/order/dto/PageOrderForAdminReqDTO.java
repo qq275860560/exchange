@@ -45,7 +45,7 @@ public class PageOrderForAdminReqDTO extends PageReqDTO {
 
     private int orderBuySellType;
 
-    @ApiModelProperty("广告币种编码")
+    @ApiModelProperty("广告数字货币编码")
 
     private String advertiseCoinCode;
 

@@ -48,7 +48,7 @@ public class AddPaymentReqDTO {
     @ApiModelProperty("银行方式,银行名称")
 
     private String paymentTypeBankName;
-    @ApiModelProperty("银行方式,支行账号")
+    @ApiModelProperty("银行方式,支行名称")
 
     private String paymentTypeBankBranchName;
     @ApiModelProperty("银行方式,银行卡号")

@@ -41,19 +41,19 @@ public class Advertise {
     @Column(name = "advertise_buy_sell_type")
     private int advertiseBuySellType;
 
-    @ApiModelProperty("币种编码")
+    @ApiModelProperty("数字货币编码")
     @Column(name = "advertise_coin_code")
     private String advertiseCoinCode;
 
-    @ApiModelProperty("币种名称")
+    @ApiModelProperty("数字货币名称")
     @Column(name = "advertise_coin_name")
     private String advertiseCoinName;
 
-    @ApiModelProperty("币种单位")
+    @ApiModelProperty("数字货币单位")
     @Column(name = "advertise_coin_unit")
     private String advertiseCoinUnit;
 
-    @ApiModelProperty("币种交易手续费比例")
+    @ApiModelProperty("数字货币交易手续费比例")
     @Column(name = "advertise_coin_rate")
     private BigDecimal advertiseCoinRate;
 

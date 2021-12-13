@@ -12,7 +12,7 @@ import com.ghf.exchange.service.BaseService;
 public interface AccountService extends BaseService<Account, Long> {
 
     /**
-     * 根据用户名和币种编号获取账户详情
+     * 根据用户名和数字货币编号获取账户详情
      *
      * @param getAccountByUsernameAndCoinCodeReqDTO
      * @return
@@ -20,7 +20,7 @@ public interface AccountService extends BaseService<Account, Long> {
     Result<AccountRespDTO> getAccountByUsernameAndCoinCode(GetAccountByUsernameAndCoinCodeReqDTO getAccountByUsernameAndCoinCodeReqDTO);
 
     /**
-     * 根据用户名和币种编号判断账户是否存在
+     * 根据用户名和数字货币编号判断账户是否存在
      *
      * @param getAccountByUsernameAndCoinCodeReqDTO
      * @return
@@ -35,7 +35,7 @@ public interface AccountService extends BaseService<Account, Long> {
      */
     Result<Boolean> checkAccountForClientForClient();
 
-    //TODO 创建用户时，批量创建币种账户
+    //TODO 创建用户时，批量创建数字货币账户
 
     /**
      * 微服务客户端新建账户
@@ -78,7 +78,7 @@ public interface AccountService extends BaseService<Account, Long> {
     Result<Void> incBalanceForClient(IncBalanceForClientReqDTO incBalanceForClientReqDTO);
 
     /**
-     * 微服务客户端根据用户名和币种编号删除账户
+     * 微服务客户端根据用户名和数字货币编号删除账户
      *
      * @param getAccountByUsernameAndCoinCodeReqDTO
      * @return

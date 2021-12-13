@@ -31,7 +31,7 @@ public class PutOnShelvesReqDTO {
     @ApiModelProperty("买卖类型,1:买币,2:卖币")
     private int advertiseBuySellType;
 
-    @ApiModelProperty("币种编码")
+    @ApiModelProperty("数字货币编码")
     private String advertiseCoinCode;
 
     @ApiModelProperty("可用库存数量")

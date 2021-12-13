@@ -31,7 +31,7 @@ public class AccountRespDTO {
     @ApiModelProperty("用户名称")
     private String username;
 
-    @ApiModelProperty("币种编码")
+    @ApiModelProperty("数字货币编码")
     private String coinCode;
 
     @ApiModelProperty("总金额")
@@ -42,6 +42,9 @@ public class AccountRespDTO {
 
     @ApiModelProperty("冻结金额")
     private BigDecimal frozenBalance;
+
+    @ApiModelProperty("状态,0:禁用,1:启用")
+     private int status;
 
     @ApiModelProperty("操作时间")
     @Column(name = "create_time")

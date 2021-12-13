@@ -85,7 +85,7 @@ public class AdvertiseServiceTest {
         userService.login(LoginReqDTO.builder().username(Constants.ADMIN_USER_NAME).password(Constants.ADMIN_PASSWORD).build());
         orderService.deleteAllOrderForAdmin();
         advertisService.deleteAllAdvertiseForAdmin();
-        //获取币种信息
+        //获取数字货币信息
         GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO = new GetCoinByCoinCodeReqDTO();
         getCoinByCoinCodeReqDTO.setCoinCode("BTC");
         CoinRespDTO coinRespDTO = coinService.getCoinByCoinCode(getCoinByCoinCodeReqDTO).getData();
@@ -147,7 +147,7 @@ public class AdvertiseServiceTest {
         userService.login(LoginReqDTO.builder().username(Constants.ADMIN_USER_NAME).password(Constants.ADMIN_PASSWORD).build());
         orderService.deleteAllOrderForAdmin();
         advertisService.deleteAllAdvertiseForAdmin();
-        //获取币种信息
+        //获取数字货币信息
         GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO = new GetCoinByCoinCodeReqDTO();
         getCoinByCoinCodeReqDTO.setCoinCode("BTC");
         CoinRespDTO coinRespDTO = coinService.getCoinByCoinCode(getCoinByCoinCodeReqDTO).getData();
@@ -194,7 +194,7 @@ public class AdvertiseServiceTest {
         AddOrderReqDTO addOrderReqDTO = new AddOrderReqDTO();
         addOrderReqDTO.setOrderCode("test-顾客在广告区买币-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         addOrderReqDTO.setOrderSource(OrderSourceEnum.ADVERTISE_SELECT.getCode());
-        //故意以币种最小限制购买
+        //故意以数字货币最小限制购买
         addOrderReqDTO.setOrderAmount(coinRespDTO.getPerOrderMinAmount());
         addOrderReqDTO.setOrderCustomerPaymentType(PaymentTypeEnum.ALIPAY.getCode());
         addOrderReqDTO.setAdvertiseCode(addAdvertiseReqDTO.getAdvertiseCode());
@@ -248,7 +248,7 @@ public class AdvertiseServiceTest {
         //延时
         TimeUnit.MILLISECONDS.sleep(60000);
 
-        //判断广告状态是否为下架（因为可交易数量不满足币种最小限制）
+        //判断广告状态是否为下架（因为可交易数量不满足数字货币最小限制）
         getAdvertiseByAdvertiseCodeReqDTO = new GetAdvertiseByAdvertiseCodeReqDTO();
         getAdvertiseByAdvertiseCodeReqDTO.setAdvertiseCode(addAdvertiseReqDTO.getAdvertiseCode());
         advertiseRespDTO = advertisService.getAdvertiseByAdvertiseCode(getAdvertiseByAdvertiseCodeReqDTO).getData();

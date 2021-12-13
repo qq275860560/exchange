@@ -27,14 +27,14 @@ public class AccountController {
     @Resource
     private AccountService accountService;
 
-    @ApiOperation(value = "根据用户名和币种编号获取账户详情", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "根据用户名和数字货币编号获取账户详情", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/account/getAccountByUsernameAndCoinCode")
     @SneakyThrows
     public Result<AccountRespDTO> getAccountByUsernameAndCoinCode(@RequestBody GetAccountByUsernameAndCoinCodeReqDTO getAccountByUsernameAndCoinCodeReqDTO) {
         return accountService.getAccountByUsernameAndCoinCode(getAccountByUsernameAndCoinCodeReqDTO);
     }
 
-    @ApiOperation(value = "根据用户名和币种编号判断账户是否存在", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "根据用户名和数字货币编号判断账户是否存在", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/account/existsAccountByUsernameAndCoinCode")
     @SneakyThrows
     public Result<Boolean> existsAccountByUsernameAndCoinCode(@RequestBody GetAccountByUsernameAndCoinCodeReqDTO getAccountByUsernameAndCoinCodeReqDTO) {
@@ -83,7 +83,7 @@ public class AccountController {
         return accountService.incBalanceForClient(incBalanceForClientReqDTO);
     }
 
-    @ApiOperation(value = "微服务客户端根据用户名和币种编号删除账户", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "微服务客户端根据用户名和数字货币编号删除账户", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/account/deleteAccountByUsernameAndCoinCodeForClient")
     @SneakyThrows
     public Result<Void> deleteAccountByUsernameAndCoinCodeForClient(@RequestBody GetAccountByUsernameAndCoinCodeReqDTO getAccountByUsernameAndCoinCodeReqDTO) {

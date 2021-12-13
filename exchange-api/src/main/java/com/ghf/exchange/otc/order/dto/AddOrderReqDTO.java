@@ -31,7 +31,7 @@ public class AddOrderReqDTO {
     @ApiModelProperty("订单买卖类型,1:买币,2:卖币，跟广告买卖类型相反，广告区选中下单不需要填写，快捷区一键匹配下单必填")
     private int orderBuySellType;
 
-    @ApiModelProperty("订单币种编码，广告区选中下单不需要填写，快捷区一键匹配下单必填")
+    @ApiModelProperty("订单数字货币编码，广告区选中下单不需要填写，快捷区一键匹配下单必填")
     private String orderCoinCode;
     @ApiModelProperty("订单交易量，必填")
     private BigDecimal orderAmount;

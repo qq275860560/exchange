@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GetCoinByCoinCodeReqDTO {
 
-    @ApiModelProperty("币种编码")
+    @ApiModelProperty("数字货币编码")
 
     private String coinCode;
 

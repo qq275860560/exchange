@@ -39,19 +39,19 @@ public class AdvertiseRespDTO {
 
     private int advertiseBuySellType;
 
-    @ApiModelProperty("币种编码")
+    @ApiModelProperty("数字货币编码")
 
     private String advertiseCoinCode;
 
-    @ApiModelProperty("币种名称")
+    @ApiModelProperty("数字货币名称")
 
     private String advertiseCoinName;
 
-    @ApiModelProperty("币种单位")
+    @ApiModelProperty("数字货币单位")
 
     private String advertiseCoinUnit;
 
-    @ApiModelProperty("币种交易手续费比例")
+    @ApiModelProperty("数字货币交易手续费比例")
 
     private BigDecimal advertiseCoinRate;
 

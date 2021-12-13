@@ -319,7 +319,7 @@ public class CoinServiceImpl extends BaseServiceImpl<Coin, Long> implements Coin
         return new Result<>(ResultCodeEnum.OK);
     }
 
-    //TODO 调用接口获取币种的最新美元价格，再调用接口获取其他法币价格
+    //TODO 调用接口获取数字货币的最新美元价格，再调用接口获取其他法币价格
     //TODO 真正手续费=固定手续费+比例手续费*amount
 
 }

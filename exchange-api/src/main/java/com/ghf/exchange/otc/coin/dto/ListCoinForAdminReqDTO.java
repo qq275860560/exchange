@@ -21,10 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ListCoinForAdminReqDTO {
 
-    @ApiModelProperty("币种编码")
+    @ApiModelProperty("数字货币编码")
     private String coinCode;
 
-    @ApiModelProperty("币种名称")
+    @ApiModelProperty("数字货币名称")
     private String coinName;
 
 }

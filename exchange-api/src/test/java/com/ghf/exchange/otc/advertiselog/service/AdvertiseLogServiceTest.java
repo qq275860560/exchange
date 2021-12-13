@@ -74,7 +74,7 @@ public class AdvertiseLogServiceTest {
     @Test
     public void addAdvertiseLog() {
 
-        //获取币种信息
+        //获取数字货币信息
         GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO = new GetCoinByCoinCodeReqDTO();
         getCoinByCoinCodeReqDTO.setCoinCode("BTC");
         CoinRespDTO coinRespDTO = coinService.getCoinByCoinCode(getCoinByCoinCodeReqDTO).getData();

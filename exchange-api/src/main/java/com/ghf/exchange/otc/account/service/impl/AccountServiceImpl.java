@@ -7,6 +7,7 @@ import com.ghf.exchange.config.ClearRedisConfig;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.otc.account.dto.*;
+import com.ghf.exchange.otc.account.enums.AccountStatusEnum;
 import com.ghf.exchange.otc.account.repository.AccountRepository;
 import com.ghf.exchange.otc.account.service.AccountService;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
@@ -98,6 +99,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, Long> implement
     @SneakyThrows
     public Result<Void> addAccountForClient(AddAccountForClientReqDTO addAccountForClientReqDTO) {
         Account account = ModelMapperUtil.map(addAccountForClientReqDTO, Account.class);
+        account.setStatus(AccountStatusEnum.ENABLE.getCode());
         account.setCreateTime(new Date());
         //持久化到数据库
         accountService.add(account);

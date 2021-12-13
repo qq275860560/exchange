@@ -41,19 +41,19 @@ public class OrderRespDTO {
 
     private int orderBuySellType;
 
-    @ApiModelProperty("订单币种编码")
+    @ApiModelProperty("订单数字货币编码")
 
     private String orderCoinCode;
 
-    @ApiModelProperty("订单币种名称")
+    @ApiModelProperty("订单数字货币名称")
 
     private String orderCoinName;
 
-    @ApiModelProperty("'订单币种单位")
+    @ApiModelProperty("'订单数字货币单位")
 
     private String orderCoinUnit;
 
-    @ApiModelProperty("订单币种交易手续费比例")
+    @ApiModelProperty("订单数字货币交易手续费比例")
 
     private BigDecimal orderCoinRate;
 
@@ -100,7 +100,7 @@ public class OrderRespDTO {
     @ApiModelProperty("订单顾客支持的付款条件:银行方式,银行名称")
 
     private String orderCustomerPaymentTypeBankName;
-    @ApiModelProperty("订单顾客支持的付款条件:银行方式,支行账号")
+    @ApiModelProperty("订单顾客支持的付款条件:银行方式,支行名称")
 
     private String orderCustomerPaymentTypeBankBranchName;
     @ApiModelProperty("订单顾客支持的付款条件:银行方式,银行卡号")
@@ -118,19 +118,19 @@ public class OrderRespDTO {
 
     private int advertiseBuySellType;
 
-    @ApiModelProperty("广告币种编码")
+    @ApiModelProperty("广告数字货币编码")
 
     private String advertiseCoinCode;
 
-    @ApiModelProperty("广告币种名称")
+    @ApiModelProperty("广告数字货币名称")
 
     private String advertiseCoinName;
 
-    @ApiModelProperty("'广告币种单位")
+    @ApiModelProperty("'广告数字货币单位")
 
     private String advertiseCoinUnit;
 
-    @ApiModelProperty("广告币种交易手续费比例")
+    @ApiModelProperty("广告数字货币交易手续费比例")
 
     private BigDecimal advertiseCoinRate;
 
@@ -204,7 +204,7 @@ public class OrderRespDTO {
     @ApiModelProperty("广告商家支持的付款条件:银行方式,银行名称")
 
     private String advertiseBusinessPaymentTypeBankName;
-    @ApiModelProperty("广告商家支持的付款条件:银行方式,支行账号")
+    @ApiModelProperty("广告商家支持的付款条件:银行方式,支行名称")
 
     private String advertiseBusinessPaymentTypeBankBranchName;
     @ApiModelProperty("广告商家支持的付款条件:银行方式,银行卡号")

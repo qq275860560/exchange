@@ -33,15 +33,15 @@ public class Coin {
     @Column(name = "id")
     private long id;
 
-    @ApiModelProperty("币种编码")
+    @ApiModelProperty("数字货币编码")
     @Column(name = "coin_code")
     private String coinCode;
 
-    @ApiModelProperty("币种名称")
+    @ApiModelProperty("数字货币名称")
     @Column(name = "coin_name")
     private String coinName;
 
-    @ApiModelProperty("币种单位")
+    @ApiModelProperty("数字货币单位")
     @Column(name = "coin_unit")
     private String coinUnit;
 
@@ -49,7 +49,7 @@ public class Coin {
     @Column(name = "market_price")
     private BigDecimal marketPrice;
 
-    @ApiModelProperty("币种交易手续费比例")
+    @ApiModelProperty("数字货币交易手续费比例")
     @Column(name = "coin_rate")
     private BigDecimal coinRate;
 

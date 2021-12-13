@@ -26,7 +26,7 @@ public class AddAccountForClientReqDTO {
     @ApiModelProperty("用户名称")
     private String username;
 
-    @ApiModelProperty("币种编码")
+    @ApiModelProperty("数字货币编码")
     private String coinCode;
 
     @ApiModelProperty("可用金额")

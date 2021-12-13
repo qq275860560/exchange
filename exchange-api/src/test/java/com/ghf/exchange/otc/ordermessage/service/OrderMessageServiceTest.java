@@ -83,7 +83,7 @@ public class OrderMessageServiceTest {
         userService.login(LoginReqDTO.builder().username(Constants.ADMIN_USER_NAME).password(Constants.ADMIN_PASSWORD).build());
         orderService.deleteAllOrderForAdmin();
         advertisService.deleteAllAdvertiseForAdmin();
-        //获取币种信息
+        //获取数字货币信息
         GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO = new GetCoinByCoinCodeReqDTO();
         getCoinByCoinCodeReqDTO.setCoinCode("BTC");
         CoinRespDTO coinRespDTO = coinService.getCoinByCoinCode(getCoinByCoinCodeReqDTO).getData();

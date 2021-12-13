@@ -305,7 +305,7 @@ public class AdvertiseServiceImpl extends BaseServiceImpl<Advertise, Long> imple
         advertise.setAdvertiseLegalCurrencySymbol(advertiseBusinessRespDTO.getCountryCode());
         advertise.setAdvertiseLegalCurrencyUnit(advertiseBusinessRespDTO.getLegalCurrencyUnit());
 
-        //设置币种信息
+        //设置数字货币信息
         GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO = new GetCoinByCoinCodeReqDTO();
         String advertiseCoinCode = addAdvertiseReqDTO.getAdvertiseCoinCode();
         getCoinByCoinCodeReqDTO.setCoinCode(advertiseCoinCode);
@@ -433,7 +433,7 @@ public class AdvertiseServiceImpl extends BaseServiceImpl<Advertise, Long> imple
         afterAdvertise.setAdvertiseLegalCurrencySymbol(advertiseBusinessRespDTO.getCountryCode());
         afterAdvertise.setAdvertiseLegalCurrencyUnit(advertiseBusinessRespDTO.getLegalCurrencyUnit());
 
-        //设置币种信息
+        //设置数字货币信息
         GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO = new GetCoinByCoinCodeReqDTO();
         String advertiseCoinCode = putOnShelvesReqDTO.getAdvertiseCoinCode();
         getCoinByCoinCodeReqDTO.setCoinCode(advertiseCoinCode);
@@ -448,7 +448,7 @@ public class AdvertiseServiceImpl extends BaseServiceImpl<Advertise, Long> imple
         afterAdvertise.setAdvertiseCoinUnit(coinRespDTO.getCoinUnit());
         afterAdvertise.setAdvertiseCoinRate(coinRespDTO.getCoinRate());
 
-        //判断库存数量是否满足币种要求
+        //判断库存数量是否满足数字货币要求
         if (putOnShelvesReqDTO.getAdvertiseAvailableAmount().compareTo(coinRespDTO.getPerAdvertiseMinAmount()) < 0 || putOnShelvesReqDTO.getAdvertiseAvailableAmount().compareTo(coinRespDTO.getPerAdvertiseMaxAmount()) > 0) {
             return new Result<>(ResultCodeEnum.ADVERTISE_AVAILABLE_AMOUNT_ERROR);
         }
@@ -640,12 +640,12 @@ public class AdvertiseServiceImpl extends BaseServiceImpl<Advertise, Long> imple
             return new Result<>(ResultCodeEnum.ADVERTISE_FROZEN_AMOUNT_IS_NOT_ZERO);
         }
 
-        //获取币种信息
+        //获取数字货币信息
         GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO = new GetCoinByCoinCodeReqDTO();
         getCoinByCoinCodeReqDTO.setCoinCode(advertiseRespDTO.getAdvertiseCoinCode());
         CoinRespDTO coinRespDTO = coinService.getCoinByCoinCode(getCoinByCoinCodeReqDTO).getData();
 
-        //可用库存数量小于币种最小交易限制才允许被下架
+        //可用库存数量小于数字货币最小交易限制才允许被下架
         if (afterAdvertise.getAdvertiseAvailableAmount().compareTo(coinRespDTO.getPerAdvertiseMinAmount()) >= 0) {
             return new Result<>(ResultCodeEnum.ADVERTISE_AVAILABLE_AMOUNT_LEGAL);
         }

@@ -324,9 +324,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
             return new Result<>(ResultCodeEnum.ORDER_SOURCE_NOT_EXISTS);
         }
 
-        //确定币种编码
+        //确定数字货币编码
         String orderCoinCode = null;
-        //广告区选中下单,币种编码来自广告
+        //广告区选中下单,数字货币编码来自广告
         if (orderSource == OrderSourceEnum.ADVERTISE_SELECT.getCode()) {
             //获取广告
             String advertiseCode = addOrderReqDTO.getAdvertiseCode();
@@ -335,7 +335,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
             AdvertiseRespDTO advertiseRespDTO = advertiseService.getAdvertiseByAdvertiseCode(getAdvertiseByCodeReqDTO).getData();
             orderCoinCode = advertiseRespDTO.getAdvertiseCoinCode();
         }
-        //快捷区一键匹配下单，币种编码来自输入
+        //快捷区一键匹配下单，数字货币编码来自输入
         else {
 
             orderCoinCode = addOrderReqDTO.getOrderCoinCode();
@@ -344,7 +344,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
             }
         }
 
-        //获取币种信息
+        //获取数字货币信息
         GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO = new GetCoinByCoinCodeReqDTO();
         getCoinByCoinCodeReqDTO.setCoinCode(orderCoinCode);
         CoinRespDTO coinRespDTO = coinService.getCoinByCoinCode(getCoinByCoinCodeReqDTO).getData();
@@ -458,7 +458,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
         order.setOrderSource(orderSource);
         //设置订单买卖类型
         order.setOrderBuySellType(orderBuySellType);
-        //设置币种编码
+        //设置数字货币编码
         order.setOrderCoinCode(orderCoinCode);
         order.setOrderCoinName(coinRespDTO.getCoinName());
         order.setOrderCoinUnit(coinRespDTO.getCoinUnit());
@@ -469,7 +469,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
         order.setOrderPrice(orderPrice);
         //设置订单成交总价
         order.setOrderTotalPrice(order.getOrderPrice().multiply(order.getOrderAmount()));
-        //订单类型为卖出币种时，要判断订单顾客的余额是否充足,如果充足则需要冻结订单顾客余额
+        //订单类型为卖出数字货币时，要判断订单顾客的余额是否充足,如果充足则需要冻结订单顾客余额
 
         //TODO 当前默认为美元
         //TODO 用户所在国家支持的法币列表和广告支持的法币做交集，存在则认为有权限交易

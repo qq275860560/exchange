@@ -26,7 +26,7 @@ public class PagePaymentForAdminReqDTO extends PageReqDTO {
 
     private int paymentType;
 
-    @ApiModelProperty("收款的登陆用户名,用户英文名称，用户编码")
+    @ApiModelProperty("收付款的登陆用户名,用户英文名称，用户编码")
 
     private String username;
 }
