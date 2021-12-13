@@ -57,10 +57,10 @@ public class TaskLogController {
         return taskLogService.existsTaskLogByTasklogname(getTaskLogByTasklognameReqDTO);
     }
 
-    @ApiOperation(value = "新建任务日志", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/role/addTaskLog")
+    @ApiOperation(value = "微服务客户端新建任务日志", notes = "<p></p>", httpMethod = "POST")
+    @PostMapping(value = "/api/role/addTaskLogForClient")
     @SneakyThrows
-    public Result<Void> addTaskLog(@RequestBody AddTaskLogReqDTO addTaskLogReqDTO) {
-        return taskLogService.addTaskLog(addTaskLogReqDTO);
+    public Result<Void> addTaskLogForClient(@RequestBody AddTaskLogForClientReqDTO addTaskLogForClientReqDTO) {
+        return taskLogService.addTaskLogForClient(addTaskLogForClientReqDTO);
     }
 }

@@ -29,49 +29,49 @@ public class TaskController {
     @Resource
     private TaskService taskService;
 
-    @ApiOperation(value = "分页搜索任务", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "分页搜索定时任务", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/task/pageTask")
     @SneakyThrows
     public Result<PageRespDTO<TaskRespDTO>> pageTask(@RequestBody PageTaskReqDTO pageTaskReqDTO) {
         return taskService.pageTask(pageTaskReqDTO);
     }
 
-    @ApiOperation(value = "列出任务", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "列出定时任务", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/task/listTask")
     @SneakyThrows
     public Result<List<TaskRespDTO>> listTask(@RequestBody ListTaskReqDTO listTaskReqDTO) {
         return taskService.listTask(listTaskReqDTO);
     }
 
-    @ApiOperation(value = "根据任务名称获取任务详情", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "根据任务名称获取定时任务详情", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/task/getTaskByTaskname")
     @SneakyThrows
     public Result<TaskRespDTO> getTaskByTaskname(@RequestBody GetTaskByTasknameReqDTO getTaskByTasknameReqDTO) {
         return taskService.getTaskByTaskname(getTaskByTasknameReqDTO);
     }
 
-    @ApiOperation(value = "根据任务名称判断任务是否存在", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "根据任务名称判断定时任务是否存在", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/task/existsTaskByTaskname")
     @SneakyThrows
     public Result<Boolean> existsTaskByTaskname(@RequestBody GetTaskByTasknameReqDTO getTaskByTasknameReqDTO) {
         return taskService.existsTaskByTaskname(getTaskByTasknameReqDTO);
     }
 
-    @ApiOperation(value = "新建任务", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/task/addTask")
+    @ApiOperation(value = "微服务客户端新建定时任务", notes = "<p></p>", httpMethod = "POST")
+    @PostMapping(value = "/api/task/addTaskForClient")
     @SneakyThrows
-    public Result<Void> addTask(@RequestBody AddTaskReqDTO addTaskReqDTO) {
-        return taskService.addTask(addTaskReqDTO);
+    public Result<Void> addTasForClientk(@RequestBody AddTaskForClientReqDTO addTaskForClientReqDTO) {
+        return taskService.addTaskForClient(addTaskForClientReqDTO);
     }
 
-    @ApiOperation(value = "更新任务", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/task/updateTaskByTaskname")
+    @ApiOperation(value = "微服务客户端更新定时任务", notes = "<p></p>", httpMethod = "POST")
+    @PostMapping(value = "/api/task/updateTaskByTasknameForClient")
     @SneakyThrows
-    public Result<Void> updateTaskByTaskname(@RequestBody UpdateTaskByTasknameReqDTO updateTaskByTasknameReqDTO) {
-        return taskService.updateTaskByTaskname(updateTaskByTasknameReqDTO);
+    public Result<Void> updateTaskByTasknameForClient(@RequestBody UpdateTaskByTasknameForClientReqDTO updateTaskByTasknameForClientReqDTO) {
+        return taskService.updateTaskByTasknameForClient(updateTaskByTasknameForClientReqDTO);
     }
 
-    @ApiOperation(value = "删除任务", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "删除定时任务", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/task/deleteTask")
     @SneakyThrows
     public Result<Void> deleteTask(@RequestBody GetTaskByTasknameReqDTO getTaskByTasknameReqDTO) {

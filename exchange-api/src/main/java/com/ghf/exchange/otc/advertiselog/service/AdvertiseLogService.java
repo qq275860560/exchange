@@ -2,7 +2,7 @@ package com.ghf.exchange.otc.advertiselog.service;
 
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
-import com.ghf.exchange.otc.advertiselog.dto.AddAdvertiseLogReqDTO;
+import com.ghf.exchange.otc.advertiselog.dto.AddAdvertiseLogForClientReqDTO;
 import com.ghf.exchange.otc.advertiselog.dto.AdvertiseLogRespDTO;
 import com.ghf.exchange.otc.advertiselog.dto.GetAdvertiseLogByAdvertiseLogCodeReqDTO;
 import com.ghf.exchange.otc.advertiselog.dto.PageAdvertiseLogReqDTO;
@@ -39,11 +39,11 @@ public interface AdvertiseLogService extends BaseService<AdvertiseLog, Long> {
     Result<Boolean> existsAdvertiseLogByAdvertiseLogCode(GetAdvertiseLogByAdvertiseLogCodeReqDTO getAdvertiseLogByAdvertiseLogCodeReqDTO);
 
     /**
-     * 新建广告日志
+     * 微服务客户端新建广告日志
      *
-     * @param addAdvertiseLogReqDTO
+     * @param addAdvertiseLogForClientReqDTO
      * @return
      */
-    Result<Void> addAdvertiseLog(AddAdvertiseLogReqDTO addAdvertiseLogReqDTO);
+    Result<Void> addAdvertiseLogForClient(AddAdvertiseLogForClientReqDTO addAdvertiseLogForClientReqDTO);
 
 }

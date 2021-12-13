@@ -44,6 +44,10 @@ public class Task {
     @Column(name = "tasktype")
     private int tasktype;
 
+    @ApiModelProperty("任务调用类型,0:远程调用，需要设置http请求链接，请求方法，请求头部，请求体json字符串,1:本地调用,需要设置spring容器中的类全名，方法名称，方法输入参数DTO类型全名(只支持一个DTO)，方法输入参数DTO对应的json字符串")
+    @Column(name = "task_invoke_type")
+    private int taskInvokeType;
+
     @ApiModelProperty("重复次数，默认为0,表示任务只执行一次就完成，即使当前时间还未到end_at，任务也完成了")
     @Column(name = "task_repeat_count")
     private int taskRepeatCount;
@@ -83,6 +87,19 @@ public class Task {
     @ApiModelProperty("请求参数json,请求体内容")
     @Column(name = "input_json")
     private String inputJson;
+
+    @ApiModelProperty("类全名")
+    @Column(name = "task_class_name")
+    private String taskClassName;
+    @ApiModelProperty("方法名称")
+    @Column(name = "task_method_name")
+    private String taskMethodName;
+    @ApiModelProperty("方法输入参数DTO类型全名(只支持一个DTO)")
+    @Column(name = "task_parameter_class_name")
+    private String taskParameterClassName;
+    @ApiModelProperty("方法输入参数DTO对应的json字符串")
+    @Column(name = "task_parameter_json")
+    private String taskParameterJson;
 
     @ApiModelProperty("状态,0:暂停中,1:运行中,2:已完成")
     @Column(name = "status")

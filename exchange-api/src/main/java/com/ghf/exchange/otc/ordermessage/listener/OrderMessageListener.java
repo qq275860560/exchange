@@ -2,7 +2,7 @@ package com.ghf.exchange.otc.ordermessage.listener;
 
 import com.ghf.exchange.boss.authorication.client.service.ClientService;
 import com.ghf.exchange.boss.authorication.user.service.UserService;
-import com.ghf.exchange.otc.ordermessage.entity.OrderMessage;
+import com.ghf.exchange.otc.ordermessage.dto.OrderMessageRespDTO;
 import com.ghf.exchange.otc.ordermessage.enums.OrderMessageRedisKeyEnum;
 import com.ghf.exchange.otc.ordermessage.event.AddOrderMessageEvent;
 import com.ghf.exchange.otc.ordermessage.event.WebSocketConnectEvent;
@@ -10,9 +10,9 @@ import com.ghf.exchange.otc.ordermessage.event.WebSocketDisConnectEvent;
 import com.ghf.exchange.otc.ordermessage.event.WebSocketHeartBeatEvent;
 import com.ghf.exchange.otc.ordermessage.service.OrderMessageService;
 import com.ghf.exchange.util.JsonUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
@@ -41,12 +41,6 @@ public class OrderMessageListener {
     @Lazy
     @Resource
     private OrderMessageService orderMessageService;
-
-    @Value("${security.oauth2.client.client-id}")
-    public String clientId;
-
-    @Value("${security.oauth2.client.client-secret}")
-    public String secret;
 
     @Resource
     private RedisTemplate redisTemplate;
@@ -98,9 +92,9 @@ public class OrderMessageListener {
     @EventListener
     public void onAddOrderMessageEvent(AddOrderMessageEvent event) {
         //log.info("接收到消息={}", JsonUtil.toJsonString(event.getSource()));
-        OrderMessage orderMessage = (OrderMessage) event.getSource();
+        OrderMessageRespDTO orderMessageRespDTO = ModelMapperUtil.map(event, OrderMessageRespDTO.class);
         //转发到分布式消息队列
-        redisTemplate.convertAndSend(OrderMessageRedisKeyEnum.ORDER_MESSAGE_QUEUE.getCode(), orderMessage);
+        redisTemplate.convertAndSend(OrderMessageRedisKeyEnum.ORDER_MESSAGE_QUEUE.getCode(), orderMessageRespDTO);
     }
 
     /**
@@ -111,11 +105,11 @@ public class OrderMessageListener {
     @Bean
     public MessageListener messageListener() {
         return (message, pattern) -> {
-            OrderMessage orderMessage = JsonUtil.parse(message.getBody(), OrderMessage.class);
-            simpMessagingTemplate.convertAndSendToUser(orderMessage.getOrderMessageReceiverUsername(), "/queue/notifications",
-                    orderMessage);
-            simpMessagingTemplate.convertAndSendToUser(orderMessage.getOrderMessageSenderUsername(), "/queue/notifications",
-                    orderMessage);
+            OrderMessageRespDTO orderMessageRespDTO = JsonUtil.parse(message.getBody(), OrderMessageRespDTO.class);
+            simpMessagingTemplate.convertAndSendToUser(orderMessageRespDTO.getOrderMessageReceiverUsername(), "/queue/notifications",
+                    orderMessageRespDTO);
+            simpMessagingTemplate.convertAndSendToUser(orderMessageRespDTO.getOrderMessageSenderUsername(), "/queue/notifications",
+                    orderMessageRespDTO);
 
         };
     }

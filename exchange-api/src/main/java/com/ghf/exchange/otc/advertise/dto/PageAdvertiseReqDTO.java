@@ -23,16 +23,19 @@ import lombok.extern.slf4j.Slf4j;
 public class PageAdvertiseReqDTO extends PageReqDTO {
 
     @ApiModelProperty("广告编码，唯一")
-    private String advertiseCode;
+    private String advertiseCode = "";
 
     @ApiModelProperty("买卖类型,1:买币,2:卖币")
     private int advertiseBuySellType;
 
     @ApiModelProperty("币种编码")
-    private String advertiseCoinCode;
+    private String advertiseCoinCode = "";
+
+    @ApiModelProperty("法币符号")
+    private String advertiseLegalCurrencySymbol = "";
 
     @ApiModelProperty("广告商家的登陆用户名,用户英文名称，用户编码")
-    private String advertiseBusinessUsername;
+    private String advertiseBusinessUsername = "";
 
     @ApiModelProperty("状态,1:上架,2:下架,3:删除")
     private int status;

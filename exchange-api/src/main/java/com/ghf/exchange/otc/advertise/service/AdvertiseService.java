@@ -68,6 +68,14 @@ public interface AdvertiseService extends BaseService<Advertise, Long> {
     Result<Void> putOffShelves(PutOffShelvesReqDTO putOffShelvesReqDTO);
 
     /**
+     * 微服务客户端下架广告，比如库存数量为小于最小交易量并且冻结的库存数量为0时
+     *
+     * @param putOffShelvesForClientReqDTO
+     * @return
+     */
+    Result<Void> putOffShelvesForClient(PutOffShelvesForClientReqDTO putOffShelvesForClientReqDTO);
+
+    /**
      * 删除广告
      *
      * @param deleteAdvertiseReqDTO
@@ -76,7 +84,7 @@ public interface AdvertiseService extends BaseService<Advertise, Long> {
     Result<Void> deleteAdvertise(DeleteAdvertiseReqDTO deleteAdvertiseReqDTO);
 
     /**
-     * 冻结广告数量，比如：新建买币订单时
+     * 冻结广告库存数量，比如：新建买币订单时
      *
      * @param freezeAdvertiseAmountReqDTO
      * @return
@@ -84,7 +92,7 @@ public interface AdvertiseService extends BaseService<Advertise, Long> {
     Result<Void> freezeAdvertiseAmount(FreezeAdvertiseAmountReqDTO freezeAdvertiseAmountReqDTO);
 
     /**
-     * 解冻广告数量，比如：取消买币订单时
+     * 解冻广告库存数量，比如：取消买币订单时
      *
      * @param unFreezeAdvertiseAmountReqDTO
      * @return
@@ -92,11 +100,19 @@ public interface AdvertiseService extends BaseService<Advertise, Long> {
     Result<Void> unFreezeAdvertiseAmount(UnFreezeAdvertiseAmountReqDTO unFreezeAdvertiseAmountReqDTO);
 
     /**
-     * 扣减广告冻结数量，比如：放行订单时
+     * 扣减广告冻结库存数量，比如：放行订单时
      *
      * @param decAdvertiseFrozenAmountReqDTO
      * @return
      */
     Result<Void> decAdvertiseFrozenAmount(DecAdvertiseFrozenAmountReqDTO decAdvertiseFrozenAmountReqDTO);
+
+    /**
+     * 管理员删除所有广告(测试环境使用)
+     *
+     * @param
+     * @return
+     */
+    Result<Void> deleteAllAdvertiseForAdmin();
 
 }

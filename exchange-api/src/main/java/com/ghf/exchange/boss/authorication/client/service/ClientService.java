@@ -110,6 +110,14 @@ public interface ClientService extends BaseService<Client, Long> {
     Result<LoginClientRespDTO> loginClient(LoginClientReqDTO loginReqDTO);
 
     /**
+     * 根据客户端id判断客户端是否登录
+     *
+     * @param clientIsLoginReqDTO
+     * @return
+     */
+    Result<Boolean> clientIsLogin(ClientIsLoginReqDTO clientIsLoginReqDTO);
+
+    /**
      * 保存客户端
      *
      * @param addClientReqDTO

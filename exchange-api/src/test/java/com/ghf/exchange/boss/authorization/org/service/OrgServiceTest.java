@@ -14,7 +14,7 @@ import com.ghf.exchange.boss.common.area.dto.GetAreaByAreanameReqDTO;
 import com.ghf.exchange.boss.common.area.service.AreaService;
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
-import com.ghf.exchange.util.AutoMapUtils;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -68,7 +68,7 @@ public class OrgServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddOrgReqDTO addOrgReqDTO = new AddOrgReqDTO();
-        addOrgReqDTO.setOrgname("test-addOrg-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addOrgReqDTO.setOrgname("test-addOrg-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addOrgReqDTO.setRolenameSet(new HashSet<String>() {{
             add("ROLE_PROVINCE");
@@ -148,7 +148,7 @@ public class OrgServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddOrgReqDTO addOrgReqDTO = new AddOrgReqDTO();
-        addOrgReqDTO.setOrgname("test-updateOrg-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addOrgReqDTO.setOrgname("test-updateOrg-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addOrgReqDTO.setRolenameSet(new HashSet<String>() {{
             add("ROLE_PROVINCE");
@@ -160,7 +160,7 @@ public class OrgServiceTest {
 
         String orgname = addOrgReqDTO.getOrgname();
 
-        UpdateOrgByOrgnameReqDTO updateOrgReqDTO = AutoMapUtils.map(orgService.get(QOrg.org.orgname.eq(orgname)), UpdateOrgByOrgnameReqDTO.class);
+        UpdateOrgByOrgnameReqDTO updateOrgReqDTO = ModelMapperUtil.map(orgService.get(QOrg.org.orgname.eq(orgname)), UpdateOrgByOrgnameReqDTO.class);
         updateOrgReqDTO.setRolenameSet(new HashSet<String>() {{
             add("ROLE_PROVINCE");
         }});
@@ -202,7 +202,7 @@ public class OrgServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddOrgReqDTO addOrgReqDTO = new AddOrgReqDTO();
-        addOrgReqDTO.setOrgname("test-updateOrg2-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addOrgReqDTO.setOrgname("test-updateOrg2-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addOrgReqDTO.setRolenameSet(new HashSet<String>() {{
             add("ROLE_PROVINCE");
@@ -214,7 +214,7 @@ public class OrgServiceTest {
 
         String orgname = addOrgReqDTO.getOrgname();
 
-        UpdateOrgByOrgnameReqDTO updateOrgReqDTO = AutoMapUtils.map(orgService.get(QOrg.org.orgname.eq(orgname)), UpdateOrgByOrgnameReqDTO.class);
+        UpdateOrgByOrgnameReqDTO updateOrgReqDTO = ModelMapperUtil.map(orgService.get(QOrg.org.orgname.eq(orgname)), UpdateOrgByOrgnameReqDTO.class);
         updateOrgReqDTO.setRolenameSet(new HashSet<String>() {{
             add("ROLE_PROVINCE");
             add("ROLE_CITY");
@@ -257,7 +257,7 @@ public class OrgServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddOrgReqDTO addOrgReqDTO = new AddOrgReqDTO();
-        addOrgReqDTO.setOrgname("test-updateOrg3-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addOrgReqDTO.setOrgname("test-updateOrg3-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addOrgReqDTO.setRolenameSet(new HashSet<String>() {{
             add("ROLE_PROVINCE");
@@ -269,7 +269,7 @@ public class OrgServiceTest {
 
         String orgname = addOrgReqDTO.getOrgname();
 
-        UpdateOrgByOrgnameReqDTO updateOrgReqDTO = AutoMapUtils.map(orgService.get(QOrg.org.orgname.eq(orgname)), UpdateOrgByOrgnameReqDTO.class);
+        UpdateOrgByOrgnameReqDTO updateOrgReqDTO = ModelMapperUtil.map(orgService.get(QOrg.org.orgname.eq(orgname)), UpdateOrgByOrgnameReqDTO.class);
         updateOrgReqDTO.setRolenameSet(new HashSet<String>() {{
             add("ROLE_PROVINCE");
             add("ROLE_CITY");
@@ -312,7 +312,7 @@ public class OrgServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddOrgReqDTO addOrgReqDTO = new AddOrgReqDTO();
-        addOrgReqDTO.setOrgname("test-pageOrg-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addOrgReqDTO.setOrgname("test-pageOrg-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addOrgReqDTO.setRolenameSet(new HashSet<String>() {{
             add("ROLE_PROVINCE");
@@ -445,7 +445,7 @@ public class OrgServiceTest {
         getOrgByOrgnameReqDTO.setOrgname(orgname);
         OrgRespDTO orgOutput = orgService.getOrgByOrgname(getOrgByOrgnameReqDTO).getData();
 
-        UpdateOrgByOrgnameReqDTO updateOrgByOrgnameReqDTO = AutoMapUtils.map(orgOutput, UpdateOrgByOrgnameReqDTO.class);
+        UpdateOrgByOrgnameReqDTO updateOrgByOrgnameReqDTO = ModelMapperUtil.map(orgOutput, UpdateOrgByOrgnameReqDTO.class);
         orgService.updateOrgByOrgname(updateOrgByOrgnameReqDTO);
         TimeUnit.SECONDS.sleep(720);
 
@@ -459,7 +459,7 @@ public class OrgServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddOrgReqDTO addOrgReqDTO = new AddOrgReqDTO();
-        addOrgReqDTO.setOrgname("test-addOrg-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addOrgReqDTO.setOrgname("test-addOrg-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addOrgReqDTO.setRolenameSet(new HashSet<String>() {{
             add("ROLE_PROVINCE");

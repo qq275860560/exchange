@@ -14,8 +14,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
@@ -114,13 +114,20 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, Long> implements 
     public Result<ClientRespDTO> getCurrentLoginClient() {
 
         OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        if (oAuth2Authentication == null) {
+            return new Result<>(ClientRespDTO.builder().build());
+        }
+        if (oAuth2Authentication.getOAuth2Request() == null) {
+            return new Result<>(ClientRespDTO.builder().build());
+        }
+
         //获取登陆客户端id
         String clientId = oAuth2Authentication.getOAuth2Request().getClientId();
 
         Predicate predicate = QClient.client.clientId.eq(clientId);
         Client client = this.get(predicate);
         //返回
-        ClientRespDTO clientRespDTO = AutoMapUtils.map(client, ClientRespDTO.class);
+        ClientRespDTO clientRespDTO = ModelMapperUtil.map(client, ClientRespDTO.class);
         if (!ObjectUtils.isEmpty(clientRespDTO.getScopes())) {
             clientRespDTO.setScopeSet(Arrays.stream(clientRespDTO.getScopes().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
         }
@@ -137,7 +144,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, Long> implements 
         Predicate predicate = QClient.client.clientId.eq(clientId);
         Client client = this.get(predicate);
         //返回
-        ClientRespDTO clientRespDTO = AutoMapUtils.map(client, ClientRespDTO.class);
+        ClientRespDTO clientRespDTO = ModelMapperUtil.map(client, ClientRespDTO.class);
         if (!ObjectUtils.isEmpty(clientRespDTO.getScopes())) {
             clientRespDTO.setScopeSet(Arrays.stream(clientRespDTO.getScopes().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
         }
@@ -235,7 +242,7 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, Long> implements 
         applicationEventPublisher.publishEvent(new LoginEvent(loginClientReqDTO));
 
         //TODO封装返回对象，包括个人信息菜单按钮请求url权限
-        LoginClientRespDTO loginRespDTO = AutoMapUtils.map(client, LoginClientRespDTO.class);
+        LoginClientRespDTO loginRespDTO = ModelMapperUtil.map(client, LoginClientRespDTO.class);
         loginRespDTO.setAccessToken(oAuth2AccessToken.getValue());
         loginRespDTO.setTokenType(oAuth2AccessToken.getTokenType());
 
@@ -249,11 +256,27 @@ public class ClientServiceImpl extends BaseServiceImpl<Client, Long> implements 
 
     }
 
+    @Override
+    @SneakyThrows
+    public Result<Boolean> clientIsLogin(ClientIsLoginReqDTO clientIsLoginReqDTO) {
+        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        if (oAuth2Authentication == null) {
+            return new Result<>(false);
+        }
+        if (oAuth2Authentication.getOAuth2Request() == null) {
+            return new Result<>(false);
+        }
+        if (!clientIsLoginReqDTO.getClientId().equals(oAuth2Authentication.getOAuth2Request().getClientId())) {
+            return new Result<>(false);
+        }
+        return new Result<>(true);
+    }
+
     @CacheEvict(cacheNames = "Client", allEntries = true)
     @Override
     @SneakyThrows
     public Result<Void> addClient(AddClientReqDTO addClientReqDTO) {
-        Client client = AutoMapUtils.map(addClientReqDTO, Client.class);
+        Client client = ModelMapperUtil.map(addClientReqDTO, Client.class);
         //获取当前登陆用户详情
 
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();

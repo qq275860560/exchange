@@ -1,29 +1,28 @@
 package com.ghf.exchange.otc.orderlog.service.impl;
 
 import com.ghf.exchange.boss.authorication.client.dto.ClientRespDTO;
-import com.ghf.exchange.boss.authorication.client.enums.ClientScopeEnum;
 import com.ghf.exchange.boss.authorication.client.service.ClientService;
 import com.ghf.exchange.boss.authorication.user.service.UserService;
+import com.ghf.exchange.boss.authorication.user.util.IpUtil;
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
-import com.ghf.exchange.otc.orderlog.dto.AddOrderLogReqDTO;
+import com.ghf.exchange.otc.orderlog.dto.AddOrderLogForClientReqDTO;
 import com.ghf.exchange.otc.orderlog.dto.GetOrderLogByOrderLogCodeReqDTO;
 import com.ghf.exchange.otc.orderlog.dto.OrderLogRespDTO;
 import com.ghf.exchange.otc.orderlog.dto.PageOrderLogReqDTO;
 import com.ghf.exchange.otc.orderlog.entity.OrderLog;
 import com.ghf.exchange.otc.orderlog.entity.QOrderLog;
-import com.ghf.exchange.otc.orderlog.event.AddOrderLogEvent;
+import com.ghf.exchange.otc.orderlog.event.AddOrderLogForClientEvent;
 import com.ghf.exchange.otc.orderlog.repository.OrderLogRepository;
 import com.ghf.exchange.otc.orderlog.service.OrderLogService;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -50,12 +49,6 @@ public class OrderLogServiceImpl extends BaseServiceImpl<OrderLog, Long> impleme
     @Lazy
     @Resource
     private OrderLogService orderLogService;
-
-    @Value("${security.oauth2.client.client-id}")
-    public String clientId;
-
-    @Value("${security.oauth2.client.client-secret}")
-    public String secret;
 
     @Lazy
     @Resource
@@ -88,7 +81,7 @@ public class OrderLogServiceImpl extends BaseServiceImpl<OrderLog, Long> impleme
         Predicate predicate = QOrderLog.orderLog.orderLogCode.eq(orderLogCode);
         OrderLog orderLog = orderLogService.get(predicate);
         //返回
-        OrderLogRespDTO orderLogRespDTO = AutoMapUtils.map(orderLog, OrderLogRespDTO.class);
+        OrderLogRespDTO orderLogRespDTO = ModelMapperUtil.map(orderLog, OrderLogRespDTO.class);
         return new Result<>(orderLogRespDTO);
     }
 
@@ -105,37 +98,25 @@ public class OrderLogServiceImpl extends BaseServiceImpl<OrderLog, Long> impleme
     @Transactional
     @Override
     @SneakyThrows
-    public Result<Void> addOrderLog(AddOrderLogReqDTO addOrderLogReqDTO) {
-        OrderLog orderLog = AutoMapUtils.map(addOrderLogReqDTO, OrderLog.class);
+    public Result<Void> addOrderLogForClient(AddOrderLogForClientReqDTO addOrderLogForClientReqDTO) {
+        OrderLog orderLog = ModelMapperUtil.map(addOrderLogForClientReqDTO, OrderLog.class);
 
-        //默认无权限
-        boolean flag = false;
         //获取当前登陆客户端详情
         ClientRespDTO currentLoginClient = clientService.getCurrentLoginClient().getData();
-
-        if (currentLoginClient.getScopes().contains(ClientScopeEnum.SERVER.getCode())) {
-            //如果是内部后端服务器，才有权限调用该接口
-            flag = true;
-        }
-
-        if (!flag) {
-            //无权限取消订单，直接返回403
-            return new Result<>(ResultCodeEnum.FORBIDDEN);
-        }
 
         //初始化id
         orderLog.setId(IdUtil.generateLongId());
         //判断广告编号
-        if (!ObjectUtils.isEmpty(addOrderLogReqDTO.getOrderLogCode())) {
+        if (!ObjectUtils.isEmpty(addOrderLogForClientReqDTO.getOrderLogCode())) {
             //判断唯一性
-            String orderLogCode = addOrderLogReqDTO.getOrderLogCode();
+            String orderLogCode = addOrderLogForClientReqDTO.getOrderLogCode();
             GetOrderLogByOrderLogCodeReqDTO getOrderLogByOrderLogCodeReqDTO = new GetOrderLogByOrderLogCodeReqDTO();
             getOrderLogByOrderLogCodeReqDTO.setOrderLogCode(orderLogCode);
             boolean b = orderLogService.existsOrderLogByOrderLogCode(getOrderLogByOrderLogCodeReqDTO).getData();
             if (b) {
                 return new Result<>(ResultCodeEnum.ORDER_LOG_EXISTS);
             }
-            orderLog.setOrderLogCode(addOrderLogReqDTO.getOrderLogCode());
+            orderLog.setOrderLogCode(addOrderLogForClientReqDTO.getOrderLogCode());
         } else {
             //自动生成广告日志编号
             orderLog.setOrderLogCode(orderLog.getId() + "");
@@ -146,7 +127,15 @@ public class OrderLogServiceImpl extends BaseServiceImpl<OrderLog, Long> impleme
         orderLogService.add(orderLog);
 
         //发送到消息队列
-        applicationEventPublisher.publishEvent(new AddOrderLogEvent(addOrderLogReqDTO));
+        AddOrderLogForClientEvent addOrderLogForClientEvent = new AddOrderLogForClientEvent();
+        addOrderLogForClientEvent.setOrderLogCode(orderLog.getOrderLogCode());
+        addOrderLogForClientEvent.setOrderCode(orderLog.getOrderCode());
+        addOrderLogForClientEvent.setOrderLogType(orderLog.getOrderLogType());
+        addOrderLogForClientEvent.setOrderLogClientId(orderLog.getOrderLogClientId());
+        addOrderLogForClientEvent.setOrderLogUsername(orderLog.getOrderLogUsername());
+        addOrderLogForClientEvent.setCreateTime(new Date());
+        addOrderLogForClientEvent.setOrderLogIpAddr(IpUtil.getIpAddr());
+        applicationEventPublisher.publishEvent(addOrderLogForClientEvent);
 
         return new Result<>(ResultCodeEnum.OK);
     }

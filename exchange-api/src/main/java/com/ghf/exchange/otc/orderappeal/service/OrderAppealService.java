@@ -21,6 +21,14 @@ public interface OrderAppealService extends BaseService<OrderAppeal, Long> {
     Result<PageRespDTO<OrderAppealRespDTO>> pageOrderAppeal(PageOrderAppealReqDTO pageOrderAppealReqDTO);
 
     /**
+     * 管理员分页搜索申诉
+     *
+     * @param pageOrderAppealForAdminReqDTO
+     * @return
+     */
+    Result<PageRespDTO<OrderAppealRespDTO>> pageOrderAppealForAdmin(PageOrderAppealForAdminReqDTO pageOrderAppealForAdminReqDTO);
+
+    /**
      * 根据申诉编号获取申诉详情
      *
      * @param getOrderAppealByOrderAppealCodeReqDTO
@@ -45,11 +53,19 @@ public interface OrderAppealService extends BaseService<OrderAppeal, Long> {
     Result<Void> addOrderAppeal(AddOrderAppealReqDTO addOrderAppealReqDTO);
 
     /**
-     * 审核申诉
+     * 管理员审核申诉
      *
-     * @param auditOrderAppealReqDTO
+     * @param auditOrderAppealForAdminReqDTO
      * @return
      */
-    Result<Void> auditOrderAppeal(AuditOrderAppealReqDTO auditOrderAppealReqDTO);
+    Result<Void> auditOrderAppealForAdmin(AuditOrderAppealForAdminReqDTO auditOrderAppealForAdminReqDTO);
+
+    /**
+     * 取消申诉
+     *
+     * @param cancelOrderAppealReqDTO
+     * @return
+     */
+    Result<Void> cancelOrderAppeal(CancelOrderAppealReqDTO cancelOrderAppealReqDTO);
 
 }

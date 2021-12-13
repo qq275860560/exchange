@@ -16,8 +16,8 @@ import com.ghf.exchange.boss.common.validatecode.util.VerifyImageUtil;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
@@ -96,7 +96,7 @@ public class ValidateCodeServiceImpl extends BaseServiceImpl<ValidateCode, Long>
         //写入数据库或者缓存结束
 
         //返回
-        PictureValidateCodeRespDTO validateCodeRespDTO = AutoMapUtils.map(validateCode, PictureValidateCodeRespDTO.class);
+        PictureValidateCodeRespDTO validateCodeRespDTO = ModelMapperUtil.map(validateCode, PictureValidateCodeRespDTO.class);
         // 初始化RespDTO剩余字段
         validateCodeRespDTO.setImageBase64String(imageBase64String);
 
@@ -174,7 +174,7 @@ public class ValidateCodeServiceImpl extends BaseServiceImpl<ValidateCode, Long>
         //写入数据库或者缓存结束
 
         //返回
-        EmailValidateCodeRespDTO validateCodeRespDTO = AutoMapUtils.map(validateCode, EmailValidateCodeRespDTO.class);
+        EmailValidateCodeRespDTO validateCodeRespDTO = ModelMapperUtil.map(validateCode, EmailValidateCodeRespDTO.class);
         //TODO 发送短信
 
         return null;
@@ -250,7 +250,7 @@ public class ValidateCodeServiceImpl extends BaseServiceImpl<ValidateCode, Long>
         //写入数据库或者缓存结束
 
         //返回
-        EmailValidateCodeRespDTO validateCodeRespDTO = AutoMapUtils.map(validateCode, EmailValidateCodeRespDTO.class);
+        EmailValidateCodeRespDTO validateCodeRespDTO = ModelMapperUtil.map(validateCode, EmailValidateCodeRespDTO.class);
         //发送邮件
         return new Result<>(validateCodeRespDTO);
     }
@@ -343,7 +343,7 @@ public class ValidateCodeServiceImpl extends BaseServiceImpl<ValidateCode, Long>
         //写入数据库或者缓存结束
 
         //返回
-        SliderValidateCodeRespDTO sliderValidateCodeRespDTO = AutoMapUtils.map(validateCode, SliderValidateCodeRespDTO.class);
+        SliderValidateCodeRespDTO sliderValidateCodeRespDTO = ModelMapperUtil.map(validateCode, SliderValidateCodeRespDTO.class);
         // 初始化RespDTO剩余字段
         //大图
         sliderValidateCodeRespDTO.setBigImage(bigImageString);

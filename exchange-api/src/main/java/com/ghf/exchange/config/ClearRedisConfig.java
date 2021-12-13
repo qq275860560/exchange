@@ -27,7 +27,7 @@ public class ClearRedisConfig {
 
     public static final List<String> CACHE_KEY_PREFIX_LIST = Arrays.asList(
             "Client", "User", "Role", "Org", "Permission", "UserRole", "UserOrg", "OrgRole", "RolePermission"
-            , "Dict", "Area", "Advertise", "Order"
+            , "Dict", "Area", "Coin", "Account", "Advertise", "Order", "PaymentTermType"
     );
     @Resource
     private RedisTemplate redisTemplate;

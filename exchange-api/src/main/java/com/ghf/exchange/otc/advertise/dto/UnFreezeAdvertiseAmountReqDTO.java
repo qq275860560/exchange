@@ -26,7 +26,7 @@ public class UnFreezeAdvertiseAmountReqDTO {
     @ApiModelProperty("广告编码，唯一")
     private String advertiseCode;
 
-    @ApiModelProperty("数量")
+    @ApiModelProperty("库存数量")
     private BigDecimal advertiseAmount;
 
     @ApiModelProperty("备注")

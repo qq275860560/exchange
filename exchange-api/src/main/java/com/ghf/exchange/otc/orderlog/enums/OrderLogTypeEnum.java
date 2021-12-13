@@ -16,7 +16,10 @@ public enum OrderLogTypeEnum {
 
     RELEASE_ORDER(3, "放行"),
     CANCEL_ORDER(4, "取消"),
-    RECOVER_ORDER(4, "恢复"),
+    RECOVER_ORDER(5, "恢复"),
+
+    AGREE_UN_PAY_ORDER(6, "同意未付款申诉"),
+    AGREE_UN_RELEASE_ORDER(7, "同意未放行申诉"),
 
     ;
 

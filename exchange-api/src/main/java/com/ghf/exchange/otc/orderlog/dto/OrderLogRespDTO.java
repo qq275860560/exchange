@@ -37,7 +37,7 @@ public class OrderLogRespDTO {
 
     private String orderCode;
 
-    @ApiModelProperty("操作类型，1:下单,2:付款:3:放行,4:取消,5:恢复")
+    @ApiModelProperty("操作类型，1:下单,2:付款:3:放行,4:取消,5:恢复,6:同意未付款申诉,7:同意未放行申诉")
 
     private int orderLogType;
 

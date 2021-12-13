@@ -13,8 +13,8 @@ import com.ghf.exchange.dto.BaseIdDTO;
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
@@ -87,7 +87,7 @@ public class ResourceFileServiceImpl extends BaseServiceImpl<ResourceFile, Long>
         long id = getResourceFileReqDTO.getId();
         ResourceFile resourceFile = this.get(id);
         //返回
-        ResourceFileRespDTO resourceFileRespDTO = AutoMapUtils.map(resourceFile, ResourceFileRespDTO.class);
+        ResourceFileRespDTO resourceFileRespDTO = ModelMapperUtil.map(resourceFile, ResourceFileRespDTO.class);
         return new Result<>(resourceFileRespDTO);
     }
 
@@ -100,7 +100,7 @@ public class ResourceFileServiceImpl extends BaseServiceImpl<ResourceFile, Long>
         Predicate predicate = QResourceFile.resourceFile.md5.eq(md5).and(QResourceFile.resourceFile.name.eq(name));
         ResourceFile resourceFile = this.get(predicate);
         //返回
-        ResourceFileRespDTO resourceFileRespDTO = AutoMapUtils.map(resourceFile, ResourceFileRespDTO.class);
+        ResourceFileRespDTO resourceFileRespDTO = ModelMapperUtil.map(resourceFile, ResourceFileRespDTO.class);
         return new Result<>(resourceFileRespDTO);
     }
 
@@ -219,7 +219,7 @@ public class ResourceFileServiceImpl extends BaseServiceImpl<ResourceFile, Long>
         this.add(resourceFile);
 
         //返回
-        ResourceFileRespDTO resourceFileRespDTO = AutoMapUtils.map(resourceFile, ResourceFileRespDTO.class);
+        ResourceFileRespDTO resourceFileRespDTO = ModelMapperUtil.map(resourceFile, ResourceFileRespDTO.class);
         return new Result<>(resourceFileRespDTO);
 
     }
@@ -235,7 +235,7 @@ public class ResourceFileServiceImpl extends BaseServiceImpl<ResourceFile, Long>
         getResourceFileByMd5AndNameReqDTO.setMd5(md5);
         getResourceFileByMd5AndNameReqDTO.setName(oldName);
         ResourceFileRespDTO resourceFileRespDTO = this.getResourceFileByMd5AndName(getResourceFileByMd5AndNameReqDTO).getData();
-        ResourceFile resourceFile = AutoMapUtils.map(resourceFileRespDTO, ResourceFile.class);
+        ResourceFile resourceFile = ModelMapperUtil.map(resourceFileRespDTO, ResourceFile.class);
         resourceFile.setName(newName);
         resourceFile.setResourceUsage(resourceUsage);
         this.update(resourceFile);
@@ -243,7 +243,7 @@ public class ResourceFileServiceImpl extends BaseServiceImpl<ResourceFile, Long>
         //更新到数据库
         this.update(resourceFile);
         //返回
-        ResourceFileRespDTO resourceFileRespDTO2 = AutoMapUtils.map(resourceFile, ResourceFileRespDTO.class);
+        ResourceFileRespDTO resourceFileRespDTO2 = ModelMapperUtil.map(resourceFile, ResourceFileRespDTO.class);
         return new Result<>(resourceFileRespDTO2);
     }
 

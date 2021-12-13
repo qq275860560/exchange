@@ -27,6 +27,9 @@ public class IpUtil {
      */
     public static String getIpAddr() {
         final String unknown = "unknown";
+        if (RequestContextHolder.getRequestAttributes() == null) {
+            return unknown;
+        }
         HttpServletRequest request = ((ServletRequestAttributes)
                 RequestContextHolder.getRequestAttributes()).getRequest();
         if (request == null) {

@@ -1,11 +1,14 @@
 package com.ghf.exchange.boss.common.task.listener;
 
-import com.ghf.exchange.boss.authorication.client.service.ClientService;
-import com.ghf.exchange.boss.authorication.user.service.UserService;
-import com.ghf.exchange.otc.advertiselog.service.AdvertiseLogService;
+import com.ghf.exchange.boss.common.task.dto.AddTaskForClientReqDTO;
+import com.ghf.exchange.boss.common.task.service.TaskService;
+import com.ghf.exchange.otc.order.event.AddOrderEvent;
+import com.ghf.exchange.util.JsonUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,18 +23,17 @@ public class TaskListener {
 
     @Lazy
     @Resource
-    private UserService userService;
-    @Lazy
-    @Resource
-    private ClientService clientService;
-    @Lazy
-    @Resource
-    private AdvertiseLogService advertiseLogService;
+    private TaskService taskService;
 
-    @Value("${security.oauth2.client.client-id}")
-    public String clientId;
+    //TODO 也可以放入rabbitmq死信队列
+    @Async
+    @EventListener
+    public void onAddOrderEvent(AddOrderEvent event) {
+        log.info("接收到消息={}", JsonUtil.toJsonString(event));
+        AddTaskForClientReqDTO addTaskForClientReqDTO = ModelMapperUtil.map(event, AddTaskForClientReqDTO.class);
 
-    @Value("${security.oauth2.client.client-secret}")
-    public String secret;
+        taskService.addTaskForClient(addTaskForClientReqDTO);
+
+    }
 
 }

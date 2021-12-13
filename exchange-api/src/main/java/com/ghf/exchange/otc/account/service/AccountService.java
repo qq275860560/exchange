@@ -28,59 +28,61 @@ public interface AccountService extends BaseService<Account, Long> {
     Result<Boolean> existsAccountByUsernameAndCoinCode(GetAccountByUsernameAndCoinCodeReqDTO getAccountByUsernameAndCoinCodeReqDTO);
 
     /**
-     * 对账
+     * 微服务客户端对账(测试环境)
      *
      * @param
      * @return
      */
-    Result<Boolean> checkAccount();
+    Result<Boolean> checkAccountForClientForClient();
+
+    //TODO 创建用户时，批量创建币种账户
 
     /**
-     * 新建账户
+     * 微服务客户端新建账户
      *
-     * @param addAccountReqDTO
+     * @param addAccountForClientReqDTO
      * @return
      */
-    Result<Void> addAccount(AddAccountReqDTO addAccountReqDTO);
+    Result<Void> addAccountForClient(AddAccountForClientReqDTO addAccountForClientReqDTO);
 
     /**
-     * 冻结账户金额，比如：广告上架时
+     * 微服务客户端冻结账户金额，比如：广告上架时
      *
-     * @param freezeBalanceReqDTO
+     * @param freezeBalanceForClientReqDTO
      * @return
      */
-    Result<Void> freezeBalance(FreezeBalanceReqDTO freezeBalanceReqDTO);
+    Result<Void> freezeBalanceForClient(FreezeBalanceForClientReqDTO freezeBalanceForClientReqDTO);
 
     /**
-     * 解冻账户金额，比如：广告下架时
+     * 微服务客户端解冻账户金额，比如：广告下架时
      *
-     * @param unFreezeBalanceReqDTO
+     * @param unFreezeBalanceForClientReqDTO
      * @return
      */
-    Result<Void> unFreezeBalance(UnFreezeBalanceReqDTO unFreezeBalanceReqDTO);
+    Result<Void> unFreezeBalanceForClient(UnFreezeBalanceForClientReqDTO unFreezeBalanceForClientReqDTO);
 
     /**
-     * 扣减账户冻结余额，比如：放行订单时
+     * 微服务客户端扣减账户冻结余额，比如：放行订单时
      *
-     * @param decFrozenBalanceReqDTO
+     * @param decFrozenBalanceForClientReqDTO
      * @return
      */
-    Result<Void> decFrozenBalance(DecFrozenBalanceReqDTO decFrozenBalanceReqDTO);
+    Result<Void> decFrozenBalanceForClient(DecFrozenBalanceForClientReqDTO decFrozenBalanceForClientReqDTO);
 
     /**
-     * 增加账户余额，比如：放行订单抽取手续费时
+     * 微服务客户端增加账户余额，比如：放行订单抽取手续费时
      *
-     * @param incBalanceReqDTO
+     * @param incBalanceForClientReqDTO
      * @return
      */
-    Result<Void> incBalance(IncBalanceReqDTO incBalanceReqDTO);
+    Result<Void> incBalanceForClient(IncBalanceForClientReqDTO incBalanceForClientReqDTO);
 
     /**
-     * 根据用户名和币种编号删除账户
+     * 微服务客户端根据用户名和币种编号删除账户
      *
      * @param getAccountByUsernameAndCoinCodeReqDTO
      * @return
      */
-    Result<Void> deleteAccountByUsernameAndCoinCode(GetAccountByUsernameAndCoinCodeReqDTO getAccountByUsernameAndCoinCodeReqDTO);
+    Result<Void> deleteAccountByUsernameAndCoinCodeForClient(GetAccountByUsernameAndCoinCodeReqDTO getAccountByUsernameAndCoinCodeReqDTO);
 
 }

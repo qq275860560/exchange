@@ -36,6 +36,9 @@ public class TaskRespDTO {
     @ApiModelProperty("任务类型,0:简单任务（直接设置重复执行次数和执行间隔，也就是task_repeat_count和task_interval字段有效）,1:cron任务（根据cron表达式确定执行间隔,也就是cron_expression字段有效）")
     private int tasktype;
 
+    @ApiModelProperty("任务调用类型,0:远程调用，需要设置http请求链接，请求方法，请求头部，请求体json字符串,1:本地调用,需要设置spring容器中的类全名，方法名称，方法输入参数DTO类型全名(只支持一个DTO)，方法输入参数DTO对应的json字符串")
+    private int taskInvokeType;
+
     @ApiModelProperty("重复次数，默认为0,表示任务只执行一次就完成，即使当前时间还未到end_at，任务也完成了")
     private int taskRepeatCount;
 
@@ -56,6 +59,15 @@ public class TaskRespDTO {
 
     @ApiModelProperty("请求参数json,请求体内容")
     private String inputJson;
+
+    @ApiModelProperty("类全名")
+    private String taskClassName;
+    @ApiModelProperty("方法名称")
+    private String taskMethodName;
+    @ApiModelProperty("方法输入参数DTO类型全名(只支持一个DTO)")
+    private String taskParameterClassName;
+    @ApiModelProperty("方法输入参数DTO对应的json字符串")
+    private String taskParameterJson;
 
     @ApiModelProperty("任务第一次/下一次启动时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

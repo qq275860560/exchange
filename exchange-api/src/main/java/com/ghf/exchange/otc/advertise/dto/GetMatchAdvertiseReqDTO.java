@@ -29,7 +29,7 @@ public class GetMatchAdvertiseReqDTO {
     @ApiModelProperty("币种编码")
     private String advertiseCoinCode;
 
-    @ApiModelProperty("库存量")
+    @ApiModelProperty("库存数量")
     private BigDecimal advertiseAmount;
 
     @ApiModelProperty("价格类型,1:固定价格,2:变化价格,价格=市场价格*(1+溢价比例))")
@@ -41,8 +41,8 @@ public class GetMatchAdvertiseReqDTO {
     @ApiModelProperty("溢价率，价格类型变化时才有效")
     private BigDecimal advertisePremiumRate;
 
-    @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分")
-    private String advertiseBusinessPaymentTermTypeArray;
+    @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡")
+    private int advertiseBusinessPaymentType;
 
     @ApiModelProperty("状态,1:上架,2:下架,3:删除")
     private int status;

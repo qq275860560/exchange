@@ -6,7 +6,7 @@ import com.ghf.exchange.boss.authorication.user.dto.LoginReqDTO;
 import com.ghf.exchange.boss.authorication.user.service.UserService;
 import com.ghf.exchange.boss.authorization.permission.dto.*;
 import com.ghf.exchange.boss.authorization.permission.entity.QPermission;
-import com.ghf.exchange.util.AutoMapUtils;
+import com.ghf.exchange.util.ModelMapperUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -153,7 +153,7 @@ public class PermissionServiceTest {
         getPermissionByPermissionnameReqDTO.setPermissionname(permissionname);
         PermissionRespDTO permissionOutput = permissionService.getPermissionByPermissionname(getPermissionByPermissionnameReqDTO).getData();
 
-        UpdatePermissionByPermissionnameReqDTO updatePermissionByPermissionnameReqDTO = AutoMapUtils.map(permissionOutput, UpdatePermissionByPermissionnameReqDTO.class);
+        UpdatePermissionByPermissionnameReqDTO updatePermissionByPermissionnameReqDTO = ModelMapperUtil.map(permissionOutput, UpdatePermissionByPermissionnameReqDTO.class);
         permissionService.updatePermissionByPermissionname(updatePermissionByPermissionnameReqDTO);
         TimeUnit.SECONDS.sleep(720);
 

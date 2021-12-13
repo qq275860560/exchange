@@ -2,7 +2,7 @@ package com.ghf.exchange.otc.advertiselog.controller;
 
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
-import com.ghf.exchange.otc.advertiselog.dto.AddAdvertiseLogReqDTO;
+import com.ghf.exchange.otc.advertiselog.dto.AddAdvertiseLogForClientReqDTO;
 import com.ghf.exchange.otc.advertiselog.dto.AdvertiseLogRespDTO;
 import com.ghf.exchange.otc.advertiselog.dto.GetAdvertiseLogByAdvertiseLogCodeReqDTO;
 import com.ghf.exchange.otc.advertiselog.dto.PageAdvertiseLogReqDTO;
@@ -52,11 +52,11 @@ public class AdvertiseLogController {
         return advertiseLogService.existsAdvertiseLogByAdvertiseLogCode(getAdvertiseLogByAdvertiseLogCodeReqDTO);
     }
 
-    @ApiOperation(value = "新建广告日志", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/advertiselog/addAdvertiseLog")
+    @ApiOperation(value = "微服务客户端新建广告日志", notes = "<p></p>", httpMethod = "POST")
+    @PostMapping(value = "/api/advertiselog/addAdvertiseLogForClient")
     @SneakyThrows
-    public Result<Void> addAdvertiseLog(@RequestBody AddAdvertiseLogReqDTO addAdvertiseLogReqDTO) {
-        return advertiseLogService.addAdvertiseLog(addAdvertiseLogReqDTO);
+    public Result<Void> addAdvertiseLogForClient(@RequestBody AddAdvertiseLogForClientReqDTO addAdvertiseLogForClientReqDTO) {
+        return advertiseLogService.addAdvertiseLogForClient(addAdvertiseLogForClientReqDTO);
     }
 
 }

@@ -40,6 +40,10 @@ public class TaskLog {
     @Column(name = "tasklogname")
     private String tasklogname;
 
+    @ApiModelProperty("任务调用类型,0:远程调用，需要设置http请求链接，请求方法，请求头部，请求体json字符串,1:本地调用,需要设置spring容器中的类全名，方法名称，方法输入参数DTO类型全名(只支持一个DTO)，方法输入参数DTO对应的json字符串")
+    @Column(name = "task_invoke_type")
+    private int taskInvokeType;
+
     @ApiModelProperty("httpUrl链接，局域网内连接，内部服务连接，通常是微服务链接")
     @Column(name = "request_url")
     private String requestUrl;
@@ -67,6 +71,22 @@ public class TaskLog {
     @ApiModelProperty("响应头部json格式")
     @Column(name = "response_header")
     private String responseHeader;
+
+    @ApiModelProperty("类全名")
+    @Column(name = "task_class_name")
+    private String taskClassName;
+    @ApiModelProperty("方法名称")
+    @Column(name = "task_method_name")
+    private String taskMethodName;
+    @ApiModelProperty("方法输入参数DTO类型全名(只支持一个DTO)")
+    @Column(name = "task_parameter_class_name")
+    private String taskParameterClassName;
+    @ApiModelProperty("方法输入参数DTO对应的json字符串")
+    @Column(name = "task_parameter_json")
+    private String taskParameterJson;
+    @ApiModelProperty("方法输出参数DTO对应的json字符串")
+    @Column(name = "task_return_json")
+    private String taskReturnJson;
 
     @ApiModelProperty("开始时间（1970年以来的毫秒数）")
     @Column(name = "start_time")

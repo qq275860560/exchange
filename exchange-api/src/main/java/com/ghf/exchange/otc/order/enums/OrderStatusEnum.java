@@ -14,7 +14,8 @@ public enum OrderStatusEnum {
     ADD(1, "已下单"),
     PAY(2, "已付款"),
     RELEASE(3, "已放行"),
-    CANCEL(4, "已取消"),
+    APPEAL(4, "已申诉"),
+    CANCEL(5, "已取消"),
 
     ;
 

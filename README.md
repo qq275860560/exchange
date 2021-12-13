@@ -8,7 +8,7 @@ git clone https://github.com/qq275860560/exchange.git
 ```
 
 ## 修改配置
-* 修改配置文件中的数据库mysql，缓存redis配置，并把项目下doc目录中的所有schema.sql和data.sql导入至mysql
+* 修改配置文件中的mysql，redis，mongodb配置，并把项目下doc目录中的所有schema.sql和data.sql导入至mysql
 
 ## 编译
 ```
@@ -19,7 +19,7 @@ mvn clean package -DskipTests -e -U
 
 ## 运行
 ```
-java -jar exchange-api/target.jar
+java -jar exchange-api/exchange-api.jar
 ```
 
 
@@ -47,7 +47,7 @@ curl -i -X POST 'http://localhost:8080/api/client/pageClient'   -d '{"name":"adm
 
 ```
 
-## API文档
+## A本地PI文档
 浏览器打开
 ```
 
@@ -57,10 +57,14 @@ http://localhost:8080/doc.html
 * 使用swagger进行接口调试前先在Authorize菜单中填写"bearer $token"
 
 
+## 在线API文档
+[在线API文档](https://qq275860560.github.io/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%95%B0%E5%AD%97%E8%B4%A7%E5%B8%81%E4%BA%A4%E6%98%93%E6%89%80-API%E6%96%87%E6%A1%A3.html#pageOrderMessageUsingPOST)
+## 在线设计文档
+[在线设计文档](https://qq275860560.github.io/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%95%B0%E5%AD%97%E8%B4%A7%E5%B8%81%E4%BA%A4%E6%98%93%E6%89%80-%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1.html#%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9D%97-2)
 
 
 
-
+# TODO LIST
 
 
 

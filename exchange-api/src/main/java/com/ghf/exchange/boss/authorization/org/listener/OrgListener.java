@@ -1,7 +1,5 @@
 package com.ghf.exchange.boss.authorization.org.listener;
 
-import com.ghf.exchange.boss.authorication.client.service.ClientService;
-import com.ghf.exchange.boss.authorication.user.service.UserService;
 import com.ghf.exchange.boss.authorization.org.dto.GetOrgByOrgnameReqDTO;
 import com.ghf.exchange.boss.authorization.org.dto.ListAncestorByOrgnameReqDTO;
 import com.ghf.exchange.boss.authorization.org.dto.OrgRespDTO;
@@ -14,12 +12,10 @@ import com.ghf.exchange.boss.authorization.orgrole.dto.AddOrgRoleReqDTO;
 import com.ghf.exchange.boss.authorization.orgrole.dto.GetOrgRoleByOrgnameAndRolenameReqDTO;
 import com.ghf.exchange.boss.authorization.orgrole.dto.ListRoleByOrgnameReqDTO;
 import com.ghf.exchange.boss.authorization.orgrole.service.OrgRoleService;
-import com.ghf.exchange.boss.common.area.service.AreaService;
 import com.ghf.exchange.config.ClearRedisConfig;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.JsonUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -41,12 +37,6 @@ public class OrgListener {
 
     @Lazy
     @Resource
-    private UserService userService;
-    @Lazy
-    @Resource
-    private ClientService clientService;
-    @Lazy
-    @Resource
     private OrgService orgService;
 
     @Lazy
@@ -55,17 +45,7 @@ public class OrgListener {
 
     @Lazy
     @Resource
-    private AreaService areaService;
-
-    @Lazy
-    @Resource
     private ClearRedisConfig clearRedisService;
-
-    @Value("${security.oauth2.client.client-id}")
-    public String clientId;
-
-    @Value("${security.oauth2.client.client-secret}")
-    public String secret;
 
     @Async
     @EventListener
@@ -144,7 +124,7 @@ public class OrgListener {
         fullOrgdescStringBuilder.append(orgRespDTO.getOrgdesc()).append(",");
 
         OrgRespDTO afterOrgRespDTO = orgService.getOrgByOrgname(GetOrgByOrgnameReqDTO.builder().orgname(orgRespDTO.getOrgname()).build()).getData();
-        Org org = AutoMapUtils.map(afterOrgRespDTO, Org.class);
+        Org org = ModelMapperUtil.map(afterOrgRespDTO, Org.class);
         org.setFullOrgId(fullOrgIdStringBuilder.toString());
         org.setFullOrgname(fullOrgnameStringBuilder.toString());
         org.setFullOrgdesc(fullOrgdescStringBuilder.toString());

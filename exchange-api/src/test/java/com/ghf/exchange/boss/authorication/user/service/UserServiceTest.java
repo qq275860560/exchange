@@ -11,7 +11,7 @@ import com.ghf.exchange.boss.authorization.userrole.entity.QUserRole;
 import com.ghf.exchange.boss.authorization.userrole.service.UserRoleService;
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
-import com.ghf.exchange.util.AutoMapUtils;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +63,7 @@ public class UserServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddUserReqDTO addUserReqDTO = new AddUserReqDTO();
-        addUserReqDTO.setUsername("test-addUser-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addUserReqDTO.setUsername("test-addUser-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         addUserReqDTO.setPassword("123456");
 
         addUserReqDTO.setRolenameSet(new HashSet<String>() {{
@@ -121,7 +121,7 @@ public class UserServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddUserReqDTO addUserReqDTO = new AddUserReqDTO();
-        addUserReqDTO.setUsername("test-addUser2-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addUserReqDTO.setUsername("test-addUser2-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         addUserReqDTO.setPassword("123456");
 
         addUserReqDTO.setOrgnameSet(new HashSet<String>() {{
@@ -221,7 +221,7 @@ public class UserServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddUserReqDTO addUserReqDTO = new AddUserReqDTO();
-        addUserReqDTO.setUsername("test-updateUserByUsername-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addUserReqDTO.setUsername("test-updateUserByUsername-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         addUserReqDTO.setPassword("123456");
 
         addUserReqDTO.setOrgnameSet(new HashSet<String>() {{
@@ -237,7 +237,7 @@ public class UserServiceTest {
 
         String username = addUserReqDTO.getUsername();
 
-        UpdateUserByUsernameReqDTO updateUserByUsernameReqDTO = AutoMapUtils.map(userService.get(QUser.user.username.eq(username)), UpdateUserByUsernameReqDTO.class);
+        UpdateUserByUsernameReqDTO updateUserByUsernameReqDTO = ModelMapperUtil.map(userService.get(QUser.user.username.eq(username)), UpdateUserByUsernameReqDTO.class);
         updateUserByUsernameReqDTO.setOrgnameSet(new HashSet<String>() {{
             add("ORG_SGSL");
             add("ORG_DFGSL");
@@ -293,7 +293,7 @@ public class UserServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddUserReqDTO addUserReqDTO = new AddUserReqDTO();
-        addUserReqDTO.setUsername("test-updateUserByUsername2-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addUserReqDTO.setUsername("test-updateUserByUsername2-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         addUserReqDTO.setPassword("123456");
 
         addUserReqDTO.setOrgnameSet(new HashSet<String>() {{
@@ -309,7 +309,7 @@ public class UserServiceTest {
 
         String username = addUserReqDTO.getUsername();
 
-        UpdateUserByUsernameReqDTO updateUserByUsernameReqDTO = AutoMapUtils.map(userService.get(QUser.user.username.eq(username)), UpdateUserByUsernameReqDTO.class);
+        UpdateUserByUsernameReqDTO updateUserByUsernameReqDTO = ModelMapperUtil.map(userService.get(QUser.user.username.eq(username)), UpdateUserByUsernameReqDTO.class);
         updateUserByUsernameReqDTO.setOrgnameSet(new HashSet<String>() {{
             add("ORG_SGSL");
         }});
@@ -363,7 +363,7 @@ public class UserServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddUserReqDTO addUserReqDTO = new AddUserReqDTO();
-        addUserReqDTO.setUsername("test-updateUserByUsername3-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addUserReqDTO.setUsername("test-updateUserByUsername3-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         addUserReqDTO.setPassword("123456");
 
         addUserReqDTO.setOrgnameSet(new HashSet<String>() {{
@@ -379,7 +379,7 @@ public class UserServiceTest {
 
         String username = addUserReqDTO.getUsername();
 
-        UpdateUserByUsernameReqDTO updateUserByUsernameReqDTO = AutoMapUtils.map(userService.get(QUser.user.username.eq(username)), UpdateUserByUsernameReqDTO.class);
+        UpdateUserByUsernameReqDTO updateUserByUsernameReqDTO = ModelMapperUtil.map(userService.get(QUser.user.username.eq(username)), UpdateUserByUsernameReqDTO.class);
         updateUserByUsernameReqDTO.setOrgnameSet(new HashSet<String>() {{
 
         }});
@@ -434,7 +434,7 @@ public class UserServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddUserReqDTO addUserReqDTO = new AddUserReqDTO();
-        addUserReqDTO.setUsername("test-updateUserByUsernameMobile-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addUserReqDTO.setUsername("test-updateUserByUsernameMobile-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         addUserReqDTO.setPassword("123456");
 
         addUserReqDTO.setMobile(RandomStringUtils.randomNumeric(8));
@@ -452,7 +452,7 @@ public class UserServiceTest {
 
         String username = addUserReqDTO.getUsername();
 
-        UpdateUserByUsernameReqDTO updateUserByUsernameReqDTO = AutoMapUtils.map(userService.get(QUser.user.username.eq(username)), UpdateUserByUsernameReqDTO.class);
+        UpdateUserByUsernameReqDTO updateUserByUsernameReqDTO = ModelMapperUtil.map(userService.get(QUser.user.username.eq(username)), UpdateUserByUsernameReqDTO.class);
 
         updateUserByUsernameReqDTO.setMobile(addUserReqDTO.getMobile());
         updateUserByUsernameReqDTO.setOrgnameSet(new HashSet<String>() {{
@@ -509,7 +509,7 @@ public class UserServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddUserReqDTO addUserReqDTO = new AddUserReqDTO();
-        addUserReqDTO.setUsername("test-pageUser-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addUserReqDTO.setUsername("test-pageUser-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         addUserReqDTO.setPassword("123456");
 
         addUserReqDTO.setRolenameSet(new HashSet<String>() {{
@@ -538,7 +538,7 @@ public class UserServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddUserReqDTO addUserReqDTO = new AddUserReqDTO();
-        addUserReqDTO.setUsername("test-listUser-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addUserReqDTO.setUsername("test-listUser-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         addUserReqDTO.setPassword("123456");
 
         addUserReqDTO.setRolenameSet(new HashSet<String>() {{
@@ -576,7 +576,7 @@ public class UserServiceTest {
             if (userOutput == null) {
                 continue;
             }
-            UpdateUserByUsernameReqDTO updateUserByUsernameReqDTO = AutoMapUtils.map(userOutput, UpdateUserByUsernameReqDTO.class);
+            UpdateUserByUsernameReqDTO updateUserByUsernameReqDTO = ModelMapperUtil.map(userOutput, UpdateUserByUsernameReqDTO.class);
             userService.updateUserByUsername(updateUserByUsernameReqDTO);
         }
         TimeUnit.SECONDS.sleep(720);

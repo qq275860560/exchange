@@ -31,7 +31,7 @@ public class PageOrderReqDTO extends PageReqDTO {
 
     @ApiModelProperty("订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡")
 
-    private int orderCustomerPaymentTermType;
+    private int orderCustomerPaymentType;
 
     @ApiModelProperty("订单来源,1:广告区固定价格下单,2:快捷区市场价格下单")
 
@@ -44,14 +44,6 @@ public class PageOrderReqDTO extends PageReqDTO {
     @ApiModelProperty("广告币种编码")
 
     private String advertiseCoinCode;
-
-    @ApiModelProperty("广告商家的登陆用户名,用户英文名称，用户编码")
-
-    private String advertiseBusinessUsername;
-
-    @ApiModelProperty("订单顾客的登陆用户名,用户英文名称，用户编码")
-
-    private String orderCustomerUsername;
 
     @ApiModelProperty("订单状态,1:已下单,2:已付款,3:已放行,4:申诉中,5:已取消")
 

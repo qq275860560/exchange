@@ -11,7 +11,8 @@ advertise_log_username varchar(128) COMMENT '操作人，如果是后端服务�
 create_time datetime  COMMENT '操作时间',
 advertise_log_ip_addr varchar(64) COMMENT 'IP地址',
 remark text DEFAULT NULL comment '备注',
-PRIMARY KEY ( id )
+PRIMARY KEY ( id ),
+UNIQUE KEY (advertise_log_code)
 ) DEFAULT CHARSET=utf8mb4  comment '广告日志';
 
 

@@ -7,11 +7,11 @@ import io.minio.messages.Item;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,21 +38,22 @@ public class MinioStorageClientImpl implements MinioStorageClient {
     @Value("${minio.defaultBucketName}")
     private String bucket;
 
-    @Lazy
-    @Bean
+    private MinioClient client;
+
+    @PostConstruct
     @SneakyThrows
-    public MinioClient minioClient() {
+    public MinioClient init() {
         log.info("创建Minio开始:建立连接");
-        MinioClient client = MinioClient.builder().endpoint(serverUrl).credentials(accessKey, secretKey).build();
+        client = MinioClient.builder().endpoint(serverUrl).credentials(accessKey, secretKey).build();
 
         // 判断桶是否存在
-        boolean isExist = minioClient().bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
+        boolean isExist = client.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
         if (!isExist) {
             // 新建桶
-            minioClient().makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+            client.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
         }
         // 设置桶读写权限
-        minioClient().setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucket).config(READ_WRITE.replace(BUCKET_PARAM, bucket)).build());
+        client.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucket).config(READ_WRITE.replace(BUCKET_PARAM, bucket)).build());
         log.info("创建minio结束");
         return client;
     }
@@ -83,14 +84,14 @@ public class MinioStorageClientImpl implements MinioStorageClient {
     @SneakyThrows
     @Override
     public String uploadFile(String objectKey, String filePath, String contentType) {
-        minioClient().uploadObject(UploadObjectArgs.builder().bucket(bucket).object(objectKey).filename(filePath).contentType(contentType).build());
+        client.uploadObject(UploadObjectArgs.builder().bucket(bucket).object(objectKey).filename(filePath).contentType(contentType).build());
         return getObjectPrefixUrl() + objectKey;
     }
 
     @SneakyThrows
     @Override
     public String uploadInputStream(String objectKey, InputStream inputStream, String contentType) {
-        minioClient().putObject(PutObjectArgs.builder().bucket(bucket).object(objectKey).stream(inputStream, inputStream.available(), -1).contentType(contentType).build());
+        client.putObject(PutObjectArgs.builder().bucket(bucket).object(objectKey).stream(inputStream, inputStream.available(), -1).contentType(contentType).build());
         return getObjectPrefixUrl() + objectKey;
     }
 
@@ -105,27 +106,27 @@ public class MinioStorageClientImpl implements MinioStorageClient {
     @SneakyThrows
     @Override
     public InputStream download(String objectKey) {
-        return minioClient().getObject(GetObjectArgs.builder().bucket(bucket).object(objectKey).build());
+        return client.getObject(GetObjectArgs.builder().bucket(bucket).object(objectKey).build());
     }
 
     @SneakyThrows
     @Override
     public String copyFile(String sourceObjectKey, String objectKey) {
         CopySource source = CopySource.builder().bucket(bucket).object(sourceObjectKey).build();
-        minioClient().copyObject(CopyObjectArgs.builder().bucket(bucket).object(objectKey).source(source).build());
+        client.copyObject(CopyObjectArgs.builder().bucket(bucket).object(objectKey).source(source).build());
         return getObjectPrefixUrl() + objectKey;
     }
 
     @SneakyThrows
     @Override
     public void deleteFile(String objectKey) {
-        minioClient().removeObject(RemoveObjectArgs.builder().bucket(bucket).object(objectKey).build());
+        client.removeObject(RemoveObjectArgs.builder().bucket(bucket).object(objectKey).build());
     }
 
     @SneakyThrows
     @Override
     public String getSignedUrl(String objectKey, int expires) {
-        return minioClient().getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucket).object(objectKey).expiry(expires).build());
+        return client.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucket).object(objectKey).expiry(expires).build());
     }
 
     @SneakyThrows
@@ -136,7 +137,7 @@ public class MinioStorageClientImpl implements MinioStorageClient {
         builder.prefix(prefix);
         builder.recursive(true);
         ListObjectsArgs args = builder.build();
-        Iterable<Result<Item>> results = minioClient().listObjects(args);
+        Iterable<Result<Item>> results = client.listObjects(args);
         List<String> fullPaths = new ArrayList<>();
         for (Result<Item> result : results) {
             Item item = result.get();

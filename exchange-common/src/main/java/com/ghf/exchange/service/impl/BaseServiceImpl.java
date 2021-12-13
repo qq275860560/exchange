@@ -4,7 +4,7 @@ import com.ghf.exchange.dto.PageReqDTO;
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.repository.BaseRepository;
 import com.ghf.exchange.service.BaseService;
-import com.ghf.exchange.util.AutoMapUtils;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -67,7 +67,7 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
     @Override
     public <R> R get(Predicate predicate, Class<R> outputType) {
         T t = baseRepository.findOne(predicate).orElseGet(() -> null);
-        return AutoMapUtils.map(t, outputType);
+        return ModelMapperUtil.map(t, outputType);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
     @Override
     public <R> List<R> list(Predicate predicate, Class<R> outputType) {
         List<T> list = Lists.newArrayList(baseRepository.findAll(predicate));
-        return AutoMapUtils.mapForList(list, outputType);
+        return ModelMapperUtil.mapForList(list, outputType);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
     private <R> PageRespDTO<R> getPageRespDTO(Predicate predicate, PageReqDTO pageReqDTO, Class<R> outputType, Sort sort) {
         Pageable pageable = PageRequest.of(pageReqDTO.getPageNum() - 1, pageReqDTO.getPageSize(), sort);
         Page<T> page = baseRepository.findAll(predicate, pageable);
-        List<R> list = AutoMapUtils.mapForList(page.getContent(), outputType);
+        List<R> list = ModelMapperUtil.mapForList(page.getContent(), outputType);
         return new PageRespDTO<R>(pageReqDTO.getPageNum(), pageReqDTO.getPageSize(), (int) page.getTotalElements(),list);
 
     }

@@ -12,8 +12,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -114,7 +114,7 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long> implements Dict
         String dictkey = getDictByDicttypeAndDictkeyReqDTO.getDictkey();
         Dict dict = this.getDictByDicttypeAndDictkey(dicttype, dictkey).getData();
         //返回
-        DictRespDTO dictRespDTO = AutoMapUtils.map(dict, DictRespDTO.class);
+        DictRespDTO dictRespDTO = ModelMapperUtil.map(dict, DictRespDTO.class);
         return new Result<>(dictRespDTO);
     }
 
@@ -130,7 +130,7 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long> implements Dict
         predicate.and(QDict.dict.dictvalue.eq(dictvalue));
         Dict dict = this.get(predicate);
         //返回
-        DictRespDTO dictRespDTO = AutoMapUtils.map(dict, DictRespDTO.class);
+        DictRespDTO dictRespDTO = ModelMapperUtil.map(dict, DictRespDTO.class);
         return new Result<>(dictRespDTO);
     }
 
@@ -152,7 +152,7 @@ public class DictServiceImpl extends BaseServiceImpl<Dict, Long> implements Dict
     @Override
     @SneakyThrows
     public Result<Void> addDict(AddDictReqDTO addDictReqDTO) {
-        Dict dict = AutoMapUtils.map(addDictReqDTO, Dict.class);
+        Dict dict = ModelMapperUtil.map(addDictReqDTO, Dict.class);
         //获取当前登陆用户详情
 
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();

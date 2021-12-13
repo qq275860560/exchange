@@ -28,8 +28,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -146,7 +146,7 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermission, L
         predicate.and(QRolePermission.rolePermission.permissionname.eq(permissionname));
         RolePermission rolePermission = rolePermissionService.get(predicate);
         //返回
-        RolePermissionRespDTO rolePermissionRespDTO = AutoMapUtils.map(rolePermission, RolePermissionRespDTO.class);
+        RolePermissionRespDTO rolePermissionRespDTO = ModelMapperUtil.map(rolePermission, RolePermissionRespDTO.class);
         return new Result<>(rolePermissionRespDTO);
     }
 
@@ -167,7 +167,7 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermission, L
     @Override
     @SneakyThrows
     public Result<Void> addRolePermission(AddRolePermissionReqDTO addRolePermissionReqDTO) {
-        RolePermission rolePermission = AutoMapUtils.map(addRolePermissionReqDTO, RolePermission.class);
+        RolePermission rolePermission = ModelMapperUtil.map(addRolePermissionReqDTO, RolePermission.class);
         //获取当前登陆用户详情
 
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
@@ -205,7 +205,7 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermission, L
         String permissionname = getRolePermissionByRolenameAndPermissionnameReqDTO.getPermissionname();
         //加载
         RolePermissionRespDTO afterRolePermissionRespDTO = rolePermissionService.getRolePermissionByRolenameAndPermissionname(getRolePermissionByRolenameAndPermissionnameReqDTO).getData();
-        RolePermission afterRolePermission = AutoMapUtils.map(afterRolePermissionRespDTO, RolePermission.class);
+        RolePermission afterRolePermission = ModelMapperUtil.map(afterRolePermissionRespDTO, RolePermission.class);
         if (afterRolePermission == null) {
             return new Result<>(ResultCodeEnum.ROLE_PERMISSION_NOT_EXISTS);
         }
@@ -228,7 +228,7 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermission, L
         String permissionname = getRolePermissionByRolenameAndPermissionnameReqDTO.getPermissionname();
         //加载
         RolePermissionRespDTO afterRolePermissionRespDTO = rolePermissionService.getRolePermissionByRolenameAndPermissionname(getRolePermissionByRolenameAndPermissionnameReqDTO).getData();
-        RolePermission afterRolePermission = AutoMapUtils.map(afterRolePermissionRespDTO, RolePermission.class);
+        RolePermission afterRolePermission = ModelMapperUtil.map(afterRolePermissionRespDTO, RolePermission.class);
         if (afterRolePermission == null) {
             return new Result<>(ResultCodeEnum.ROLE_PERMISSION_NOT_EXISTS);
         }

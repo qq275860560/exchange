@@ -24,6 +24,8 @@ import java.util.Date;
 @Builder
 @Slf4j
 public class CoinRespDTO {
+    @ApiModelProperty("id")
+    private long id;
 
     @ApiModelProperty("币种编码")
 
@@ -45,21 +47,24 @@ public class CoinRespDTO {
 
     private BigDecimal coinRate;
 
-    @ApiModelProperty("单笔最小交易量")
+    @ApiModelProperty("单个广告最小库存量")
 
-    private BigDecimal perMinAmount;
+    private BigDecimal perAdvertiseMinAmount;
 
-    @ApiModelProperty("单笔最大交易量")
+    @ApiModelProperty("单个广告最大库存量")
 
-    private BigDecimal perMaxAmount;
+    private BigDecimal perAdvertiseMaxAmount;
 
-    @ApiModelProperty("最小付款期限")
+    @ApiModelProperty("单笔订单最小交易量")
 
-    private int minPaymentTermTime;
+    private BigDecimal perOrderMinAmount;
 
-    @ApiModelProperty("最大付款期限")
+    @ApiModelProperty("单笔订单最大交易量")
 
-    private int maxPaymentTermTime;
+    private BigDecimal perOrderMaxAmount;
+
+    @ApiModelProperty("状态,0:禁用,1:启用")
+    private int status;
 
     @ApiModelProperty("操作时间")
     @Column(name = "create_time")

@@ -15,8 +15,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
@@ -196,7 +196,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long> imp
         Predicate predicate = QPermission.permission.permissionname.eq(permissionname);
         Permission permission = permissionService.get(predicate);
         //返回
-        PermissionRespDTO permissionRespDTO = AutoMapUtils.map(permission, PermissionRespDTO.class);
+        PermissionRespDTO permissionRespDTO = ModelMapperUtil.map(permission, PermissionRespDTO.class);
         return new Result<>(permissionRespDTO);
     }
 
@@ -225,7 +225,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long> imp
     @Override
     @SneakyThrows
     public Result<Void> addPermission(AddPermissionReqDTO addPermissionReqDTO) {
-        Permission permission = AutoMapUtils.map(addPermissionReqDTO, Permission.class);
+        Permission permission = ModelMapperUtil.map(addPermissionReqDTO, Permission.class);
         //获取当前登陆用户详情
 
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
@@ -251,7 +251,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long> imp
             getParentPermissionByPermissionnameReqDTO.setPermissionname(permission.getParentPermissionname());
 
             PermissionRespDTO parentPermissionRespDTO = permissionService.getPermissionByPermissionname(getParentPermissionByPermissionnameReqDTO).getData();
-            Permission parentPermission = AutoMapUtils.map(parentPermissionRespDTO, Permission.class);
+            Permission parentPermission = ModelMapperUtil.map(parentPermissionRespDTO, Permission.class);
             permission.setParentPermissionId(parentPermission.getId());
             permission.setParentPermissionname(parentPermission.getPermissionname());
             permission.setParentPermissiondesc(parentPermission.getPermissiondesc());
@@ -289,7 +289,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long> imp
         GetPermissionByPermissionnameReqDTO getPermissionByPermissionnameReqDTO = new GetPermissionByPermissionnameReqDTO();
         getPermissionByPermissionnameReqDTO.setPermissionname(permissionname);
         PermissionRespDTO afterPermissionRespDTO = permissionService.getPermissionByPermissionname(getPermissionByPermissionnameReqDTO).getData();
-        Permission afterPermission = AutoMapUtils.map(afterPermissionRespDTO, Permission.class);
+        Permission afterPermission = ModelMapperUtil.map(afterPermissionRespDTO, Permission.class);
         if (afterPermission == null) {
             return new Result<>(ResultCodeEnum.ORG_NOT_EXISTS);
         }
@@ -307,7 +307,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long> imp
             GetPermissionByPermissionnameReqDTO getParentPermissionByPermissionnameReqDTO = new GetPermissionByPermissionnameReqDTO();
             getParentPermissionByPermissionnameReqDTO.setPermissionname(parentPermissionname);
             PermissionRespDTO parentPermissionRespDTO = permissionService.getPermissionByPermissionname(getParentPermissionByPermissionnameReqDTO).getData();
-            Permission parentPermission = AutoMapUtils.map(parentPermissionRespDTO, Permission.class);
+            Permission parentPermission = ModelMapperUtil.map(parentPermissionRespDTO, Permission.class);
             afterPermission.setParentPermissionId(parentPermission.getId());
             afterPermission.setParentPermissionname(parentPermission.getPermissionname());
             afterPermission.setParentPermissiondesc(parentPermission.getPermissiondesc());
@@ -334,7 +334,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long> imp
         String permissionname = getPermissionByPermissionnameReqDTO.getPermissionname();
         //加载
         PermissionRespDTO afterPermissionRespDTO = permissionService.getPermissionByPermissionname(getPermissionByPermissionnameReqDTO).getData();
-        Permission afterPermission = AutoMapUtils.map(afterPermissionRespDTO, Permission.class);
+        Permission afterPermission = ModelMapperUtil.map(afterPermissionRespDTO, Permission.class);
         if (afterPermission == null) {
             return new Result<>(ResultCodeEnum.ORG_NOT_EXISTS);
         }
@@ -356,7 +356,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long> imp
         String permissionname = getPermissionByPermissionnameReqDTO.getPermissionname();
         //加载
         PermissionRespDTO afterPermissionRespDTO = permissionService.getPermissionByPermissionname(getPermissionByPermissionnameReqDTO).getData();
-        Permission afterPermission = AutoMapUtils.map(afterPermissionRespDTO, Permission.class);
+        Permission afterPermission = ModelMapperUtil.map(afterPermissionRespDTO, Permission.class);
         if (afterPermission == null) {
             return new Result<>(ResultCodeEnum.ORG_NOT_EXISTS);
         }

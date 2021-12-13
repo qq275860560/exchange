@@ -9,13 +9,15 @@ CREATE TABLE t_advertise
     advertise_coin_unit  VARCHAR(16)         DEFAULT NULL comment '币种单位',
     advertise_coin_rate DECIMAL(18,8) DEFAULT NULL comment '币种交易手续费比例',
 
+    advertise_total_amount DECIMAL(18,8) DEFAULT NULL comment '总库存数量',
+    advertise_available_amount DECIMAL(18,8) DEFAULT NULL comment '可用库存数量',
+    advertise_frozen_amount DECIMAL(18,8) DEFAULT NULL comment '冻结库存数量',
 
-    advertise_amount DECIMAL(18,8) DEFAULT NULL comment '库存量',
-    advertise_frozen_amount DECIMAL(18,8) DEFAULT NULL comment '冻结库存量',
-    advertise_per_max_amount DECIMAL(18,8) DEFAULT NULL comment '单笔最大交易量',
-    advertise_per_min_amount DECIMAL(18,8) DEFAULT NULL comment '单笔最小交易量',
 
     advertise_legal_currency_country_code VARCHAR(16)         DEFAULT NULL comment '法币所在国家编码',
+    advertise_legal_currency_country_name VARCHAR(16)         DEFAULT NULL comment '法币所在国家名称',
+    advertise_legal_currency_code VARCHAR(16)         DEFAULT NULL comment '法币编码',
+    advertise_legal_currency_name VARCHAR(16)         DEFAULT NULL comment '法币名称',
     advertise_legal_currency_symbol VARCHAR(16)         DEFAULT NULL comment '法币符号',
     advertise_legal_currency_unit VARCHAR(16)         DEFAULT NULL comment '法币单位',
 
@@ -24,19 +26,8 @@ CREATE TABLE t_advertise
     advertise_premium_rate DECIMAL(18,8) DEFAULT NULL comment '溢价率，价格类型变化时才有效',
     advertise_auto_reply_content          text default null  comment '自动回复内容',
 
-    advertise_business_payment_term_time      tinyint(4) unsigned not null DEFAULT 1 comment '付款时间条件，从下单到点击确认付款的时间，单位分钟',
-    advertise_business_payment_term_type_array     varchar(16)   not null DEFAULT 1 comment '广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分',
-
-    advertise_business_payment_term_type_alipay_account VARCHAR(64)   DEFAULT NULL comment '付款条件:支付宝方式,支付宝账号',
-    advertise_business_payment_term_type_alipay_qrcode VARCHAR(64)   DEFAULT NULL comment '付款条件:支付宝方式,支付宝二维码',
-
-    advertise_business_payment_term_type_wechat_account VARCHAR(64)   DEFAULT NULL comment '付款条件:微信方式,微信账号',
-    advertise_business_payment_term_type_wechat_qrcode VARCHAR(64)   DEFAULT NULL comment '付款条件:微信方式,微信二维码',
-
-    advertise_business_payment_term_type_bank_name VARCHAR(64)   DEFAULT NULL comment '付款条件:银行方式,银行名称',
-    advertise_business_payment_term_type_bank_branch_name VARCHAR(64)   DEFAULT NULL comment '付款条件:银行方式,支行账号',
-    advertise_business_payment_term_type_bank_account VARCHAR(64)   DEFAULT NULL comment '付款条件:银行方式,银行卡号',
-    advertise_business_payment_term_type_bank_realname VARCHAR(64)   DEFAULT NULL comment '付款条件:银行方式,户主真实姓名',
+    advertise_business_payment_codes     varchar(256)   not null DEFAULT 1 comment '广告商家支持的付款方式编码，逗号区分',
+    advertise_business_payment_types     varchar(16)   not null DEFAULT 1 comment '广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分',
 
 
 
@@ -49,6 +40,6 @@ CREATE TABLE t_advertise
     remark           text                DEFAULT NULL comment '备注',
     PRIMARY KEY (id),
     UNIQUE KEY (advertise_code)
-) DEFAULT CHARSET = utf8mb4 comment '广告';
+) DEFAULT CHARSET = utf8mb4 comment '广告管理';
 
 

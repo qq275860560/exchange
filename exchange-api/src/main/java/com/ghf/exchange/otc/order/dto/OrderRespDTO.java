@@ -69,7 +69,7 @@ public class OrderRespDTO {
 
     @ApiModelProperty("订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡")
 
-    private int orderCustomerPaymentTermType;
+    private int orderCustomerPaymentType;
 
     @ApiModelProperty("订单顾客的登陆用户名,用户英文名称，用户编码")
 
@@ -81,38 +81,34 @@ public class OrderRespDTO {
 
     private String orderCustomerRealname;
 
-    @ApiModelProperty("订单顾客作为卖币方时付款时间条件，从下单到点击确认付款的时间，单位分钟")
+    @ApiModelProperty("订单顾客支持的付款方式编码")
 
-    private int orderCustomerPaymentTermTime;
-
-    @ApiModelProperty("订单顾客支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分")
-
-    private String orderCustomerPaymentTermTypeArray;
+    private String orderCustomerPaymentCode;
 
     @ApiModelProperty("订单顾客支持的付款条件:支付宝方式,支付宝账号")
 
-    private String orderCustomerPaymentTermTypeAlipayAccount;
+    private String orderCustomerPaymentTypeAlipayAccount;
     @ApiModelProperty("订单顾客支持的付款条件:支付宝方式,支付宝二维码")
 
-    private String orderCustomerPaymentTermTypeAlipayQrcode;
+    private String orderCustomerPaymentTypeAlipayQrcode;
     @ApiModelProperty("订单顾客支持的付款条件:微信方式,微信账号")
 
-    private String orderCustomerPaymentTermTypeWechatAccount;
+    private String orderCustomerPaymentTypeWechatAccount;
     @ApiModelProperty("订单顾客支持的付款条件:微信方式,微信二维码")
 
-    private String orderCustomerPaymentTermTypeWechatQrcode;
+    private String orderCustomerPaymentTypeWechatQrcode;
     @ApiModelProperty("订单顾客支持的付款条件:银行方式,银行名称")
 
-    private String orderCustomerPaymentTermTypeBankName;
+    private String orderCustomerPaymentTypeBankName;
     @ApiModelProperty("订单顾客支持的付款条件:银行方式,支行账号")
 
-    private String orderCustomerPaymentTermTypeBankBranchName;
+    private String orderCustomerPaymentTypeBankBranchName;
     @ApiModelProperty("订单顾客支持的付款条件:银行方式,银行卡号")
 
-    private String orderCustomerPaymentTermTypeBankAccount;
+    private String orderCustomerPaymentTypeBankAccount;
     @ApiModelProperty("订单顾客支持的付款条件:银行方式,户主真实姓名")
 
-    private String orderCustomerPaymentTermTypeBankRealname;
+    private String orderCustomerPaymentTypeBankRealname;
 
     @ApiModelProperty("广告编码")
 
@@ -138,21 +134,25 @@ public class OrderRespDTO {
 
     private BigDecimal advertiseCoinRate;
 
-    @ApiModelProperty("广告库存量")
+    @ApiModelProperty("广告可用库存数量")
 
-    private BigDecimal advertiseAmount;
+    private BigDecimal advertiseAvailableAmount;
 
-    @ApiModelProperty("广告单笔最大交易量")
-
-    private BigDecimal advertisePerMaxAmount;
-
-    @ApiModelProperty("广告单笔最小交易量")
-
-    private BigDecimal advertisePerMinAmount;
-
-    @ApiModelProperty("法币所在国家编码")
+    @ApiModelProperty("广告法币所在国家编码")
 
     private String advertiseLegalCurrencyCountryCode;
+
+    @ApiModelProperty("广告法币所在国家名称")
+
+    private String advertiseLegalCurrencyCountryName;
+
+    @ApiModelProperty("广告法币编码")
+
+    private String advertiseLegalCurrencyCode;
+
+    @ApiModelProperty("广告法币名称")
+
+    private String advertiseLegalCurrencyName;
 
     @ApiModelProperty("广告法币符号")
 
@@ -185,38 +185,34 @@ public class OrderRespDTO {
 
     private String advertiseBusinessRealname;
 
-    @ApiModelProperty("广告商家作为卖币方时付款时间条件，从下单到点击确认付款的时间，单位分钟")
+    @ApiModelProperty("广告商家支持的付款方式编码")
 
-    private int advertiseBusinessPaymentTermTime;
-
-    @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分")
-
-    private String advertiseBusinessPaymentTermTypeArray;
+    private String advertiseBusinessPaymentCode;
 
     @ApiModelProperty("广告商家支持的付款条件:支付宝方式,支付宝账号")
 
-    private String advertiseBusinessPaymentTermTypeAlipayAccount;
+    private String advertiseBusinessPaymentTypeAlipayAccount;
     @ApiModelProperty("广告商家支持的付款条件:支付宝方式,支付宝二维码")
 
-    private String advertiseBusinessPaymentTermTypeAlipayQrcode;
+    private String advertiseBusinessPaymentTypeAlipayQrcode;
     @ApiModelProperty("广告商家支持的付款条件:微信方式,微信账号")
 
-    private String advertiseBusinessPaymentTermTypeWechatAccount;
+    private String advertiseBusinessPaymentTypeWechatAccount;
     @ApiModelProperty("广告商家支持的付款条件:微信方式,微信二维码")
 
-    private String advertiseBusinessPaymentTermTypeWechatQrcode;
+    private String advertiseBusinessPaymentTypeWechatQrcode;
     @ApiModelProperty("广告商家支持的付款条件:银行方式,银行名称")
 
-    private String advertiseBusinessPaymentTermTypeBankName;
+    private String advertiseBusinessPaymentTypeBankName;
     @ApiModelProperty("广告商家支持的付款条件:银行方式,支行账号")
 
-    private String advertiseBusinessPaymentTermTypeBankBranchName;
+    private String advertiseBusinessPaymentTypeBankBranchName;
     @ApiModelProperty("广告商家支持的付款条件:银行方式,银行卡号")
 
-    private String advertiseBusinessPaymentTermTypeBankAccount;
+    private String advertiseBusinessPaymentTypeBankAccount;
     @ApiModelProperty("广告商家支持的付款条件:银行方式,户主真实姓名")
 
-    private String advertiseBusinessPaymentTermTypeBankRealname;
+    private String advertiseBusinessPaymentTypeBankRealname;
 
     @ApiModelProperty("订单状态,1:已下单,2:已付款,3:已放行,4:申诉中,5:已取消")
 
@@ -226,7 +222,7 @@ public class OrderRespDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 
-    private Date createTime;
+    private Date addTime;
 
     @ApiModelProperty("付款时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -251,6 +247,16 @@ public class OrderRespDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 
     private Date cancelTime;
+
+    @ApiModelProperty("确认未付款时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date agreeUnPayTime;
+
+    @ApiModelProperty("确认未放行时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date agreeUnReleaseTime;
 
     @ApiModelProperty("备注")
 

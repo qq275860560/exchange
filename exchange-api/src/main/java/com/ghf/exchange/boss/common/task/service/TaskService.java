@@ -46,20 +46,20 @@ public interface TaskService extends BaseService<Task, Long> {
     Result<Boolean> existsTaskByTaskname(GetTaskByTasknameReqDTO getTaskByTasknameReqDTO);
 
     /**
-     * 新建定时任务
+     * 微服务客户端新建定时任务
      *
-     * @param addTaskReqDTO
+     * @param addTaskForClientReqDTO
      * @return
      */
-    Result<Void> addTask(AddTaskReqDTO addTaskReqDTO);
+    Result<Void> addTaskForClient(AddTaskForClientReqDTO addTaskForClientReqDTO);
 
     /**
-     * 更新定时任务
+     * 微服务客户端更新定时任务
      *
-     * @param updateTaskByTasknameReqDTO
+     * @param updateTaskByTasknameForClientReqDTO
      * @return
      */
-    Result<Void> updateTaskByTaskname(UpdateTaskByTasknameReqDTO updateTaskByTasknameReqDTO);
+    Result<Void> updateTaskByTasknameForClient(UpdateTaskByTasknameForClientReqDTO updateTaskByTasknameForClientReqDTO);
 
     /**
      * 更新定时任务状态为运行

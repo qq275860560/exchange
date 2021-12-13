@@ -20,8 +20,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -125,7 +125,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, Long> impleme
         predicate.and(QUserRole.userRole.rolename.eq(rolename));
         UserRole userRole = userRoleService.get(predicate);
         //返回
-        UserRoleRespDTO userRoleRespDTO = AutoMapUtils.map(userRole, UserRoleRespDTO.class);
+        UserRoleRespDTO userRoleRespDTO = ModelMapperUtil.map(userRole, UserRoleRespDTO.class);
         return new Result<>(userRoleRespDTO);
     }
 
@@ -146,7 +146,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, Long> impleme
     @Override
     @SneakyThrows
     public Result<Void> addUserRole(AddUserRoleReqDTO addUserRoleReqDTO) {
-        UserRole userRole = AutoMapUtils.map(addUserRoleReqDTO, UserRole.class);
+        UserRole userRole = ModelMapperUtil.map(addUserRoleReqDTO, UserRole.class);
         //获取当前登陆用户详情
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
         userRole.setCreateUserId(currentLoginUser.getId());
@@ -183,7 +183,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, Long> impleme
         String rolename = getUserRoleByUsernameAndRolenameReqDTO.getRolename();
         //加载
         UserRoleRespDTO afterUserRoleRespDTO = userRoleService.getUserRoleByUsernameAndRolename(getUserRoleByUsernameAndRolenameReqDTO).getData();
-        UserRole afterUserRole = AutoMapUtils.map(afterUserRoleRespDTO, UserRole.class);
+        UserRole afterUserRole = ModelMapperUtil.map(afterUserRoleRespDTO, UserRole.class);
         if (afterUserRole == null) {
             return new Result<>(ResultCodeEnum.USER_ROLE_NOT_EXISTS);
         }
@@ -206,7 +206,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, Long> impleme
         String rolename = getUserRoleByUsernameAndRolenameReqDTO.getRolename();
         //加载
         UserRoleRespDTO afterUserRoleRespDTO = userRoleService.getUserRoleByUsernameAndRolename(getUserRoleByUsernameAndRolenameReqDTO).getData();
-        UserRole afterUserRole = AutoMapUtils.map(afterUserRoleRespDTO, UserRole.class);
+        UserRole afterUserRole = ModelMapperUtil.map(afterUserRoleRespDTO, UserRole.class);
         if (afterUserRole == null) {
             return new Result<>(ResultCodeEnum.USER_ROLE_NOT_EXISTS);
         }

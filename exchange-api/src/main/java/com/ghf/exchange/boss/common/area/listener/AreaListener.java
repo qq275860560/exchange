@@ -1,7 +1,5 @@
 package com.ghf.exchange.boss.common.area.listener;
 
-import com.ghf.exchange.boss.authorication.client.service.ClientService;
-import com.ghf.exchange.boss.authorication.user.service.UserService;
 import com.ghf.exchange.boss.common.area.dto.AreaRespDTO;
 import com.ghf.exchange.boss.common.area.dto.GetAreaByAreanameReqDTO;
 import com.ghf.exchange.boss.common.area.dto.ListAncestorByAreanameReqDTO;
@@ -10,10 +8,9 @@ import com.ghf.exchange.boss.common.area.entity.Area;
 import com.ghf.exchange.boss.common.area.event.UpdateFullAreaEvent;
 import com.ghf.exchange.boss.common.area.service.AreaService;
 import com.ghf.exchange.config.ClearRedisConfig;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.JsonUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -31,23 +28,11 @@ public class AreaListener {
 
     @Lazy
     @Resource
-    private UserService userService;
-    @Lazy
-    @Resource
-    private ClientService clientService;
-    @Lazy
-    @Resource
     private AreaService areaService;
 
     @Lazy
     @Resource
     private ClearRedisConfig clearRedisService;
-
-    @Value("${security.oauth2.client.client-id}")
-    public String clientId;
-
-    @Value("${security.oauth2.client.client-secret}")
-    public String secret;
 
     @Async
     @EventListener
@@ -82,7 +67,7 @@ public class AreaListener {
         fullAreadescStringBuilder.append(areaRespDTO.getAreadesc()).append(",");
 
         AreaRespDTO afterAreaRespDTO = areaService.getAreaByAreaname(GetAreaByAreanameReqDTO.builder().areaname(areaRespDTO.getAreaname()).build()).getData();
-        Area area = AutoMapUtils.map(afterAreaRespDTO, Area.class);
+        Area area = ModelMapperUtil.map(afterAreaRespDTO, Area.class);
         area.setFullAreaId(fullAreaIdStringBuilder.toString());
         area.setFullAreaname(fullAreanameStringBuilder.toString());
         area.setFullAreadesc(fullAreadescStringBuilder.toString());

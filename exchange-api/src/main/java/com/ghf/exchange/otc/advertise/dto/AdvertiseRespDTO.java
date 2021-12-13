@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @author jiangyuanlin@163.com
@@ -28,8 +29,6 @@ import java.util.Date;
 public class AdvertiseRespDTO {
 
     @ApiModelProperty("id")
-    @Id
-
     private long id;
 
     @ApiModelProperty("广告编码，唯一")
@@ -56,25 +55,30 @@ public class AdvertiseRespDTO {
 
     private BigDecimal advertiseCoinRate;
 
-    @ApiModelProperty("库存量")
+    @ApiModelProperty("总库存数量")
+    private BigDecimal advertiseTotalAmount;
 
-    private BigDecimal advertiseAmount;
+    @ApiModelProperty("广告可用库存数量")
+    private BigDecimal advertiseAvailableAmount;
 
-    @ApiModelProperty("冻结库存量")
-
+    @ApiModelProperty("冻结库存数量")
     private BigDecimal advertiseFrozenAmount;
-
-    @ApiModelProperty("单笔最大交易量")
-
-    private BigDecimal advertisePerMaxAmount;
-
-    @ApiModelProperty("单笔最小交易量")
-
-    private BigDecimal advertisePerMinAmount;
 
     @ApiModelProperty("法币所在国家编码")
 
     private String advertiseLegalCurrencyCountryCode;
+
+    @ApiModelProperty("法币所在国家编码")
+
+    private String advertiseLegalCurrencyCountryName;
+
+    @ApiModelProperty("法币编码")
+
+    private String advertiseLegalCurrencyCode;
+
+    @ApiModelProperty("法币名称")
+
+    private String advertiseLegalCurrencyName;
 
     @ApiModelProperty("法币符号")
 
@@ -100,38 +104,14 @@ public class AdvertiseRespDTO {
 
     private String advertiseAutoReplyContent;
 
-    @ApiModelProperty("付款时间条件，从下单到点击确认付款的时间，单位分钟")
+    @ApiModelProperty("广告商家支持的付款方式列表")
+    private Set<Integer> advertiseBusinessPaymentTypeSet = Collections.emptySet();
 
-    private int advertiseBusinessPaymentTermTime;
+    @ApiModelProperty("广告商家支持的付款方式编码，逗号区分")
+    private String advertiseBusinessPaymentCodes;
 
     @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分")
-
-    private String advertiseBusinessPaymentTermTypeArray;
-
-    @ApiModelProperty("付款条件:支付宝方式,支付宝账号")
-
-    private String advertiseBusinessPaymentTermTypeAlipayAccount;
-    @ApiModelProperty("付款条件:支付宝方式,支付宝二维码")
-
-    private String advertiseBusinessPaymentTermTypeAlipayQrcode;
-    @ApiModelProperty("付款条件:微信方式,微信账号")
-
-    private String advertiseBusinessPaymentTermTypeWechatAccount;
-    @ApiModelProperty("付款条件:微信方式,微信二维码")
-
-    private String advertiseBusinessPaymentTermTypeWechatQrcode;
-    @ApiModelProperty("付款条件:银行方式,银行名称")
-
-    private String advertiseBusinessPaymentTermTypeBankName;
-    @ApiModelProperty("付款条件:银行方式,支行账号")
-
-    private String advertiseBusinessPaymentTermTypeBankBranchName;
-    @ApiModelProperty("付款条件:银行方式,银行卡号")
-
-    private String advertiseBusinessPaymentTermTypeBankAccount;
-    @ApiModelProperty("付款条件:银行方式,户主真实姓名")
-
-    private String advertiseBusinessPaymentTermTypeBankRealname;
+    private String advertiseBusinessPaymentTypes;
 
     @ApiModelProperty("广告商家的登陆用户名,用户英文名称，用户编码")
 

@@ -15,8 +15,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
@@ -131,7 +131,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
         Role role = roleService.get(predicate);
 
         //返回
-        RoleRespDTO roleRespDTO = AutoMapUtils.map(role, RoleRespDTO.class);
+        RoleRespDTO roleRespDTO = ModelMapperUtil.map(role, RoleRespDTO.class);
         if (!ObjectUtils.isEmpty(roleRespDTO.getPermissionnames())) {
             roleRespDTO.setPermissionnameSet(Arrays.stream(roleRespDTO.getPermissionnames().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
         }
@@ -156,7 +156,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
     @Override
     @SneakyThrows
     public Result<Void> addRole(AddRoleReqDTO addRoleReqDTO) {
-        Role role = AutoMapUtils.map(addRoleReqDTO, Role.class);
+        Role role = ModelMapperUtil.map(addRoleReqDTO, Role.class);
         //获取当前登陆用户详情
 
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
@@ -195,7 +195,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
         GetRoleByRolenameReqDTO getRoleByRolenameReqDTO = new GetRoleByRolenameReqDTO();
         getRoleByRolenameReqDTO.setRolename(rolename);
         RoleRespDTO afterRoleRespDTO = roleService.getRoleByRolename(getRoleByRolenameReqDTO).getData();
-        Role afterRole = AutoMapUtils.map(afterRoleRespDTO, Role.class);
+        Role afterRole = ModelMapperUtil.map(afterRoleRespDTO, Role.class);
         if (afterRole == null) {
             return new Result<>(ResultCodeEnum.ROLE_NOT_EXISTS);
         }
@@ -222,7 +222,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
         GetRoleByRolenameReqDTO getRoleByRolenameReqDTO = new GetRoleByRolenameReqDTO();
         getRoleByRolenameReqDTO.setRolename(rolename);
         RoleRespDTO afterRoleRespDTO = roleService.getRoleByRolename(getRoleByRolenameReqDTO).getData();
-        Role afterRole = AutoMapUtils.map(afterRoleRespDTO, Role.class);
+        Role afterRole = ModelMapperUtil.map(afterRoleRespDTO, Role.class);
         if (afterRole == null) {
             return new Result<>(ResultCodeEnum.ROLE_NOT_EXISTS);
         }
@@ -246,7 +246,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
         String rolename = getRoleByRolenameReqDTO.getRolename();
         //加载
         RoleRespDTO afterRoleRespDTO = roleService.getRoleByRolename(getRoleByRolenameReqDTO).getData();
-        Role afterRole = AutoMapUtils.map(afterRoleRespDTO, Role.class);
+        Role afterRole = ModelMapperUtil.map(afterRoleRespDTO, Role.class);
         if (afterRole == null) {
             return new Result<>(ResultCodeEnum.ROLE_NOT_EXISTS);
         }
@@ -268,7 +268,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
         String rolename = getRoleByRolenameReqDTO.getRolename();
         //加载
         RoleRespDTO afterRoleRespDTO = roleService.getRoleByRolename(getRoleByRolenameReqDTO).getData();
-        Role afterRole = AutoMapUtils.map(afterRoleRespDTO, Role.class);
+        Role afterRole = ModelMapperUtil.map(afterRoleRespDTO, Role.class);
         if (afterRole == null) {
             return new Result<>(ResultCodeEnum.ROLE_NOT_EXISTS);
         }

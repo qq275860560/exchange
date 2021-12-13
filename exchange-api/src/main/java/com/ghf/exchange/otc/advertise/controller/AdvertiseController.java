@@ -28,7 +28,7 @@ public class AdvertiseController {
     @Resource
     private AdvertiseService advertiseService;
 
-    @ApiOperation(value = "分页搜索广告", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "分页搜索广告", notes = "<p>获取挂单列表信息</p>", httpMethod = "POST")
     @PostMapping(value = "/api/advertise/pageAdvertise")
     @SneakyThrows
     public Result<PageRespDTO<AdvertiseRespDTO>> pageAdvertise(@RequestBody PageAdvertiseReqDTO pageAdvertiseReqDTO) {
@@ -56,25 +56,32 @@ public class AdvertiseController {
         return advertiseService.getMatchAdvertise(getMatchAdvertiseReqDTO);
     }
 
-    @ApiOperation(value = "发布广告", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "发布广告", notes = "<p>用户发布广告</p>", httpMethod = "POST")
     @PostMapping(value = "/api/advertise/addAdvertise")
     @SneakyThrows
     public Result<Void> addAdvertise(@RequestBody AddAdvertiseReqDTO addAdvertiseReqDTO) {
         return advertiseService.addAdvertise(addAdvertiseReqDTO);
     }
 
-    @ApiOperation(value = "上架广告", notes = "<p>)</p>", httpMethod = "POST")
+    @ApiOperation(value = "上架广告", notes = "<p>用户发布广告</p>", httpMethod = "POST")
     @PostMapping(value = "/api/advertise/putOnShelves")
     @SneakyThrows
     public Result<Void> putOnShelves(@RequestBody PutOnShelvesReqDTO putOnShelvesReqDTO) {
         return advertiseService.putOnShelves(putOnShelvesReqDTO);
     }
 
-    @ApiOperation(value = "下架广告", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "下架广告", notes = "<p>取消广告发布</p>", httpMethod = "POST")
     @PostMapping(value = "/api/advertise/putOffShelves")
     @SneakyThrows
     public Result<Void> putOffShelves(@RequestBody PutOffShelvesReqDTO putOffShelvesReqDTO) {
         return advertiseService.putOffShelves(putOffShelvesReqDTO);
+    }
+
+    @ApiOperation(value = "微服务客户端下架广告", notes = "<p>比如库存数量为小于最小交易量并且冻结的库存数量为0时</p>", httpMethod = "POST")
+    @PostMapping(value = "/api/advertise/putOffShelvesForClient")
+    @SneakyThrows
+    public Result<Void> putOffShelvesForClient(@RequestBody PutOffShelvesForClientReqDTO putOffShelvesForClientReqDTO) {
+        return advertiseService.putOffShelvesForClient(putOffShelvesForClientReqDTO);
     }
 
     @ApiOperation(value = "删除广告", notes = "<p></p>", httpMethod = "POST")
@@ -84,21 +91,21 @@ public class AdvertiseController {
         return advertiseService.deleteAdvertise(deleteAdvertiseReqDTO);
     }
 
-    @ApiOperation(value = "冻结广告数量", notes = "<p>冻结广告数量，比如：新建买币订单时</p>", httpMethod = "POST")
+    @ApiOperation(value = "冻结广告库存数量", notes = "<p>冻结广告数量，比如：新建买币订单时</p>", httpMethod = "POST")
     @PostMapping(value = "/api/advertise/freezeAdvertiseAmount")
     @SneakyThrows
     public Result<Void> freezeAdvertiseAmount(@RequestBody FreezeAdvertiseAmountReqDTO freezeAdvertiseAmountReqDTO) {
         return advertiseService.freezeAdvertiseAmount(freezeAdvertiseAmountReqDTO);
     }
 
-    @ApiOperation(value = "解冻广告数量", notes = "<p>解冻广告数量，比如：取消买币订单时</p>", httpMethod = "POST")
+    @ApiOperation(value = "解冻广告库存数量", notes = "<p>解冻广告数量，比如：取消买币订单时</p>", httpMethod = "POST")
     @PostMapping(value = "/api/advertise/unFreezeAdvertiseAmount")
     @SneakyThrows
     public Result<Void> unFreezeAdvertiseAmount(@RequestBody UnFreezeAdvertiseAmountReqDTO unFreezeAdvertiseAmountReqDTO) {
         return advertiseService.unFreezeAdvertiseAmount(unFreezeAdvertiseAmountReqDTO);
     }
 
-    @ApiOperation(value = "扣减广告冻结数量", notes = "<p>扣减广告冻结数量，比如：放行订单时</p>", httpMethod = "POST")
+    @ApiOperation(value = "扣减广告冻结库存数量", notes = "<p>扣减广告冻结数量，比如：放行订单时</p>", httpMethod = "POST")
     @PostMapping(value = "/api/advertise/decAdvertiseFrozenAmount")
     @SneakyThrows
     public Result<Void> decAdvertiseFrozenAmount(@RequestBody DecAdvertiseFrozenAmountReqDTO decAdvertiseFrozenAmountReqDTO) {

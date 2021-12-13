@@ -34,8 +34,11 @@ public class AccountRespDTO {
     @ApiModelProperty("币种编码")
     private String coinCode;
 
+    @ApiModelProperty("总金额")
+    private BigDecimal totalBalance;
+
     @ApiModelProperty("可用金额")
-    private BigDecimal balance;
+    private BigDecimal availableBalance;
 
     @ApiModelProperty("冻结金额")
     private BigDecimal frozenBalance;

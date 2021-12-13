@@ -2,7 +2,7 @@ package com.ghf.exchange.otc.orderlog.controller;
 
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
-import com.ghf.exchange.otc.orderlog.dto.AddOrderLogReqDTO;
+import com.ghf.exchange.otc.orderlog.dto.AddOrderLogForClientReqDTO;
 import com.ghf.exchange.otc.orderlog.dto.GetOrderLogByOrderLogCodeReqDTO;
 import com.ghf.exchange.otc.orderlog.dto.OrderLogRespDTO;
 import com.ghf.exchange.otc.orderlog.dto.PageOrderLogReqDTO;
@@ -52,11 +52,11 @@ public class OrderLogController {
         return orderLogService.existsOrderLogByOrderLogCode(getOrderLogByOrderLogCodeReqDTO);
     }
 
-    @ApiOperation(value = "新建订单日志", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/orderlog/addOrderLog")
+    @ApiOperation(value = "微服务客户端新建订单日志", notes = "<p></p>", httpMethod = "POST")
+    @PostMapping(value = "/api/orderlog/addOrderLogForClient")
     @SneakyThrows
-    public Result<Void> addOrderLog(@RequestBody AddOrderLogReqDTO addOrderLogReqDTO) {
-        return orderLogService.addOrderLog(addOrderLogReqDTO);
+    public Result<Void> addOrderLogForClient(@RequestBody AddOrderLogForClientReqDTO addOrderLogForClientReqDTO) {
+        return orderLogService.addOrderLogForClient(addOrderLogForClientReqDTO);
     }
 
 }

@@ -40,11 +40,15 @@ public class OrderMessageWithMongo {
     @Field(name = "order_code")
     private String orderCode;
 
-    @ApiModelProperty("订单消息")
+    @ApiModelProperty("订单消息类型,1:文本,2:图片")
+    @Field(name = "order_message_type")
+    private String orderMessageType;
+
+    @ApiModelProperty("订单消息内容")
     @Field(name = "order_message_content")
     private String orderMessageContent;
 
-    @ApiModelProperty("息发送者的登陆用户名,用户英文名称，用户编码")
+    @ApiModelProperty("消息发送者的登陆用户名,用户英文名称，用户编码")
     @Field(name = "order_message_sender_username")
     private String orderMessageSenderUsername;
 

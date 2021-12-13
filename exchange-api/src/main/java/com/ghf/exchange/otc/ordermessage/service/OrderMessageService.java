@@ -2,10 +2,7 @@ package com.ghf.exchange.otc.ordermessage.service;
 
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
-import com.ghf.exchange.otc.ordermessage.dto.AddOrderMessageReqDTO;
-import com.ghf.exchange.otc.ordermessage.dto.GetOrderMessageByOrderMessageCodeReqDTO;
-import com.ghf.exchange.otc.ordermessage.dto.OrderMessageRespDTO;
-import com.ghf.exchange.otc.ordermessage.dto.PageOrderMessageReqDTO;
+import com.ghf.exchange.otc.ordermessage.dto.*;
 import com.ghf.exchange.otc.ordermessage.entity.OrderMessage;
 import com.ghf.exchange.service.BaseService;
 
@@ -22,6 +19,14 @@ public interface OrderMessageService extends BaseService<OrderMessage, Long> {
      * @return
      */
     Result<PageRespDTO<OrderMessageRespDTO>> pageOrderMessage(PageOrderMessageReqDTO pageOrderMessageReqDTO);
+
+    /**
+     * 管理员分页搜索消息
+     *
+     * @param pageOrderMessageForAdminReqDTO
+     * @return
+     */
+    Result<PageRespDTO<OrderMessageRespDTO>> pageOrderMessageForAdmin(PageOrderMessageForAdminReqDTO pageOrderMessageForAdminReqDTO);
 
     /**
      * 根据消息编号获取消息详情

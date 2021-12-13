@@ -9,28 +9,24 @@ import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.otc.order.dto.GetOrderByOrderCodeReqDTO;
 import com.ghf.exchange.otc.order.dto.OrderRespDTO;
 import com.ghf.exchange.otc.order.service.OrderService;
-import com.ghf.exchange.otc.ordermessage.dto.AddOrderMessageReqDTO;
-import com.ghf.exchange.otc.ordermessage.dto.GetOrderMessageByOrderMessageCodeReqDTO;
-import com.ghf.exchange.otc.ordermessage.dto.OrderMessageRespDTO;
-import com.ghf.exchange.otc.ordermessage.dto.PageOrderMessageReqDTO;
+import com.ghf.exchange.otc.ordermessage.dto.*;
 import com.ghf.exchange.otc.ordermessage.entity.OrderMessage;
 import com.ghf.exchange.otc.ordermessage.entity.OrderMessageWithMongo;
+import com.ghf.exchange.otc.ordermessage.enums.OrderMessageTypeEnum;
 import com.ghf.exchange.otc.ordermessage.event.AddOrderMessageEvent;
 import com.ghf.exchange.otc.ordermessage.repository.OrderMessageRepository;
 import com.ghf.exchange.otc.ordermessage.service.OrderMessageService;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -69,9 +65,6 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
     @Resource
     private ApplicationEventPublisher applicationEventPublisher;
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-
     public OrderMessageServiceImpl(OrderMessageRepository repository) {
         super(repository);
     }
@@ -82,11 +75,11 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
 
         //获取当前登陆用户详情
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
-        String username = currentLoginUser.getUsername();
 
-  /*mysql方式
+
+        /*mysql方式
         BooleanBuilder predicate = new BooleanBuilder();
-        predicate.and(QOrderMessage.orderMessage.orderMessageReceiverUsername.eq(username).or(QOrderMessage.orderMessage.orderMessageSenderUsername.eq(username)));
+        predicate.and(QOrderMessage.orderMessage.orderMessageReceiverUsername.eq(currentLoginUser.getUsername()).or(QOrderMessage.orderMessage.orderMessageSenderUsername.eq(currentLoginUser.getUsername())));
 
         if (!ObjectUtils.isEmpty(pageOrderMessageReqDTO.getOrderCode())) {
             predicate.and(QOrderMessage.orderMessage.orderCode.eq(pageOrderMessageReqDTO.getOrderCode()));
@@ -103,7 +96,7 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
 */
 
         Query query = new Query();
-        query.addCriteria(new Criteria().orOperator(Criteria.where("order_message_sender_username").is(username), Criteria.where("order_message_receiver_username").is(username)));
+        query.addCriteria(new Criteria().orOperator(Criteria.where("order_message_sender_username").is(currentLoginUser.getUsername()), Criteria.where("order_message_receiver_username").is(currentLoginUser.getUsername())));
         if (!ObjectUtils.isEmpty(pageOrderMessageReqDTO.getOrderCode())) {
             query.addCriteria(Criteria.where("order_code").is(pageOrderMessageReqDTO.getOrderCode()));
 
@@ -132,7 +125,7 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
 
         query.skip((pageOrderMessageReqDTO.getPageNum() - 1) * pageOrderMessageReqDTO.getPageSize());
         query.limit(pageOrderMessageReqDTO.getPageSize());
-        List<OrderMessageRespDTO> list = AutoMapUtils.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
+        List<OrderMessageRespDTO> list = ModelMapperUtil.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
 
         PageRespDTO<OrderMessageRespDTO> pageRespDTO = new PageRespDTO<OrderMessageRespDTO>(pageOrderMessageReqDTO.getPageNum(), pageOrderMessageReqDTO.getPageSize(), (int) total, list);
 
@@ -140,9 +133,60 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
         if (pageOrderMessageReqDTO.getPageNum() > pageRespDTO.getPages()) {
             pageOrderMessageReqDTO.setPageNum(pageRespDTO.getPages());
             query.skip((pageOrderMessageReqDTO.getPageNum() - 1) * pageOrderMessageReqDTO.getPageSize());
-            list = AutoMapUtils.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
+            list = ModelMapperUtil.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
         }
         pageRespDTO = new PageRespDTO<OrderMessageRespDTO>(pageOrderMessageReqDTO.getPageNum(), pageOrderMessageReqDTO.getPageSize(), (int) total, list);
+
+        return new Result<>(pageRespDTO);
+    }
+
+    @Override
+    @SneakyThrows
+    public Result<PageRespDTO<OrderMessageRespDTO>> pageOrderMessageForAdmin(PageOrderMessageForAdminReqDTO pageOrderMessageForAdminReqDTO) {
+
+        Query query = new Query();
+        if (!ObjectUtils.isEmpty(pageOrderMessageForAdminReqDTO.getUsername())) {
+            query.addCriteria(new Criteria().orOperator(Criteria.where("order_message_sender_username").is(pageOrderMessageForAdminReqDTO.getUsername()), Criteria.where("order_message_receiver_username").is(pageOrderMessageForAdminReqDTO.getUsername())));
+        }
+        if (!ObjectUtils.isEmpty(pageOrderMessageForAdminReqDTO.getOrderCode())) {
+            query.addCriteria(Criteria.where("order_code").is(pageOrderMessageForAdminReqDTO.getOrderCode()));
+
+        }
+
+        if (pageOrderMessageForAdminReqDTO.getBeginCreateTime() != null && pageOrderMessageForAdminReqDTO.getEndCreateTime() != null) {
+            query.addCriteria(Criteria.where("create_time").lte(pageOrderMessageForAdminReqDTO.getEndCreateTime()).andOperator(Criteria.where("create_time").gte(pageOrderMessageForAdminReqDTO.getBeginCreateTime())));
+        } else if (pageOrderMessageForAdminReqDTO.getBeginCreateTime() == null && pageOrderMessageForAdminReqDTO.getEndCreateTime() != null) {
+            query.addCriteria(Criteria.where("create_time").lte(pageOrderMessageForAdminReqDTO.getEndCreateTime()));
+        } else if (pageOrderMessageForAdminReqDTO.getBeginCreateTime() != null && pageOrderMessageForAdminReqDTO.getEndCreateTime() == null) {
+            query.addCriteria(Criteria.where("create_time").gte(pageOrderMessageForAdminReqDTO.getBeginCreateTime()));
+        }
+
+        long total = mongoTemplate.count(query, OrderMessageWithMongo.class);
+
+        Sort sort = null;
+        if (pageOrderMessageForAdminReqDTO.getSort() == null || pageOrderMessageForAdminReqDTO.getSort().isEmpty()) {
+            sort = Sort.unsorted();
+        } else {
+            List<Sort.Order> orders = pageOrderMessageForAdminReqDTO.getSort().stream().map(e ->
+                    new Sort.Order(Sort.Direction.fromString(e.getDirection()), e.getProperty())
+            ).collect(Collectors.toList());
+            sort = Sort.by(orders);
+        }
+        query.with(sort);
+
+        query.skip((pageOrderMessageForAdminReqDTO.getPageNum() - 1) * pageOrderMessageForAdminReqDTO.getPageSize());
+        query.limit(pageOrderMessageForAdminReqDTO.getPageSize());
+        List<OrderMessageRespDTO> list = ModelMapperUtil.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
+
+        PageRespDTO<OrderMessageRespDTO> pageRespDTO = new PageRespDTO<OrderMessageRespDTO>(pageOrderMessageForAdminReqDTO.getPageNum(), pageOrderMessageForAdminReqDTO.getPageSize(), (int) total, list);
+
+        //refactor page[1,max] 超过当前页边界，返回边界页的列表数据
+        if (pageOrderMessageForAdminReqDTO.getPageNum() > pageRespDTO.getPages()) {
+            pageOrderMessageForAdminReqDTO.setPageNum(pageRespDTO.getPages());
+            query.skip((pageOrderMessageForAdminReqDTO.getPageNum() - 1) * pageOrderMessageForAdminReqDTO.getPageSize());
+            list = ModelMapperUtil.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
+        }
+        pageRespDTO = new PageRespDTO<OrderMessageRespDTO>(pageOrderMessageForAdminReqDTO.getPageNum(), pageOrderMessageForAdminReqDTO.getPageSize(), (int) total, list);
 
         return new Result<>(pageRespDTO);
     }
@@ -156,11 +200,11 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
           /*mysql方式
           Predicate predicate = QOrderMessage.orderMessage.orderMessageCode.eq(orderMessageCode);
          OrderMessage orderMessage = orderMessageService.get(predicate);
-         OrderMessageRespDTO orderMessageRespDTO = AutoMapUtils.map(orderMessage, OrderMessageRespDTO.class);
+         OrderMessageRespDTO orderMessageRespDTO = ModelMapperUtil.map(orderMessage, OrderMessageRespDTO.class);
 */
         Query query = Query.query(Criteria.where("order_message_code").is(orderMessageCode));
         OrderMessageWithMongo orderMessageWithMongo = mongoTemplate.find(query, OrderMessageWithMongo.class).get(0);
-        OrderMessageRespDTO orderMessageRespDTO = AutoMapUtils.map(orderMessageWithMongo, OrderMessageRespDTO.class);
+        OrderMessageRespDTO orderMessageRespDTO = ModelMapperUtil.map(orderMessageWithMongo, OrderMessageRespDTO.class);
 
         return new Result<>(orderMessageRespDTO);
     }
@@ -183,7 +227,7 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
     @Override
     @SneakyThrows
     public Result<Void> addOrderMessage(AddOrderMessageReqDTO addOrderMessageReqDTO) {
-        OrderMessage orderMessage = AutoMapUtils.map(addOrderMessageReqDTO, OrderMessage.class);
+        OrderMessage orderMessage = ModelMapperUtil.map(addOrderMessageReqDTO, OrderMessage.class);
 
         //初始化id
         orderMessage.setId(IdUtil.generateLongId());
@@ -214,11 +258,11 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
         String username = currentLoginUser.getUsername();
 
         if (username.equals(orderRespDTO.getOrderCustomerUsername())) {
-            //订单顾客,有权限消息
+            //订单顾客,有权限
             flag = true;
             orderMessage.setOrderMessageReceiverUsername(orderRespDTO.getAdvertiseBusinessUsername());
         } else if (username.equals(orderRespDTO.getAdvertiseBusinessUsername())) {
-            //广告商家,有权限消息
+            //广告商家,有权限
             flag = true;
             orderMessage.setOrderMessageReceiverUsername(orderRespDTO.getOrderCustomerUsername());
         }
@@ -230,21 +274,35 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
         orderMessage.setOrderMessageSenderUsername(username);
         orderMessage.setOrderCode(orderRespDTO.getOrderCode());
 
+        //判断订单消息类型
+        if (addOrderMessageReqDTO.getOrderMessageType() != OrderMessageTypeEnum.TEXT.getCode() && addOrderMessageReqDTO.getOrderMessageType() != OrderMessageTypeEnum.PICTURE.getCode()) {
+            return new Result<>(ResultCodeEnum.ORDER_AMESSAGE_TYPE_NOT_EXISTS);
+        }
+        //设置订单消息类型
+        orderMessage.setOrderMessageType(addOrderMessageReqDTO.getOrderMessageType());
+
+        //设置订单消息内容
         orderMessage.setOrderMessageContent(addOrderMessageReqDTO.getOrderMessageContent());
 
+        //设置订单消息时间
         orderMessage.setCreateTime(new Date());
 
         //持久化到数据库
           /*mysql方式
           orderMessageService.add(orderMessage);
            */
-        OrderMessageWithMongo orderMessageWithMongo = AutoMapUtils.map(orderMessage, OrderMessageWithMongo.class);
+        OrderMessageWithMongo orderMessageWithMongo = ModelMapperUtil.map(orderMessage, OrderMessageWithMongo.class);
         mongoTemplate.save(orderMessageWithMongo);
 
         //发送到消息队列
-        applicationEventPublisher.publishEvent(new AddOrderMessageEvent(orderMessage));
+        AddOrderMessageEvent addOrderMessageEvent = ModelMapperUtil.map(orderMessageWithMongo, AddOrderMessageEvent.class);
+
+        applicationEventPublisher.publishEvent(addOrderMessageEvent);
 
         return new Result<>(ResultCodeEnum.OK);
     }
+
+    //TODO 招呼语
+    //TODO 消息区分系统消息还是订单聊天消息,广告和订单状态发生变化时新建系统消息实时通知到用户,系统消息可能还要对管理员广播消息,比如申诉
 
 }

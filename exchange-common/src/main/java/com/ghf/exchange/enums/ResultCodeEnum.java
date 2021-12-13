@@ -78,10 +78,16 @@ public enum ResultCodeEnum {
     TASK_STATUS_RUNNGIN(61904, "任务运行中"),
     TASK_STATUS_COMPLETE(61905, "任务已经完成"),
     TASK_STATUS_DELETE(61905, "任务已经删除"),
-    TASK_TYPE_DELETE(61906, "任务类型不存在"),
+    TASK_TYPE_NOT_EXISTS(61906, "任务类型不存在"),
+    TASK_INVOKE_TYPE_DELETE(61907, "任务类型不存在"),
+    TASK_LOG_EXISTS(61908, "任务日志已经存在"),
+    TASK_LOG_NOT_EXISTS(61909, "任务日志不存在"),
+    TASK_CLASS_NAME_NOT_EMPTY(61910, "类全名不能为空"),
+    TASK_METHOD_NAME_NOT_EMPTY(61911, "方法名称不能为空"),
+    TASK_REQUEST_URL_NOT_EMPTY(61912, "方法名称不能为空"),
+    TASK_REQUEST_HEADER_NOT_EMPTY(61912, "方法名称不能为空"),
+    TASK_CRON_EXPRESSION_NOT_EMPTY(61913, "CRON表达式不能为空"),
 
-    TASK_LOG_EXISTS(62001, "任务日志已经存在"),
-    TASK_LOG_NOT_EXISTS(62002, "任务日志不存在"),
     /**
      * 广告模块
      */
@@ -91,15 +97,19 @@ public enum ResultCodeEnum {
     ADVERTISE_BUY_SELL_TYPE_NOT_EXISTS(70003, "广告买卖类型不存在"),
     ADVERTISE_PRICE_TYPE_NOT_EXISTS(70004, "广告价格类型不存在"),
     ADVERTISE_STATUSE_NOT_EXISTS(70005, "广告状态不存在"),
-    ADVERTISE_PAYMENT_TERM_TIME_ERROR(70005, "广告付款期限错误"),
-    ADVERTISE_AVAILABLE_AMOUNT_ERROR(70006, "广告库存错误"),
-    ADVERTISE_PAYMENT_TERM_TYPE_ARRAY_NOT_EMPTY(70007, "广告收付款类型不能为空"),
-    ADVERTISE_STATUS_IS_NOT_PUT_OFF_SHELVES(70008, "广告非下架状态"),
-    ADVERTISE_STATUS_IS_NOT_PUT_ON_SHELVES(70009, "广告非上架状态"),
-    ADVERTISE_AMOUNT_ERROR(70010, "广告库存数量错误"),
-    ADVERTISE_FROZEN_AMOUNT_IS_NOT_ZERO(70011, "广告冻结数量非零"),
-    ADVERTISE_AMOUNT_NOT_ENOUGH(70012, "广告库存数量不足"),
-    ADVERTISE_FROZEN_AMOUNT_NOT_ENOUGH(70013, "广告冻结数量不足"),
+    ADVERTISE_PAYMENT_TERM_TIME_ERROR(70006, "广告付款期限错误"),
+    ADVERTISE_AVAILABLE_AMOUNT_ERROR(70007, "广告库存错误"),
+
+    ADVERTISE_STATUS_IS_NOT_PUT_OFF_SHELVES(70009, "广告非下架状态"),
+    ADVERTISE_STATUS_IS_NOT_PUT_ON_SHELVES(70010, "广告非上架状态"),
+
+    ADVERTISE_FROZEN_AMOUNT_IS_NOT_ZERO(70012, "广告冻结库存非零"),
+    ADVERTISE_AMOUNT_NOT_ENOUGH(70013, "广告库存库存不足"),
+    ADVERTISE_FROZEN_AMOUNT_NOT_ENOUGH(70014, "广告冻结库存不足"),
+    ADVERTISE_AVAILABLE_AMOUNT_LEGAL(70015, "广告可用库存正常"),
+    ADVERTISE_FIXED_PRICE_ERROR(70016, "广告固定价格错误"),
+    ADVERTISE_PREMIUM_RATE_ERROR(70017, "广告溢价率错误"),
+    ADVERTISE_CODE_CAN_NOT_EMPTY(70018, "广告编码不能为空"),
     /**
      * 订单模块
      */
@@ -107,26 +117,38 @@ public enum ResultCodeEnum {
     ORDER_NOT_EXISTS(80002, "订单不存在"),
     ORDER_SOURCE_NOT_EXISTS(80003, "订单来源不存在"),
     ORDER_BUY_SELL_TYPE_NOT_EXISTS(80004, "订单买卖类型不存在"),
-    ORDER_AMOUNT_LESS_THEN_PER_MIN_AMOUNT_ERROR(80005, "订单交易数量小于单笔订单最小交易量错误"),
-    ORDER_AMOUNT_GREATER_THEN_PER_MAX_AMOUNT_ERROR(80006, "订单交易数量大于单笔订单最大交易量错误"),
-    ORDER_PAYMENT_TERM_TYPE_NOT_EXISTS(80007, "订单付款类型不存在"),
+    ORDER_AMOUNT_ERROR(80006, "订单交易数量大于单笔订单最大交易量错误"),
     ORDER_ONE_KEY_MATCH_ERROR(80008, "订单一键匹配错误"),
     ORDER_STATUS_IS_NOT_ADD(80009, "订单非下单状态"),
-    ORDER_STATUS_IS_NOT_PAY(80009, "订单非付款状态"),
-    ORDER_STATUS_IS_NOT_RELEASE(80009, "订单非放行态"),
-    ORDER_STATUS_IS_NOT_CANCEL(80009, "订单非取消状态"),
-    ORDER_STATUS_IS_NOT_APPEAL(80009, "订单非申诉状态"),
+    ORDER_STATUS_IS_NOT_PAY(80010, "订单非付款状态"),
+    ORDER_STATUS_IS_NOT_RELEASE(80011, "订单非放行态"),
+    ORDER_STATUS_IS_NOT_CANCEL(80012, "订单非取消状态"),
+    ORDER_STATUS_IS_NOT_APPEAL(80013, "订单非申诉状态"),
+    ORDER_CUSTOMER_PAYMENT_NOT_EMPTY(80014, "订单顾客支付信息不能为空"),
+    ORDER_STATUS_CAN_NOT_APPEAL(80015, "订单当前状态无法申诉"),
+    ORDER_STATUS_IS_CANCEL(80016, "订单已经为取消状态"),
+    ORDER_ADD_STATUS_EXISTS(80017,"下单状态的订单已存在"),
+    ORDER_STATUS_IS_NOT_ADD_OR_PAY(80018, "订单非下单状态或已付款状态"),
+    ORDER_PAY_TIME_LEGAL(80019, "订单支付时间正常"),
+    ORDER_RELEASE_TIME_LEGAL(80020, "订单放行时间正常"),
+    ORDER_COIN_CODE_CAN_NOT_EMPTY(80021, "订单币种编码不能为空"),
+
 
     /**
      * 币种模块
      */
     COIN_NOT_EXISTS(90001, "币种不存在"),
+    COIN_STATUS_NOT_ENABLE(90002, "币种状态不是启用状态"),
+    COIN_STATUS_ENABLE(90003, "币种状态已经是启用状态"),
+    COIN_STATUS_DISABLE(90003, "币种状态已经是禁用状态"),
 
     /**
      * 账户模块
      */
     ACCOUNT_BALANCE_NOT_ENOUGH(100001, "余额不足"),
     ACCOUNT_FROZEN_BALANCE_NOT_ENOUGH(100002, "冻结中的余额不足"),
+    ACCOUNT_USERNAME_CAN_NOT_EMPTY(100003, "账户用户名不能为空"),
+    ACCOUNT_COINCODE_CAN_NOT_EMPTY(100004, "账户币种编码不能为空"),
 
     /**
      * 订单申诉
@@ -134,13 +156,18 @@ public enum ResultCodeEnum {
     ORDER_APPEAL_STATUS_IS_NOT_APPEAL(110001, "申诉非已申诉状态"),
     ORDER_APPEAL_EXISTS(110002, "申诉已经存在"),
     ORDER_APPEAL_NOT_EXISTS(110003, "申诉不存在"),
+    OTHER_APPEAL_TYPE_NOT_EXISTS(110004, "申诉类型不存在"),
+    ORDER_APPEAL_STATUS_IS_NOT_FAIL_OR_SUCCESS(110005, "申诉非审核失败或审核成功状态"),
+    ORDER_APPEAL_TYPE_IS_NOT_UN_PAY(110006, "申诉类型非未付款"),
+    ORDER_APPEAL_TYPE_IS_NOT_UN_RELEASE(110007, "申诉类型非未放行"),
 
     /**
      * 订单消息
      */
-    ORDER_MESSAGE_STATUS_IS_READ(120001, "订单消息已读"),
+    ORDER_MESSAGE_STATUS_READ(120001, "订单消息已读"),
     ORDER_MESSAGE_EXISTS(120002, "订单消息已经存在"),
     ORDER_AMESSAGE_NOT_EXISTS(120003, "订单消息不存在"),
+    ORDER_AMESSAGE_TYPE_NOT_EXISTS(120004, "订单消息不存在"),
 
     /**
      * 广告日志
@@ -149,10 +176,57 @@ public enum ResultCodeEnum {
     ADVERTISE_LOG_EXISTS(130002, "广告日志已经存在"),
 
     /**
+     * 广告日志
+     */
+
+    ADVERTISE_AMOUNT_LOG_EXISTS(140002, "广告库存量日志已经存在"),
+
+    /**
      * 订单日志
      */
 
-    ORDER_LOG_EXISTS(140002, "订单日志已经存在"),
+    ORDER_LOG_EXISTS(150002, "订单日志已经存在"),
+
+    /**
+     * 付款方式
+     */
+    PAYMENT_EXISTS(160001, "付款方式已经存在"),
+    PAYMENT_NOT_EXISTS(160002, "付款方式不存在"),
+    PAYMENT_TYPE_NOT_EXISTS(160003, "付款类型不存在"),
+    PAYMENT_TYPE_EXISTS(160004, "付款类型已经存在"),
+    PAYMENT_TYPE_ARRAY_NOT_EMPTY(160005, "付款类型数组不能为空"),
+    PAYMENT_STATUS_DISABLE(160006, "付款方式状态已经禁用"),
+    PAYMENT_STATUS_ENABLE(160007, "付款方式状态已经启用"),
+
+    /**
+     * 广告商家
+     */
+    ADVERTISE_BUSINESS_EXISTS(170001, "广告商家已经存在"),
+    ADVERTISE_BUSINESS_NOT_EXISTS(170002, "广告商家不存在"),
+    ADVERTISE_BUSINESS_USERNAME_NOT_EMPTY(170003, "广告商家用户名不能为空"),
+    ADVERTISE_BUSINESS_USERNAME_EXISTS(170004, "广告商家用户名已经存在"),
+    ADVERTISE_BUSINESS_STATUS_DISABLE(170006, "广告商家状态已经禁用"),
+    ADVERTISE_BUSINESS_STATUS_ENABLE(170007, "广告商家状态已经启用"),
+
+    /**
+     * 订单顾客
+     */
+    ORDER_CUSTOMER_EXISTS(180001, "订单顾客已经存在"),
+    ORDER_CUSTOMER_NOT_EXISTS(180002, "订单顾客不存在"),
+    ORDER_CUSTOMER_USERNAME_NOT_EMPTY(180003, "订单顾客用户名不能为空"),
+    ORDER_CUSTOMER_USERNAME_EXISTS(180004, "订单顾客用户名已经存在"),
+    ORDER_CUSTOMER_STATUS_DISABLE(180006, "订单顾客状态已经禁用"),
+    ORDER_CUSTOMER_STATUS_ENABLE(180007, "订单顾客状态已经启用"),
+    ORDER_CUSTOMER_ORDER_TODAY_CANCEL_COUNT_OVERLOAD(180008, "订单顾客每日订单取消次数超过系统规定"),
+
+
+    /**
+     * 法币模块
+     */
+    LEGAL_CURRENCY_NOT_EXISTS(90001, "法币不存在"),
+    LEGAL_CURRENCY_STATUS_NOT_ENABLE(90002, "法币状态不是启用状态"),
+    LEGAL_CURRENCY_STATUS_ENABLE(90003, "法币状态已经是启用状态"),
+    LEGAL_CURRENCY_STATUS_DISABLE(90003, "法币状态已经是禁用状态"),
 
     ;
 

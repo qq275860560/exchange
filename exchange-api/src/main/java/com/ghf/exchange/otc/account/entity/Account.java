@@ -41,9 +41,13 @@ public class Account {
     @Column(name = "coin_code")
     private String coinCode;
 
+    @ApiModelProperty("总金额")
+    @Column(name = "total_balance")
+    private BigDecimal totalBalance;
+
     @ApiModelProperty("可用金额")
-    @Column(name = "balance")
-    private BigDecimal balance;
+    @Column(name = "available_balance")
+    private BigDecimal availableBalance;
 
     @ApiModelProperty("冻结金额")
     @Column(name = "frozen_balance")

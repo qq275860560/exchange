@@ -1,7 +1,7 @@
 package quartzdemo;
 
 import com.ghf.exchange.Application;
-import com.ghf.exchange.boss.common.task.dto.AddTaskReqDTO;
+import com.ghf.exchange.boss.common.task.dto.AddTaskForClientReqDTO;
 import com.ghf.exchange.boss.common.task.dto.GetTaskByTasknameReqDTO;
 import com.ghf.exchange.boss.common.task.dto.TaskRespDTO;
 import com.ghf.exchange.boss.common.task.service.TaskService;
@@ -32,27 +32,27 @@ public class TaskServiceTest {
     @Test
     public void addTaskTest() {
 
-        AddTaskReqDTO addTaskReqDTO = new AddTaskReqDTO();
-        addTaskReqDTO.setTaskname("task-" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()));
-        addTaskReqDTO.setTaskdesc("在startAt-endAt时间段内，指定执行次数和间隔方式访问登录用户接口");
-        addTaskReqDTO.setStartAt(new Date(System.currentTimeMillis() + 1000 * 120));//120秒钟后开始启动任务
-        addTaskReqDTO.setEndAt(new Date(System.currentTimeMillis() + 1000 * 600));//600秒钟后结束整个任务
+        AddTaskForClientReqDTO addTaskForClientReqDTO = new AddTaskForClientReqDTO();
+        addTaskForClientReqDTO.setTaskname("task-" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()));
+        addTaskForClientReqDTO.setTaskdesc("在startAt-endAt时间段内，指定执行次数和间隔方式访问登录用户接口");
+        addTaskForClientReqDTO.setStartAt(new Date(System.currentTimeMillis() + 1000 * 120));//120秒钟后开始启动任务
+        addTaskForClientReqDTO.setEndAt(new Date(System.currentTimeMillis() + 1000 * 600));//600秒钟后结束整个任务
 
-        addTaskReqDTO.setTasktype(0);//0代表简单方式，也就是指定时间段，任务执行多少次，此时taskRepeatCount和taskInterval字段才有效
-        addTaskReqDTO.setTaskRepeatCount(0);//重复执行次数，0代表重复0次，也就是总共执行一次。很多时候业务只需要执行一次即可，但有时候为了防止tomcat中途宕机，也可能执行多次，
+        addTaskForClientReqDTO.setTasktype(0);//0代表简单方式，也就是指定时间段，任务执行多少次，此时taskRepeatCount和taskInterval字段才有效
+        addTaskForClientReqDTO.setTaskRepeatCount(0);//重复执行次数，0代表重复0次，也就是总共执行一次。很多时候业务只需要执行一次即可，但有时候为了防止tomcat中途宕机，也可能执行多次，
         // 但业务端必须做好幂等，只要第一次执行成功了，后面的执行忽略掉即可
-        addTaskReqDTO.setTaskInterval(60);//如果repeatCount=0，也就是任务总共执行一次，此字段无意义，因为在startAt那时候任务已经触发，彻底执行完了
+        addTaskForClientReqDTO.setTaskInterval(60);//如果repeatCount=0，也就是任务总共执行一次，此字段无意义，因为在startAt那时候任务已经触发，彻底执行完了
 
-        addTaskReqDTO.setRequestUrl("http://localhost:8080/api/user/login");
-        addTaskReqDTO.setRequestHeader("{\"Content-Type\":\"application/json\"}");
-        addTaskReqDTO.setRequestMethod("POST");
-        addTaskReqDTO.setInputJson("{\"username\":\"admin\",\"password\":\"123456\"}");
-        taskService.addTask(addTaskReqDTO);
+        addTaskForClientReqDTO.setRequestUrl("http://localhost:8080/api/user/login");
+        addTaskForClientReqDTO.setRequestHeader("{\"Content-Type\":\"application/json\"}");
+        addTaskForClientReqDTO.setRequestMethod("POST");
+        addTaskForClientReqDTO.setInputJson("{\"username\":\"admin\",\"password\":\"123456\"}");
+        taskService.addTaskForClient(addTaskForClientReqDTO);
 
         GetTaskByTasknameReqDTO getTaskByTasknameReqDTO = new GetTaskByTasknameReqDTO();
-        getTaskByTasknameReqDTO.setTaskname(addTaskReqDTO.getTaskname());
+        getTaskByTasknameReqDTO.setTaskname(addTaskForClientReqDTO.getTaskname());
         TaskRespDTO taskOutput = taskService.getTaskByTaskname(getTaskByTasknameReqDTO).getData();
-        Assert.assertTrue(taskOutput.getTaskname().equals(addTaskReqDTO.getTaskname()));
+        Assert.assertTrue(taskOutput.getTaskname().equals(addTaskForClientReqDTO.getTaskname()));
 
         //清理
         taskService.deleteTask(getTaskByTasknameReqDTO);
@@ -63,25 +63,25 @@ public class TaskServiceTest {
     //@Test
     public void addTaskTest2() {
 
-        AddTaskReqDTO addTaskReqDTO = new AddTaskReqDTO();
-        addTaskReqDTO.setTaskname("task-" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()));
-        addTaskReqDTO.setTaskdesc("在startAt-endAt时间段内，cron表达式触发访问登录用户接口");
-        addTaskReqDTO.setStartAt(new Date(System.currentTimeMillis() + 1000 * 120));//120秒钟后开始启动任务
-        addTaskReqDTO.setEndAt(new Date(System.currentTimeMillis() + 1000 * 600));//600秒钟后结束整个任务
+        AddTaskForClientReqDTO addTaskForClientReqDTO = new AddTaskForClientReqDTO();
+        addTaskForClientReqDTO.setTaskname("task-" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()));
+        addTaskForClientReqDTO.setTaskdesc("在startAt-endAt时间段内，cron表达式触发访问登录用户接口");
+        addTaskForClientReqDTO.setStartAt(new Date(System.currentTimeMillis() + 1000 * 120));//120秒钟后开始启动任务
+        addTaskForClientReqDTO.setEndAt(new Date(System.currentTimeMillis() + 1000 * 600));//600秒钟后结束整个任务
 
-        addTaskReqDTO.setTasktype(1);//1代表cron方式，在指定时间段，按照cron表达式执行，此时cronExpression字段才有效
-        addTaskReqDTO.setCronExpression("0 0 1 * * ?");
+        addTaskForClientReqDTO.setTasktype(1);//1代表cron方式，在指定时间段，按照cron表达式执行，此时cronExpression字段才有效
+        addTaskForClientReqDTO.setCronExpression("0 0 1 * * ?");
 
-        addTaskReqDTO.setRequestUrl("http://localhost:8080/api/user/login");
-        addTaskReqDTO.setRequestHeader("{\"Content-Type\":\"application/json\"}");
-        addTaskReqDTO.setRequestMethod("POST");
-        addTaskReqDTO.setInputJson("{\"username\":\"admin\",\"password\":\"123456\"}");
-        taskService.addTask(addTaskReqDTO);
+        addTaskForClientReqDTO.setRequestUrl("http://localhost:8080/api/user/login");
+        addTaskForClientReqDTO.setRequestHeader("{\"Content-Type\":\"application/json\"}");
+        addTaskForClientReqDTO.setRequestMethod("POST");
+        addTaskForClientReqDTO.setInputJson("{\"username\":\"admin\",\"password\":\"123456\"}");
+        taskService.addTaskForClient(addTaskForClientReqDTO);
 
         GetTaskByTasknameReqDTO getTaskByTasknameReqDTO = new GetTaskByTasknameReqDTO();
-        getTaskByTasknameReqDTO.setTaskname(addTaskReqDTO.getTaskname());
+        getTaskByTasknameReqDTO.setTaskname(addTaskForClientReqDTO.getTaskname());
         TaskRespDTO taskOutput = taskService.getTaskByTaskname(getTaskByTasknameReqDTO).getData();
-        Assert.assertTrue(taskOutput.getTaskname().equals(addTaskReqDTO.getTaskname()));
+        Assert.assertTrue(taskOutput.getTaskname().equals(addTaskForClientReqDTO.getTaskname()));
 
         //清理
         taskService.deleteTask(getTaskByTasknameReqDTO);

@@ -1,13 +1,11 @@
 package com.ghf.exchange.boss.authorization.userrole.listener;
 
-import com.ghf.exchange.boss.authorication.client.service.ClientService;
 import com.ghf.exchange.boss.authorication.user.dto.UpdateUserRolenamesByUsernameReqDTO;
 import com.ghf.exchange.boss.authorication.user.service.UserService;
 import com.ghf.exchange.boss.authorization.org.dto.OrgRespDTO;
 import com.ghf.exchange.boss.authorization.orgrole.dto.ListRoleByOrgnameReqDTO;
 import com.ghf.exchange.boss.authorization.orgrole.service.OrgRoleService;
 import com.ghf.exchange.boss.authorization.role.dto.RoleRespDTO;
-import com.ghf.exchange.boss.authorization.role.service.RoleService;
 import com.ghf.exchange.boss.authorization.userorg.dto.ListOrgByUsernameReqDTO;
 import com.ghf.exchange.boss.authorization.userorg.service.UserOrgService;
 import com.ghf.exchange.boss.authorization.userrole.dto.ListRoleByUsernameReqDTO;
@@ -16,7 +14,6 @@ import com.ghf.exchange.boss.authorization.userrole.service.UserRoleService;
 import com.ghf.exchange.config.ClearRedisConfig;
 import com.ghf.exchange.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -36,12 +33,6 @@ public class UserRoleListener {
     @Lazy
     @Resource
     private UserService userService;
-    @Lazy
-    @Resource
-    private ClientService clientService;
-    @Lazy
-    @Resource
-    private RoleService roleService;
 
     @Lazy
     @Resource
@@ -57,12 +48,6 @@ public class UserRoleListener {
     @Lazy
     @Resource
     private ClearRedisConfig clearRedisService;
-
-    @Value("${security.oauth2.client.client-id}")
-    public String clientId;
-
-    @Value("${security.oauth2.client.client-secret}")
-    public String secret;
 
     @Async
     @EventListener

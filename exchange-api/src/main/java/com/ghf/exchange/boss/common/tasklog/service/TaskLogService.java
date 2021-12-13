@@ -46,11 +46,11 @@ public interface TaskLogService extends BaseService<TaskLog, Long> {
     Result<Boolean> existsTaskLogByTasklogname(GetTaskLogByTasklognameReqDTO getTaskLogByTasklognameReqDTO);
 
     /**
-     * 新建任务日志
+     * 微服务客户端新建任务日志
      *
-     * @param addTaskLogReqDTO
+     * @param addTaskLogForClientReqDTO
      * @return
      */
-    Result<Void> addTaskLog(AddTaskLogReqDTO addTaskLogReqDTO);
+    Result<Void> addTaskLogForClient(AddTaskLogForClientReqDTO addTaskLogForClientReqDTO);
 
 }

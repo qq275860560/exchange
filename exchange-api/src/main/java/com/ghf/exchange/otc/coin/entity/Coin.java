@@ -53,21 +53,25 @@ public class Coin {
     @Column(name = "coin_rate")
     private BigDecimal coinRate;
 
-    @ApiModelProperty("单笔最小交易量")
-    @Column(name = "per_min_amount")
-    private BigDecimal perMinAmount;
+    @ApiModelProperty("单个广告最小库存量")
+    @Column(name = "per_advertise_min_amount")
+    private BigDecimal perAdvertiseMinAmount;
 
-    @ApiModelProperty("单笔最大交易量")
-    @Column(name = "per_max_amount")
-    private BigDecimal perMaxAmount;
+    @ApiModelProperty("单个广告最大库存量")
+    @Column(name = "per_advertise_max_amount")
+    private BigDecimal perAdvertiseMaxAmount;
 
-    @ApiModelProperty("最小付款期限")
-    @Column(name = "min_payment_term_time")
-    private int minPaymentTermTime;
+    @ApiModelProperty("单笔订单最小交易量")
+    @Column(name = "per_order_min_amount")
+    private BigDecimal perOrderMinAmount;
 
-    @ApiModelProperty("最大付款期限")
-    @Column(name = "max_payment_term_time")
-    private int maxPaymentTermTime;
+    @ApiModelProperty("单笔订单最大交易量")
+    @Column(name = "per_order_max_amount")
+    private BigDecimal perOrderMaxAmount;
+
+    @ApiModelProperty("状态,0:禁用,1:启用")
+    @Column(name = "status")
+    private int status;
 
     @ApiModelProperty("操作时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

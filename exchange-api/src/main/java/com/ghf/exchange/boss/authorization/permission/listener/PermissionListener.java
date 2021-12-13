@@ -1,7 +1,5 @@
 package com.ghf.exchange.boss.authorization.permission.listener;
 
-import com.ghf.exchange.boss.authorication.client.service.ClientService;
-import com.ghf.exchange.boss.authorication.user.service.UserService;
 import com.ghf.exchange.boss.authorization.permission.dto.GetPermissionByPermissionnameReqDTO;
 import com.ghf.exchange.boss.authorization.permission.dto.ListAncestorByPermissionnameReqDTO;
 import com.ghf.exchange.boss.authorization.permission.dto.PermissionRespDTO;
@@ -10,10 +8,9 @@ import com.ghf.exchange.boss.authorization.permission.entity.Permission;
 import com.ghf.exchange.boss.authorization.permission.event.UpdateFullPermissionEvent;
 import com.ghf.exchange.boss.authorization.permission.service.PermissionService;
 import com.ghf.exchange.config.ClearRedisConfig;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.JsonUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -28,13 +25,6 @@ import javax.annotation.Resource;
 @Lazy
 @Slf4j
 public class PermissionListener {
-
-    @Lazy
-    @Resource
-    private UserService userService;
-    @Lazy
-    @Resource
-    private ClientService clientService;
 
     @Lazy
     @Resource
@@ -77,7 +67,7 @@ public class PermissionListener {
         fullPermissiondescStringBuilder.append(permissionRespDTO.getPermissiondesc()).append(",");
 
         PermissionRespDTO afterPermissionRespDTO = permissionService.getPermissionByPermissionname(GetPermissionByPermissionnameReqDTO.builder().permissionname(permissionRespDTO.getPermissionname()).build()).getData();
-        Permission permission = AutoMapUtils.map(afterPermissionRespDTO, Permission.class);
+        Permission permission = ModelMapperUtil.map(afterPermissionRespDTO, Permission.class);
         permission.setFullPermissionId(fullPermissionIdStringBuilder.toString());
         permission.setFullPermissionname(fullPermissionnameStringBuilder.toString());
         permission.setFullPermissiondesc(fullPermissiondescStringBuilder.toString());
@@ -89,11 +79,5 @@ public class PermissionListener {
         permissionRespDTO.getChildren().forEach(e -> updateFullpermission(e.getPermissionname()));
 
     }
-
-    @Value("${security.oauth2.client.client-id}")
-    public String clientId;
-
-    @Value("${security.oauth2.client.client-secret}")
-    public String secret;
 
 }

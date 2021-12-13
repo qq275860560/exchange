@@ -57,25 +57,33 @@ public class Advertise {
     @Column(name = "advertise_coin_rate")
     private BigDecimal advertiseCoinRate;
 
-    @ApiModelProperty("库存量")
-    @Column(name = "advertise_amount")
-    private BigDecimal advertiseAmount;
+    @ApiModelProperty("总库存数量")
+    @Column(name = "advertise_total_amount")
+    private BigDecimal advertiseTotalAmount;
 
-    @ApiModelProperty("冻结库存量")
+    @ApiModelProperty("可用库存数量")
+    @Column(name = "advertise_available_amount")
+    private BigDecimal advertiseAvailableAmount;
+
+    @ApiModelProperty("冻结库存数量")
     @Column(name = "advertise_frozen_amount")
     private BigDecimal advertiseFrozenAmount;
-
-    @ApiModelProperty("单笔最大交易量")
-    @Column(name = "advertise_per_max_amount")
-    private BigDecimal advertisePerMaxAmount;
-
-    @ApiModelProperty("单笔最小交易量")
-    @Column(name = "advertise_per_min_amount")
-    private BigDecimal advertisePerMinAmount;
 
     @ApiModelProperty("法币所在国家编码")
     @Column(name = "advertise_legal_currency_country_code")
     private String advertiseLegalCurrencyCountryCode;
+
+    @ApiModelProperty("法币所在国家名称")
+    @Column(name = "advertise_legal_currency_country_name")
+    private String advertiseLegalCurrencyCountryName;
+
+    @ApiModelProperty("法币编码")
+    @Column(name = "advertise_legal_currency_code")
+    private String advertiseLegalCurrencyCode;
+
+    @ApiModelProperty("法币名称")
+    @Column(name = "advertise_legal_currency_name")
+    private String advertiseLegalCurrencyName;
 
     @ApiModelProperty("法币符号")
     @Column(name = "advertise_legal_currency_symbol")
@@ -101,38 +109,13 @@ public class Advertise {
     @Column(name = "advertise_auto_reply_content")
     private String advertiseAutoReplyContent;
 
-    @ApiModelProperty("付款时间条件，从下单到点击确认付款的时间，单位分钟")
-    @Column(name = "advertise_business_payment_term_time")
-    private int advertiseBusinessPaymentTermTime;
+    @ApiModelProperty("广告商家支持的付款方式编码，逗号区分")
+    @Column(name = "advertise_business_payment_codes")
+    private String advertiseBusinessPaymentCodes;
 
     @ApiModelProperty("广告商家支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分")
-    @Column(name = "advertise_business_payment_term_type_array")
-    private String advertiseBusinessPaymentTermTypeArray;
-
-    @ApiModelProperty("付款条件:支付宝方式,支付宝账号")
-    @Column(name = "advertise_business_payment_term_type_alipay_account")
-    private String advertiseBusinessPaymentTermTypeAlipayAccount;
-    @ApiModelProperty("付款条件:支付宝方式,支付宝二维码")
-    @Column(name = "advertise_business_payment_term_type_alipay_qrcode")
-    private String advertiseBusinessPaymentTermTypeAlipayQrcode;
-    @ApiModelProperty("付款条件:微信方式,微信账号")
-    @Column(name = "advertise_business_payment_term_type_wechat_account")
-    private String advertiseBusinessPaymentTermTypeWechatAccount;
-    @ApiModelProperty("付款条件:微信方式,微信二维码")
-    @Column(name = "advertise_business_payment_term_type_wechat_qrcode")
-    private String advertiseBusinessPaymentTermTypeWechatQrcode;
-    @ApiModelProperty("付款条件:银行方式,银行名称")
-    @Column(name = "advertise_business_payment_term_type_bank_name")
-    private String advertiseBusinessPaymentTermTypeBankName;
-    @ApiModelProperty("付款条件:银行方式,支行账号")
-    @Column(name = "advertise_business_payment_term_type_bank_branch_name")
-    private String advertiseBusinessPaymentTermTypeBankBranchName;
-    @ApiModelProperty("付款条件:银行方式,银行卡号")
-    @Column(name = "advertise_business_payment_term_type_bank_account")
-    private String advertiseBusinessPaymentTermTypeBankAccount;
-    @ApiModelProperty("付款条件:银行方式,户主真实姓名")
-    @Column(name = "advertise_business_payment_term_type_bank_realname")
-    private String advertiseBusinessPaymentTermTypeBankRealname;
+    @Column(name = "advertise_business_payment_types")
+    private String advertiseBusinessPaymentTypes;
 
     @ApiModelProperty("广告商家的登陆用户名,用户英文名称，用户编码")
     @Column(name = "advertise_business_username")

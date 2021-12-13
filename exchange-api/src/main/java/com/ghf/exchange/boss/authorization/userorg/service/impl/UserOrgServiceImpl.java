@@ -20,8 +20,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -126,7 +126,7 @@ public class UserOrgServiceImpl extends BaseServiceImpl<UserOrg, Long> implement
         String orgname = getUserOrgByUsernameAndOrgnameReqDTO.getOrgname();
         UserOrg userOrg = this.getUserOrgByUsernameAndOrgname(username, orgname).getData();
         //返回
-        UserOrgRespDTO userOrgRespDTO = AutoMapUtils.map(userOrg, UserOrgRespDTO.class);
+        UserOrgRespDTO userOrgRespDTO = ModelMapperUtil.map(userOrg, UserOrgRespDTO.class);
         return new Result<>(userOrgRespDTO);
     }
 
@@ -152,7 +152,7 @@ public class UserOrgServiceImpl extends BaseServiceImpl<UserOrg, Long> implement
     @Override
     @SneakyThrows
     public Result<Void> addUserOrg(AddUserOrgReqDTO addUserOrgReqDTO) {
-        UserOrg userOrg = AutoMapUtils.map(addUserOrgReqDTO, UserOrg.class);
+        UserOrg userOrg = ModelMapperUtil.map(addUserOrgReqDTO, UserOrg.class);
         //获取当前登陆用户详情
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
         userOrg.setCreateUserId(currentLoginUser.getId());
@@ -189,7 +189,7 @@ public class UserOrgServiceImpl extends BaseServiceImpl<UserOrg, Long> implement
         String username = getUserOrgByUsernameAndOrgnameReqDTO.getUsername();
         //加载
         UserOrgRespDTO afterUserOrgRespDTO = userOrgService.getUserOrgByUsernameAndOrgname(getUserOrgByUsernameAndOrgnameReqDTO).getData();
-        UserOrg afterUserOrg = AutoMapUtils.map(afterUserOrgRespDTO, UserOrg.class);
+        UserOrg afterUserOrg = ModelMapperUtil.map(afterUserOrgRespDTO, UserOrg.class);
         //初始化
         afterUserOrg.setStatus(UserOrgStatusEnum.ENABLE.getCode());
         //更新到数据库
@@ -209,7 +209,7 @@ public class UserOrgServiceImpl extends BaseServiceImpl<UserOrg, Long> implement
 
         //加载
         UserOrgRespDTO afterUserOrgRespDTO = userOrgService.getUserOrgByUsernameAndOrgname(getUserOrgByUsernameAndOrgnameReqDTO).getData();
-        UserOrg afterUserOrg = AutoMapUtils.map(afterUserOrgRespDTO, UserOrg.class);
+        UserOrg afterUserOrg = ModelMapperUtil.map(afterUserOrgRespDTO, UserOrg.class);
         if (afterUserOrg == null) {
             return new Result<>(ResultCodeEnum.USER_ORG_NOT_EXISTS);
         }

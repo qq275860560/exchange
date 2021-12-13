@@ -8,7 +8,7 @@ import com.ghf.exchange.boss.common.area.dto.*;
 import com.ghf.exchange.boss.common.area.entity.QArea;
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
-import com.ghf.exchange.util.AutoMapUtils;
+import com.ghf.exchange.util.ModelMapperUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -148,7 +148,7 @@ public class AreaServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddAreaReqDTO addAreaReqDTO = new AddAreaReqDTO();
-        addAreaReqDTO.setAreaname("test-pageArea-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addAreaReqDTO.setAreaname("test-pageArea-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         areaService.addArea(addAreaReqDTO);
         TimeUnit.SECONDS.sleep(3);
@@ -173,7 +173,7 @@ public class AreaServiceTest {
         getAreaByAreanameReqDTO.setAreaname(areaname);
         AreaRespDTO areaOutput = areaService.getAreaByAreaname(getAreaByAreanameReqDTO).getData();
 
-        UpdateAreaByAreanameReqDTO updateAreaByAreanameReqDTO = AutoMapUtils.map(areaOutput, UpdateAreaByAreanameReqDTO.class);
+        UpdateAreaByAreanameReqDTO updateAreaByAreanameReqDTO = ModelMapperUtil.map(areaOutput, UpdateAreaByAreanameReqDTO.class);
         areaService.updateAreaByAreaname(updateAreaByAreanameReqDTO);
         TimeUnit.SECONDS.sleep(720);
 
@@ -187,7 +187,7 @@ public class AreaServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddAreaReqDTO addAreaReqDTO = new AddAreaReqDTO();
-        addAreaReqDTO.setAreaname("test-pageArea-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addAreaReqDTO.setAreaname("test-pageArea-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         areaService.addArea(addAreaReqDTO);
 

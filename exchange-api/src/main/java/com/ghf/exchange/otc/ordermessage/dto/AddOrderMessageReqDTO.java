@@ -28,6 +28,9 @@ public class AddOrderMessageReqDTO {
 
     private String orderCode;
 
+    @ApiModelProperty("订单消息类型,1:文本,2:图片")
+    private int orderMessageType;
+
     @ApiModelProperty("订单消息")
 
     private String orderMessageContent;

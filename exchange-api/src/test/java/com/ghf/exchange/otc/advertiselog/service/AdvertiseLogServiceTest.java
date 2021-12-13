@@ -5,19 +5,24 @@ import com.ghf.exchange.Application;
 import com.ghf.exchange.boss.authorication.client.service.ClientService;
 import com.ghf.exchange.boss.authorication.user.dto.LoginReqDTO;
 import com.ghf.exchange.boss.authorication.user.service.UserService;
+import com.ghf.exchange.config.Constants;
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.otc.account.dto.AccountRespDTO;
 import com.ghf.exchange.otc.account.dto.GetAccountByUsernameAndCoinCodeReqDTO;
 import com.ghf.exchange.otc.account.service.AccountService;
 import com.ghf.exchange.otc.advertise.dto.*;
 import com.ghf.exchange.otc.advertise.entity.QAdvertise;
-import com.ghf.exchange.otc.advertise.enums.AdvertiseBusinessPaymentTermTypeEnum;
 import com.ghf.exchange.otc.advertise.enums.AdvertiseBuySellTypeEnum;
 import com.ghf.exchange.otc.advertise.enums.AdvertisePriceTypeEnum;
 import com.ghf.exchange.otc.advertise.service.AdvertiseService;
 import com.ghf.exchange.otc.advertiselog.dto.AdvertiseLogRespDTO;
 import com.ghf.exchange.otc.advertiselog.dto.PageAdvertiseLogReqDTO;
-import com.ghf.exchange.util.AutoMapUtils;
+import com.ghf.exchange.otc.coin.dto.CoinRespDTO;
+import com.ghf.exchange.otc.coin.dto.GetCoinByCoinCodeReqDTO;
+import com.ghf.exchange.otc.coin.service.CoinService;
+import com.ghf.exchange.otc.payment.enums.PaymentTypeEnum;
+import com.ghf.exchange.otc.payment.service.PaymentService;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +37,8 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.HashSet;
 
 @SpringBootTest(classes = Application.class)
 @RunWith(SpringRunner.class)
@@ -56,76 +63,36 @@ public class AdvertiseLogServiceTest {
     @Resource
     private AccountService accountService;
 
-    /**
-     * 商家账号（测试）
-     */
-    public static final String BUSINESS_USER_NAME = "advertise_business";
-
-    /**
-     * 商家账号（测试）
-     */
-    public static final String BUSINESS_PASSWORD = "123456";
-
-    /**
-     * 顾客账号（测试）
-     */
-    public static final String CUSTOMER_USER_NAME = "order_customer";
-
-    /**
-     * 顾客密码（测试）
-     */
-    public static final String CUSTOMER_PASSWORD = "123456";
-
-    /**
-     * 平台管理员账号（测试）
-     */
-    public static final String ADMIN_USER_NAME = "admin";
-
-    /**
-     * 平台管理员密码（测试）
-     */
-    public static final String ADMIN_PASSWORD = "123456";
-
-    /**
-     * 内部服务器账号（测试）
-     */
-    public static final String SERVER_CLIENTID = "otc-api";
-
-    /**
-     * 内部服务器密码（测试）
-     */
-    public static final String SERVER_SECRET = "123456";
+    @Lazy
+    @Resource
+    private PaymentService paymentService;
+    @Lazy
+    @Resource
+    private CoinService coinService;
 
     @SneakyThrows
     @Test
     public void addAdvertiseLog() {
 
-        userService.login(LoginReqDTO.builder().username(BUSINESS_USER_NAME).password(BUSINESS_PASSWORD).build());
+        //获取币种信息
+        GetCoinByCoinCodeReqDTO getCoinByCoinCodeReqDTO = new GetCoinByCoinCodeReqDTO();
+        getCoinByCoinCodeReqDTO.setCoinCode("BTC");
+        CoinRespDTO coinRespDTO = coinService.getCoinByCoinCode(getCoinByCoinCodeReqDTO).getData();
+
+        userService.login(LoginReqDTO.builder().username(Constants.ADVERTISE_BUSINESS_USER_NAME).password(Constants.ADVERTISE_BUSINESS_PASSWORD).build());
+
         AddAdvertiseReqDTO addAdvertiseReqDTO = new AddAdvertiseReqDTO();
-        addAdvertiseReqDTO.setAdvertiseCode("test-addAdvertise-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addAdvertiseReqDTO.setAdvertiseCode("test-addAdvertise-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
         addAdvertiseReqDTO.setAdvertiseBuySellType(AdvertiseBuySellTypeEnum.SELL.getCode());
         addAdvertiseReqDTO.setAdvertiseCoinCode("BTC");
-        addAdvertiseReqDTO.setAdvertiseAmount(BigDecimal.valueOf(50.55));
-
-        addAdvertiseReqDTO.setAdvertiseLegalCurrencyCountryCode("CN");
-        addAdvertiseReqDTO.setAdvertiseLegalCurrencySymbol("￥");
-        addAdvertiseReqDTO.setAdvertiseLegalCurrencyUnit("元");
+        addAdvertiseReqDTO.setAdvertiseAvailableAmount(BigDecimal.valueOf(50.55));
 
         addAdvertiseReqDTO.setAdvertisePriceType(AdvertisePriceTypeEnum.FIXED.getCode());
         addAdvertiseReqDTO.setAdvertiseFixedPrice(BigDecimal.valueOf(450000));
-        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTermTime(120);
 
-        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTermTypeArray(AdvertiseBusinessPaymentTermTypeEnum.ALIPAY.getCode() + "");
-        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTermTypeAlipayAccount("alipay-account");
-        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTermTypeAlipayQrcode("alipay-qrcode");
-        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTermTypeWechatAccount("wechat-account");
-        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTermTypeWechatQrcode("wechat-qrcode");
-        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTermTypeBankName("bank-name");
-        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTermTypeBankBranchName("bank-branch-name");
-        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTermTypeBankAccount("bank-account");
-        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTermTypeBankRealname("bank-realname");
+        addAdvertiseReqDTO.setAdvertiseBusinessPaymentTypeSet(new HashSet<>(Arrays.asList(PaymentTypeEnum.ALIPAY.getCode())));
         addAdvertiseReqDTO.setAdvertiseAutoReplyContent("你好，欢迎光临");
-        addAdvertiseReqDTO.setRemark("test-addAdvertise-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addAdvertiseReqDTO.setRemark("test-addAdvertise-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         advertisService.addAdvertise(addAdvertiseReqDTO);
 
@@ -139,12 +106,12 @@ public class AdvertiseLogServiceTest {
 
         Predicate predicate = QAdvertise.advertise.advertiseCode.eq(addAdvertiseReqDTO.getAdvertiseCode());
 
-        PutOnShelvesReqDTO putOnShelvesReqDTO = AutoMapUtils.map(addAdvertiseReqDTO, PutOnShelvesReqDTO.class);
+        PutOnShelvesReqDTO putOnShelvesReqDTO = ModelMapperUtil.map(addAdvertiseReqDTO, PutOnShelvesReqDTO.class);
 
         advertisService.putOnShelves(putOnShelvesReqDTO);
 
         GetAccountByUsernameAndCoinCodeReqDTO getAccountByUsernameAndCoinCodeReqDTO = new GetAccountByUsernameAndCoinCodeReqDTO();
-        getAccountByUsernameAndCoinCodeReqDTO.setUsername(BUSINESS_USER_NAME);
+        getAccountByUsernameAndCoinCodeReqDTO.setUsername(Constants.ADVERTISE_BUSINESS_USER_NAME);
         getAccountByUsernameAndCoinCodeReqDTO.setCoinCode(putOnShelvesReqDTO.getAdvertiseCoinCode());
         AccountRespDTO accountRespDTO = accountService.getAccountByUsernameAndCoinCode(getAccountByUsernameAndCoinCodeReqDTO).getData();
         Assert.assertTrue(accountRespDTO.getFrozenBalance().compareTo(BigDecimal.ZERO) > 0);

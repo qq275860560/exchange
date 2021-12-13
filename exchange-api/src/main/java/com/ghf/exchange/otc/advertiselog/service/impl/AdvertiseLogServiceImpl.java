@@ -1,29 +1,26 @@
 package com.ghf.exchange.otc.advertiselog.service.impl;
 
-import com.ghf.exchange.boss.authorication.client.dto.ClientRespDTO;
-import com.ghf.exchange.boss.authorication.client.enums.ClientScopeEnum;
 import com.ghf.exchange.boss.authorication.client.service.ClientService;
 import com.ghf.exchange.boss.authorication.user.service.UserService;
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
-import com.ghf.exchange.otc.advertiselog.dto.AddAdvertiseLogReqDTO;
+import com.ghf.exchange.otc.advertiselog.dto.AddAdvertiseLogForClientReqDTO;
 import com.ghf.exchange.otc.advertiselog.dto.AdvertiseLogRespDTO;
 import com.ghf.exchange.otc.advertiselog.dto.GetAdvertiseLogByAdvertiseLogCodeReqDTO;
 import com.ghf.exchange.otc.advertiselog.dto.PageAdvertiseLogReqDTO;
 import com.ghf.exchange.otc.advertiselog.entity.AdvertiseLog;
 import com.ghf.exchange.otc.advertiselog.entity.QAdvertiseLog;
-import com.ghf.exchange.otc.advertiselog.event.AddAdvertiseLogEvent;
+import com.ghf.exchange.otc.advertiselog.event.AddAdvertiseLogForClientEvent;
 import com.ghf.exchange.otc.advertiselog.repository.AdvertiseLogRepository;
 import com.ghf.exchange.otc.advertiselog.service.AdvertiseLogService;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -50,12 +47,6 @@ public class AdvertiseLogServiceImpl extends BaseServiceImpl<AdvertiseLog, Long>
     @Lazy
     @Resource
     private AdvertiseLogService advertiseLogService;
-
-    @Value("${security.oauth2.client.client-id}")
-    public String clientId;
-
-    @Value("${security.oauth2.client.client-secret}")
-    public String secret;
 
     @Lazy
     @Resource
@@ -88,7 +79,7 @@ public class AdvertiseLogServiceImpl extends BaseServiceImpl<AdvertiseLog, Long>
         Predicate predicate = QAdvertiseLog.advertiseLog.advertiseLogCode.eq(advertiseLogCode);
         AdvertiseLog advertiseLog = advertiseLogService.get(predicate);
         //返回
-        AdvertiseLogRespDTO advertiseLogRespDTO = AutoMapUtils.map(advertiseLog, AdvertiseLogRespDTO.class);
+        AdvertiseLogRespDTO advertiseLogRespDTO = ModelMapperUtil.map(advertiseLog, AdvertiseLogRespDTO.class);
         return new Result<>(advertiseLogRespDTO);
     }
 
@@ -105,23 +96,8 @@ public class AdvertiseLogServiceImpl extends BaseServiceImpl<AdvertiseLog, Long>
     @Transactional
     @Override
     @SneakyThrows
-    public Result<Void> addAdvertiseLog(AddAdvertiseLogReqDTO addAdvertiseLogReqDTO) {
-        AdvertiseLog advertiseLog = AutoMapUtils.map(addAdvertiseLogReqDTO, AdvertiseLog.class);
-
-        //默认无权限
-        boolean flag = false;
-        //获取当前登陆客户端详情
-        ClientRespDTO currentLoginClient = clientService.getCurrentLoginClient().getData();
-
-        if (currentLoginClient.getScopes().contains(ClientScopeEnum.SERVER.getCode())) {
-            //如果是内部后端服务器，才有权限调用该接口
-            flag = true;
-        }
-
-        if (!flag) {
-            //无权限取消订单，直接返回403
-            return new Result<>(ResultCodeEnum.FORBIDDEN);
-        }
+    public Result<Void> addAdvertiseLogForClient(AddAdvertiseLogForClientReqDTO addAdvertiseLogReqDTO) {
+        AdvertiseLog advertiseLog = ModelMapperUtil.map(addAdvertiseLogReqDTO, AdvertiseLog.class);
 
         //初始化id
         advertiseLog.setId(IdUtil.generateLongId());
@@ -146,7 +122,7 @@ public class AdvertiseLogServiceImpl extends BaseServiceImpl<AdvertiseLog, Long>
         advertiseLogService.add(advertiseLog);
 
         //发送到消息队列
-        applicationEventPublisher.publishEvent(new AddAdvertiseLogEvent(addAdvertiseLogReqDTO));
+        applicationEventPublisher.publishEvent(new AddAdvertiseLogForClientEvent());
 
         return new Result<>(ResultCodeEnum.OK);
     }

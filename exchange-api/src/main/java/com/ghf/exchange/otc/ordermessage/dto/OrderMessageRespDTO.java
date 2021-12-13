@@ -36,11 +36,14 @@ public class OrderMessageRespDTO {
 
     private String orderCode;
 
+    @ApiModelProperty("订单消息类型,1:文本,2:图片")
+    private int orderMessageType;
+
     @ApiModelProperty("订单消息")
 
     private String orderMessageContent;
 
-    @ApiModelProperty("息发送者的登陆用户名,用户英文名称，用户编码")
+    @ApiModelProperty("消息发送者的登陆用户名,用户英文名称，用户编码")
 
     private String orderMessageSenderUsername;
 

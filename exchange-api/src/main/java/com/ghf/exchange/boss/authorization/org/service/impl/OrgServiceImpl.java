@@ -19,8 +19,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
@@ -273,7 +273,7 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
         Org org = orgService.get(predicate);
 
         //返回
-        OrgRespDTO orgRespDTO = AutoMapUtils.map(org, OrgRespDTO.class);
+        OrgRespDTO orgRespDTO = ModelMapperUtil.map(org, OrgRespDTO.class);
 
         if (!ObjectUtils.isEmpty(orgRespDTO.getRolenames())) {
             orgRespDTO.setRolenameSet(Arrays.stream(orgRespDTO.getRolenames().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
@@ -308,7 +308,7 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
         Org org = orgService.get(predicate);
 
         //返回
-        OrgRespDTO orgRespDTO = AutoMapUtils.map(org, OrgRespDTO.class);
+        OrgRespDTO orgRespDTO = ModelMapperUtil.map(org, OrgRespDTO.class);
 
         if (!ObjectUtils.isEmpty(orgRespDTO.getRolenames())) {
             orgRespDTO.setRolenameSet(Arrays.stream(orgRespDTO.getRolenames().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
@@ -347,7 +347,7 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
     @Override
     @SneakyThrows
     public Result<Void> addOrg(AddOrgReqDTO addOrgReqDTO) {
-        Org org = AutoMapUtils.map(addOrgReqDTO, Org.class);
+        Org org = ModelMapperUtil.map(addOrgReqDTO, Org.class);
         //获取当前登陆用户详情
 
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
@@ -372,7 +372,7 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
             GetOrgByOrgnameReqDTO getParentOrgByOrgnameReqDTO = new GetOrgByOrgnameReqDTO();
             getParentOrgByOrgnameReqDTO.setOrgname(org.getParentOrgname());
             OrgRespDTO parentOrgRespDTO = orgService.getOrgByOrgname(getParentOrgByOrgnameReqDTO).getData();
-            Org parentOrg = AutoMapUtils.map(parentOrgRespDTO, Org.class);
+            Org parentOrg = ModelMapperUtil.map(parentOrgRespDTO, Org.class);
             org.setParentOrgId(parentOrg.getId());
             org.setParentOrgname(parentOrg.getOrgname());
             org.setParentOrgdesc(parentOrg.getOrgdesc());
@@ -420,7 +420,7 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
         GetOrgByOrgnameReqDTO getOrgByOrgnameReqDTO = new GetOrgByOrgnameReqDTO();
         getOrgByOrgnameReqDTO.setOrgname(orgname);
         OrgRespDTO afterOrgRespDTO = orgService.getOrgByOrgname(getOrgByOrgnameReqDTO).getData();
-        Org afterOrg = AutoMapUtils.map(afterOrgRespDTO, Org.class);
+        Org afterOrg = ModelMapperUtil.map(afterOrgRespDTO, Org.class);
         if (afterOrg == null) {
             return new Result<>(ResultCodeEnum.ORG_NOT_EXISTS);
         }
@@ -433,7 +433,7 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
             GetOrgByOrgnameReqDTO getParentOrgByOrgnameReqDTO = new GetOrgByOrgnameReqDTO();
             getParentOrgByOrgnameReqDTO.setOrgname(parentOrgname);
             OrgRespDTO parentOrgRespDTO = orgService.getOrgByOrgname(getParentOrgByOrgnameReqDTO).getData();
-            Org parentOrg = AutoMapUtils.map(parentOrgRespDTO, Org.class);
+            Org parentOrg = ModelMapperUtil.map(parentOrgRespDTO, Org.class);
 
             afterOrg.setParentOrgId(parentOrg.getId());
             afterOrg.setParentOrgname(parentOrg.getOrgname());
@@ -478,7 +478,7 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
         GetOrgByOrgnameReqDTO getOrgByOrgnameReqDTO = new GetOrgByOrgnameReqDTO();
         getOrgByOrgnameReqDTO.setOrgname(orgname);
         OrgRespDTO afterOrgRespDTO = orgService.getOrgByOrgname(getOrgByOrgnameReqDTO).getData();
-        Org afterOrg = AutoMapUtils.map(afterOrgRespDTO, Org.class);
+        Org afterOrg = ModelMapperUtil.map(afterOrgRespDTO, Org.class);
 
         //初始化
         afterOrg.setRolenames(rolenames);
@@ -499,7 +499,7 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
         String orgname = getOrgByOrgnameReqDTO.getOrgname();
         //加载
         OrgRespDTO afterOrgRespDTO = orgService.getOrgByOrgname(getOrgByOrgnameReqDTO).getData();
-        Org afterOrg = AutoMapUtils.map(afterOrgRespDTO, Org.class);
+        Org afterOrg = ModelMapperUtil.map(afterOrgRespDTO, Org.class);
         if (afterOrg == null) {
             return new Result<>(ResultCodeEnum.ORG_NOT_EXISTS);
         }
@@ -524,7 +524,7 @@ public class OrgServiceImpl extends BaseServiceImpl<Org, Long> implements OrgSer
         String orgname = getOrgByOrgnameReqDTO.getOrgname();
         //加载
         OrgRespDTO afterOrgRespDTO = orgService.getOrgByOrgname(getOrgByOrgnameReqDTO).getData();
-        Org afterOrg = AutoMapUtils.map(afterOrgRespDTO, Org.class);
+        Org afterOrg = ModelMapperUtil.map(afterOrgRespDTO, Org.class);
         if (afterOrg == null) {
             return new Result<>(ResultCodeEnum.ORG_NOT_EXISTS);
         }

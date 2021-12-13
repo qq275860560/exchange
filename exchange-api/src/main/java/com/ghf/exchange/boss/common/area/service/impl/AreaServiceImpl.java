@@ -15,8 +15,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
@@ -222,7 +222,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
         Predicate predicate = QArea.area.areaname.eq(areaname);
         Area area = areaService.get(predicate);
         //返回
-        AreaRespDTO areaRespDTO = AutoMapUtils.map(area, AreaRespDTO.class);
+        AreaRespDTO areaRespDTO = ModelMapperUtil.map(area, AreaRespDTO.class);
 
         if (!ObjectUtils.isEmpty(areaRespDTO.getFullAreaname())) {
             areaRespDTO.setFullAreanameList(Arrays.stream(areaRespDTO.getFullAreaname().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toList()));
@@ -242,7 +242,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
         Predicate predicate = QArea.area.id.eq(id);
         Area area = areaService.get(predicate);
         //返回
-        AreaRespDTO areaRespDTO = AutoMapUtils.map(area, AreaRespDTO.class);
+        AreaRespDTO areaRespDTO = ModelMapperUtil.map(area, AreaRespDTO.class);
 
         if (!ObjectUtils.isEmpty(areaRespDTO.getFullAreaname())) {
             areaRespDTO.setFullAreanameList(Arrays.stream(areaRespDTO.getFullAreaname().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toList()));
@@ -260,7 +260,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
         String areadesc = getAreaByAreadescReqDTO.getAreadesc();
         Predicate predicate = QArea.area.areadesc.eq(areadesc);
         Area area = areaService.get(predicate);
-        AreaRespDTO areaRespDTO = AutoMapUtils.map(area, AreaRespDTO.class);
+        AreaRespDTO areaRespDTO = ModelMapperUtil.map(area, AreaRespDTO.class);
 
         if (!ObjectUtils.isEmpty(areaRespDTO.getFullAreaname())) {
             areaRespDTO.setFullAreanameList(Arrays.stream(areaRespDTO.getFullAreaname().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toList()));
@@ -287,7 +287,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
     @Override
     @SneakyThrows
     public Result<Void> addArea(AddAreaReqDTO addAreaReqDTO) {
-        Area area = AutoMapUtils.map(addAreaReqDTO, Area.class);
+        Area area = ModelMapperUtil.map(addAreaReqDTO, Area.class);
         //获取当前登陆用户详情
 
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
@@ -312,7 +312,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
             GetAreaByAreanameReqDTO getParentAreaByAreanameReqDTO = new GetAreaByAreanameReqDTO();
             getParentAreaByAreanameReqDTO.setAreaname(area.getParentAreaname());
             AreaRespDTO parentAreaRespDTO = areaService.getAreaByAreaname(getParentAreaByAreanameReqDTO).getData();
-            Area parentArea = AutoMapUtils.map(parentAreaRespDTO, Area.class);
+            Area parentArea = ModelMapperUtil.map(parentAreaRespDTO, Area.class);
             area.setParentAreaId(parentArea.getId());
             area.setParentAreaname(parentArea.getAreaname());
             area.setParentAreadesc(parentArea.getAreadesc());
@@ -346,7 +346,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
         GetAreaByAreanameReqDTO getAreaByAreanameReqDTO = new GetAreaByAreanameReqDTO();
         getAreaByAreanameReqDTO.setAreaname(areaname);
         AreaRespDTO afterAreaRespDTO = areaService.getAreaByAreaname(getAreaByAreanameReqDTO).getData();
-        Area afterArea = AutoMapUtils.map(afterAreaRespDTO, Area.class);
+        Area afterArea = ModelMapperUtil.map(afterAreaRespDTO, Area.class);
         if (afterArea == null) {
             return new Result<>(ResultCodeEnum.AREA_NOT_EXISTS);
         }
@@ -362,7 +362,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
             GetAreaByAreanameReqDTO getParentAreaByAreanameReqDTO = new GetAreaByAreanameReqDTO();
             getParentAreaByAreanameReqDTO.setAreaname(parentAreaname);
             AreaRespDTO parentAreaRespDTO = areaService.getAreaByAreaname(getParentAreaByAreanameReqDTO).getData();
-            Area parentArea = AutoMapUtils.map(parentAreaRespDTO, Area.class);
+            Area parentArea = ModelMapperUtil.map(parentAreaRespDTO, Area.class);
 
             afterArea.setParentAreaId(parentArea.getId());
             afterArea.setParentAreaname(parentArea.getAreaname());
@@ -390,7 +390,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
         String areaname = getAreaByAreanameReqDTO.getAreaname();
         //加载
         AreaRespDTO afterAreaRespDTO = areaService.getAreaByAreaname(getAreaByAreanameReqDTO).getData();
-        Area afterArea = AutoMapUtils.map(afterAreaRespDTO, Area.class);
+        Area afterArea = ModelMapperUtil.map(afterAreaRespDTO, Area.class);
         if (afterArea == null) {
             return new Result<>(ResultCodeEnum.AREA_NOT_EXISTS);
         }
@@ -412,7 +412,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, Long> implements Area
         String areaname = getAreaByAreanameReqDTO.getAreaname();
         //加载
         AreaRespDTO afterAreaRespDTO = areaService.getAreaByAreaname(getAreaByAreanameReqDTO).getData();
-        Area afterArea = AutoMapUtils.map(afterAreaRespDTO, Area.class);
+        Area afterArea = ModelMapperUtil.map(afterAreaRespDTO, Area.class);
         if (afterArea == null) {
             return new Result<>(ResultCodeEnum.AREA_NOT_EXISTS);
         }

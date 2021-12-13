@@ -41,53 +41,53 @@ public class AccountController {
         return accountService.existsAccountByUsernameAndCoinCode(getAccountByUsernameAndCoinCodeReqDTO);
     }
 
-    @ApiOperation(value = "对账", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/account/checkAccount")
+    @ApiOperation(value = "微服务客户端对账", notes = "<p></p>", httpMethod = "POST")
+    @PostMapping(value = "/api/account/checkAccountForClient")
     @SneakyThrows
-    public Result<Boolean> checkAccount() {
-        return accountService.checkAccount();
+    public Result<Boolean> checkAccountForClient() {
+        return accountService.checkAccountForClientForClient();
     }
 
-    @ApiOperation(value = "新建账户", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/account/addAccount")
+    @ApiOperation(value = "微服务客户端新建账户", notes = "<p></p>", httpMethod = "POST")
+    @PostMapping(value = "/api/account/addAccountForClient")
     @SneakyThrows
-    public Result<Void> addAccount(@RequestBody AddAccountReqDTO addAccountReqDTO) {
-        return accountService.addAccount(addAccountReqDTO);
+    public Result<Void> addAccountForClient(@RequestBody AddAccountForClientReqDTO addAccountForClientReqDTO) {
+        return accountService.addAccountForClient(addAccountForClientReqDTO);
     }
 
-    @ApiOperation(value = "冻结账户金额", notes = "<p>冻结账户金额，比如：广告上架时</p>", httpMethod = "POST")
-    @PostMapping(value = "/api/account/freezeBalance")
+    @ApiOperation(value = "微服务客户端冻结账户金额", notes = "<p>冻结账户金额，比如：广告上架时</p>", httpMethod = "POST")
+    @PostMapping(value = "/api/account/freezeBalanceForClient")
     @SneakyThrows
-    public Result<Void> freezeBalance(@RequestBody FreezeBalanceReqDTO freezeBalanceReqDTO) {
-        return accountService.freezeBalance(freezeBalanceReqDTO);
+    public Result<Void> freezeBalanceForClient(@RequestBody FreezeBalanceForClientReqDTO freezeBalanceForClientReqDTO) {
+        return accountService.freezeBalanceForClient(freezeBalanceForClientReqDTO);
     }
 
-    @ApiOperation(value = "解冻账户金额", notes = "<p>解冻账户金额，比如：广告下架时</p>", httpMethod = "POST")
-    @PostMapping(value = "/api/account/unFreezeBalance")
+    @ApiOperation(value = "微服务客户端解冻账户金额", notes = "<p>解冻账户金额，比如：广告下架时</p>", httpMethod = "POST")
+    @PostMapping(value = "/api/account/unFreezeBalanceForClient")
     @SneakyThrows
-    public Result<Void> unFreezeBalance(@RequestBody UnFreezeBalanceReqDTO unFreezeBalanceReqDTO) {
-        return accountService.unFreezeBalance(unFreezeBalanceReqDTO);
+    public Result<Void> unFreezeBalanceForClient(@RequestBody UnFreezeBalanceForClientReqDTO unFreezeBalanceForClientReqDTO) {
+        return accountService.unFreezeBalanceForClient(unFreezeBalanceForClientReqDTO);
     }
 
-    @ApiOperation(value = "扣减账户冻结余额", notes = "<p>扣减账户冻结余额，比如：放行订单时</p>", httpMethod = "POST")
-    @PostMapping(value = "/api/account/decFrozenBalance")
+    @ApiOperation(value = "微服务客户端扣减账户冻结余额", notes = "<p>扣减账户冻结余额，比如：放行订单时</p>", httpMethod = "POST")
+    @PostMapping(value = "/api/account/decFrozenBalanceForClient")
     @SneakyThrows
-    public Result<Void> decFrozenBalance(@RequestBody DecFrozenBalanceReqDTO decFrozenBalanceReqDTO) {
-        return accountService.decFrozenBalance(decFrozenBalanceReqDTO);
+    public Result<Void> decFrozenBalanceForClient(@RequestBody DecFrozenBalanceForClientReqDTO decFrozenBalanceForClientReqDTO) {
+        return accountService.decFrozenBalanceForClient(decFrozenBalanceForClientReqDTO);
     }
 
-    @ApiOperation(value = "增加账户余额", notes = "<p>增加账户余额，比如：放行订单抽取手续费时</p>", httpMethod = "POST")
-    @PostMapping(value = "/api/account/incBalance")
+    @ApiOperation(value = "微服务客户端增加账户余额", notes = "<p>增加账户余额，比如：放行订单抽取手续费时</p>", httpMethod = "POST")
+    @PostMapping(value = "/api/account/incBalanceForClient")
     @SneakyThrows
-    public Result<Void> incBalance(@RequestBody IncBalanceReqDTO incBalanceReqDTO) {
-        return accountService.incBalance(incBalanceReqDTO);
+    public Result<Void> incBalanceForClient(@RequestBody IncBalanceForClientReqDTO incBalanceForClientReqDTO) {
+        return accountService.incBalanceForClient(incBalanceForClientReqDTO);
     }
 
-    @ApiOperation(value = "根据用户名和币种编号删除账户", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/account/deleteAccountByUsernameAndCoinCode")
+    @ApiOperation(value = "微服务客户端根据用户名和币种编号删除账户", notes = "<p></p>", httpMethod = "POST")
+    @PostMapping(value = "/api/account/deleteAccountByUsernameAndCoinCodeForClient")
     @SneakyThrows
-    public Result<Void> deleteAccountByUsernameAndCoinCode(@RequestBody GetAccountByUsernameAndCoinCodeReqDTO getAccountByUsernameAndCoinCodeReqDTO) {
-        return accountService.deleteAccountByUsernameAndCoinCode(getAccountByUsernameAndCoinCodeReqDTO);
+    public Result<Void> deleteAccountByUsernameAndCoinCodeForClient(@RequestBody GetAccountByUsernameAndCoinCodeReqDTO getAccountByUsernameAndCoinCodeReqDTO) {
+        return accountService.deleteAccountByUsernameAndCoinCodeForClient(getAccountByUsernameAndCoinCodeReqDTO);
     }
 
 }

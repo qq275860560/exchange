@@ -22,8 +22,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -135,7 +135,7 @@ public class OrgRoleServiceImpl extends BaseServiceImpl<OrgRole, Long> implement
         predicate.and(QOrgRole.orgRole.rolename.eq(rolename));
         OrgRole orgRole = orgRoleService.get(predicate);
         //返回
-        OrgRoleRespDTO orgRoleRespDTO = AutoMapUtils.map(orgRole, OrgRoleRespDTO.class);
+        OrgRoleRespDTO orgRoleRespDTO = ModelMapperUtil.map(orgRole, OrgRoleRespDTO.class);
         return new Result<>(orgRoleRespDTO);
     }
 
@@ -156,7 +156,7 @@ public class OrgRoleServiceImpl extends BaseServiceImpl<OrgRole, Long> implement
     @Override
     @SneakyThrows
     public Result<Void> addOrgRole(AddOrgRoleReqDTO addOrgRoleReqDTO) {
-        OrgRole orgRole = AutoMapUtils.map(addOrgRoleReqDTO, OrgRole.class);
+        OrgRole orgRole = ModelMapperUtil.map(addOrgRoleReqDTO, OrgRole.class);
         //获取当前登陆用户详情
 
         UserRespDTO currentLoginUser = userService.getCurrentLoginUser().getData();
@@ -194,7 +194,7 @@ public class OrgRoleServiceImpl extends BaseServiceImpl<OrgRole, Long> implement
         String rolename = getOrgRoleByOrgnameAndRolenameReqDTO.getRolename();
         //加载
         OrgRoleRespDTO afterOrgRoleRespDTO = orgRoleService.getOrgRoleByOrgnameAndRolename(getOrgRoleByOrgnameAndRolenameReqDTO).getData();
-        OrgRole afterOrgRole = AutoMapUtils.map(afterOrgRoleRespDTO, OrgRole.class);
+        OrgRole afterOrgRole = ModelMapperUtil.map(afterOrgRoleRespDTO, OrgRole.class);
         if (afterOrgRole == null) {
             return new Result<>(ResultCodeEnum.ORG_ROLE_NOT_EXISTS);
         }
@@ -217,7 +217,7 @@ public class OrgRoleServiceImpl extends BaseServiceImpl<OrgRole, Long> implement
         String rolename = getOrgRoleByOrgnameAndRolenameReqDTO.getRolename();
         //加载
         OrgRoleRespDTO afterOrgRoleRespDTO = orgRoleService.getOrgRoleByOrgnameAndRolename(getOrgRoleByOrgnameAndRolenameReqDTO).getData();
-        OrgRole afterOrgRole = AutoMapUtils.map(afterOrgRoleRespDTO, OrgRole.class);
+        OrgRole afterOrgRole = ModelMapperUtil.map(afterOrgRoleRespDTO, OrgRole.class);
         if (afterOrgRole == null) {
             return new Result<>(ResultCodeEnum.ORG_ROLE_NOT_EXISTS);
         }

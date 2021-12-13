@@ -13,7 +13,7 @@ import com.ghf.exchange.boss.authorization.rolepermission.entity.QRolePermission
 import com.ghf.exchange.boss.authorization.rolepermission.service.RolePermissionService;
 import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
-import com.ghf.exchange.util.AutoMapUtils;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +63,7 @@ public class RoleServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddRoleReqDTO addRoleReqDTO = new AddRoleReqDTO();
-        addRoleReqDTO.setRolename("test-addRole-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addRoleReqDTO.setRolename("test-addRole-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
@@ -116,7 +116,7 @@ public class RoleServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddRoleReqDTO addRoleReqDTO = new AddRoleReqDTO();
-        addRoleReqDTO.setRolename("test-addRole2-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addRoleReqDTO.setRolename("test-addRole2-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
@@ -182,7 +182,7 @@ public class RoleServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddRoleReqDTO addRoleReqDTO = new AddRoleReqDTO();
-        addRoleReqDTO.setRolename("test-updateRole-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addRoleReqDTO.setRolename("test-updateRole-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
@@ -194,7 +194,7 @@ public class RoleServiceTest {
 
         String rolename = addRoleReqDTO.getRolename();
 
-        UpdateRoleByRolenameReqDTO updateRoleReqDTO = AutoMapUtils.map(roleService.get(QRole.role.rolename.eq(rolename)), UpdateRoleByRolenameReqDTO.class);
+        UpdateRoleByRolenameReqDTO updateRoleReqDTO = ModelMapperUtil.map(roleService.get(QRole.role.rolename.eq(rolename)), UpdateRoleByRolenameReqDTO.class);
         updateRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
         }});
@@ -236,7 +236,7 @@ public class RoleServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddRoleReqDTO addRoleReqDTO = new AddRoleReqDTO();
-        addRoleReqDTO.setRolename("test-updateRole11-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addRoleReqDTO.setRolename("test-updateRole11-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
@@ -248,7 +248,7 @@ public class RoleServiceTest {
 
         String rolename = addRoleReqDTO.getRolename();
 
-        UpdateRoleByRolenameReqDTO updateRoleReqDTO = AutoMapUtils.map(roleService.get(QRole.role.rolename.eq(rolename)), UpdateRoleByRolenameReqDTO.class);
+        UpdateRoleByRolenameReqDTO updateRoleReqDTO = ModelMapperUtil.map(roleService.get(QRole.role.rolename.eq(rolename)), UpdateRoleByRolenameReqDTO.class);
         updateRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
 
@@ -285,7 +285,7 @@ public class RoleServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddRoleReqDTO addRoleReqDTO = new AddRoleReqDTO();
-        addRoleReqDTO.setRolename("test-updateRole31-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addRoleReqDTO.setRolename("test-updateRole31-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
@@ -297,7 +297,7 @@ public class RoleServiceTest {
 
         String rolename = addRoleReqDTO.getRolename();
 
-        UpdateRoleByRolenameReqDTO updateRoleReqDTO = AutoMapUtils.map(roleService.get(QRole.role.rolename.eq(rolename)), UpdateRoleByRolenameReqDTO.class);
+        UpdateRoleByRolenameReqDTO updateRoleReqDTO = ModelMapperUtil.map(roleService.get(QRole.role.rolename.eq(rolename)), UpdateRoleByRolenameReqDTO.class);
         updateRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
             add("PERMISSION_YWZCXT");
@@ -340,7 +340,7 @@ public class RoleServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddRoleReqDTO addRoleReqDTO = new AddRoleReqDTO();
-        addRoleReqDTO.setRolename("test-updateRole3-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addRoleReqDTO.setRolename("test-updateRole3-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
@@ -351,7 +351,7 @@ public class RoleServiceTest {
 
         String rolename = addRoleReqDTO.getRolename();
 
-        UpdateRoleByRolenameReqDTO updateRoleReqDTO = AutoMapUtils.map(roleService.get(QRole.role.rolename.eq(rolename)), UpdateRoleByRolenameReqDTO.class);
+        UpdateRoleByRolenameReqDTO updateRoleReqDTO = ModelMapperUtil.map(roleService.get(QRole.role.rolename.eq(rolename)), UpdateRoleByRolenameReqDTO.class);
         updateRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
             add("PERMISSION_YWZCXT");
@@ -394,7 +394,7 @@ public class RoleServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddRoleReqDTO addRoleReqDTO = new AddRoleReqDTO();
-        addRoleReqDTO.setRolename("test-updateRole3-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addRoleReqDTO.setRolename("test-updateRole3-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
@@ -405,7 +405,7 @@ public class RoleServiceTest {
 
         String rolename = addRoleReqDTO.getRolename();
 
-        UpdateRoleByRolenameReqDTO updateRoleReqDTO = AutoMapUtils.map(roleService.get(QRole.role.rolename.eq(rolename)), UpdateRoleByRolenameReqDTO.class);
+        UpdateRoleByRolenameReqDTO updateRoleReqDTO = ModelMapperUtil.map(roleService.get(QRole.role.rolename.eq(rolename)), UpdateRoleByRolenameReqDTO.class);
         updateRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
             add("PERMISSION_YWZCXT");
@@ -442,7 +442,7 @@ public class RoleServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddRoleReqDTO addRoleReqDTO = new AddRoleReqDTO();
-        addRoleReqDTO.setRolename("test-pageRole-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addRoleReqDTO.setRolename("test-pageRole-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
@@ -469,7 +469,7 @@ public class RoleServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddRoleReqDTO addRoleReqDTO = new AddRoleReqDTO();
-        addRoleReqDTO.setRolename("test-listRole-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addRoleReqDTO.setRolename("test-listRole-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");
@@ -496,7 +496,7 @@ public class RoleServiceTest {
         userService.login(LoginReqDTO.builder().username(ADMIN_USER_NAME).password(ADMIN_PASSWORD).build());
 
         AddRoleReqDTO addRoleReqDTO = new AddRoleReqDTO();
-        addRoleReqDTO.setRolename("test-addRolePermission-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        addRoleReqDTO.setRolename("test-addRolePermission-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
 
         addRoleReqDTO.setPermissionnameSet(new HashSet<String>() {{
             add("PERMISSION_FYSSYHAN");

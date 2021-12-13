@@ -38,42 +38,7 @@ public class AddOrderReqDTO {
 
     @ApiModelProperty("订单顾客选择的收付款类型:1:支付宝，2：微信，3：银行卡")
 
-    private int orderCustomerPaymentTermType;
-
-/////////////////
-
-    @ApiModelProperty("订单顾客作为卖币方时付款时间条件，从下单到点击确认付款的时间，单位分钟")
-
-    private int orderCustomerPaymentTermTime;
-
-    @ApiModelProperty("订单顾客支持的收付款类型:1:支付宝，2：微信，3：银行卡,逗号区分")
-
-    private String orderCustomerPaymentTermTypeArray;
-
-    @ApiModelProperty("订单顾客支持的付款条件:支付宝方式,支付宝账号")
-
-    private String orderCustomerPaymentTermTypeAlipayAccount;
-    @ApiModelProperty("订单顾客支持的付款条件:支付宝方式,支付宝二维码")
-
-    private String orderCustomerPaymentTermTypeAlipayQrcode;
-    @ApiModelProperty("订单顾客支持的付款条件:微信方式,微信账号")
-
-    private String orderCustomerPaymentTermTypeWechatAccount;
-    @ApiModelProperty("订单顾客支持的付款条件:微信方式,微信二维码")
-
-    private String orderCustomerPaymentTermTypeWechatQrcode;
-    @ApiModelProperty("订单顾客支持的付款条件:银行方式,银行名称")
-
-    private String orderCustomerPaymentTermTypeBankName;
-    @ApiModelProperty("订单顾客支持的付款条件:银行方式,支行账号")
-
-    private String orderCustomerPaymentTermTypeBankBranchName;
-    @ApiModelProperty("订单顾客支持的付款条件:银行方式,银行卡号")
-
-    private String orderCustomerPaymentTermTypeBankAccount;
-    @ApiModelProperty("订单顾客支持的付款条件:银行方式,户主真实姓名")
-
-    private String orderCustomerPaymentTermTypeBankRealname;
+    private int orderCustomerPaymentType;
 
 ////////////////////
 

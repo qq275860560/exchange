@@ -35,7 +35,15 @@ public class OrderAppealController {
         return orderAppealService.pageOrderAppeal(pageOrderAppealReqDTO);
     }
 
-    @ApiOperation(value = "根据申诉编号获取申诉详情", notes = "<p></p>", httpMethod = "POST")
+
+    @ApiOperation(value = "管理员分页搜索申诉", notes = "<p></p>", httpMethod = "POST")
+    @PostMapping(value = "/api/orderappeal/pageOrderAppealForAdmin")
+    @SneakyThrows
+    public Result<PageRespDTO<OrderAppealRespDTO>> pageOrderAppealForAdmin(@RequestBody PageOrderAppealForAdminReqDTO pageOrderAppealForAdminReqDTO) {
+        return orderAppealService.pageOrderAppealForAdmin(pageOrderAppealForAdminReqDTO);
+    }
+
+    @ApiOperation(value = "根据申诉编号获取申诉详情", notes = "<p>买卖双方查看申诉信息</p>", httpMethod = "POST")
     @PostMapping(value = "/api/orderappeal/getOrderAppealByOrderAppealCode")
     @SneakyThrows
     public Result<OrderAppealRespDTO> getOrderAppealByOrderAppealCode(@RequestBody GetOrderAppealByOrderAppealCodeReqDTO getOrderAppealByOrderAppealCodeReqDTO) {
@@ -49,18 +57,25 @@ public class OrderAppealController {
         return orderAppealService.existsOrderAppealByOrderAppealCode(getOrderAppealByOrderAppealCodeReqDTO);
     }
 
-    @ApiOperation(value = "新建申诉", notes = "<p></p>", httpMethod = "POST")
+    @ApiOperation(value = "新建申诉", notes = "<p>提起申诉</p>", httpMethod = "POST")
     @PostMapping(value = "/api/orderappeal/addOrderAppeal")
     @SneakyThrows
     public Result<Void> addOrderAppeal(@RequestBody AddOrderAppealReqDTO addOrderAppealReqDTO) {
         return orderAppealService.addOrderAppeal(addOrderAppealReqDTO);
     }
 
-    @ApiOperation(value = "审核申诉", notes = "<p></p>", httpMethod = "POST")
-    @PostMapping(value = "/api/orderappeal/auditOrderAppeal")
+    @ApiOperation(value = "管理员审核申诉", notes = "<p></p>", httpMethod = "POST")
+    @PostMapping(value = "/api/orderappeal/auditOrderAppealForAdmin")
     @SneakyThrows
-    public Result<Void> auditOrderAppeal(@RequestBody AuditOrderAppealReqDTO auditOrderAppealReqDTO) {
-        return orderAppealService.auditOrderAppeal(auditOrderAppealReqDTO);
+    public Result<Void> auditOrderAppealForAdmin(@RequestBody AuditOrderAppealForAdminReqDTO auditOrderAppealForAdminReqDTO) {
+        return orderAppealService.auditOrderAppealForAdmin(auditOrderAppealForAdminReqDTO);
+    }
+
+    @ApiOperation(value = "取消申诉", notes = "<p>取消申诉</p>", httpMethod = "POST")
+    @PostMapping(value = "/api/orderappeal/cancelOrderAppeal")
+    @SneakyThrows
+    public Result<Void> cancelOrderAppeal(@RequestBody CancelOrderAppealReqDTO cancelOrderAppealReqDTO) {
+        return orderAppealService.cancelOrderAppeal(cancelOrderAppealReqDTO);
     }
 
 }

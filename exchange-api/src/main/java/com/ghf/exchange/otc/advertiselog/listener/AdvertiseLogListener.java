@@ -1,17 +1,13 @@
 package com.ghf.exchange.otc.advertiselog.listener;
 
-import com.ghf.exchange.boss.authorication.client.dto.LoginClientReqDTO;
 import com.ghf.exchange.boss.authorication.client.service.ClientService;
 import com.ghf.exchange.boss.authorication.user.service.UserService;
-import com.ghf.exchange.otc.advertise.event.AddAdvertiseEvent;
-import com.ghf.exchange.otc.advertise.event.DeleteAdvertiseEvent;
-import com.ghf.exchange.otc.advertise.event.PutOffShelvesEvent;
-import com.ghf.exchange.otc.advertise.event.PutOnShelvesEvent;
-import com.ghf.exchange.otc.advertiselog.dto.AddAdvertiseLogReqDTO;
+import com.ghf.exchange.otc.advertise.event.*;
+import com.ghf.exchange.otc.advertiselog.dto.AddAdvertiseLogForClientReqDTO;
 import com.ghf.exchange.otc.advertiselog.service.AdvertiseLogService;
 import com.ghf.exchange.util.JsonUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -37,47 +33,64 @@ public class AdvertiseLogListener {
     @Resource
     private AdvertiseLogService advertiseLogService;
 
-    @Value("${security.oauth2.client.client-id}")
-    public String clientId;
-
-    @Value("${security.oauth2.client.client-secret}")
-    public String secret;
-
     @Async
     @EventListener
     public void onAddAdvertiseEvent(AddAdvertiseEvent event) {
-        log.info("接收到消息={}", JsonUtil.toJsonString(event.getSource()));
-        AddAdvertiseLogReqDTO addAdvertiseLogReqDTO = (AddAdvertiseLogReqDTO) event.getSource();
-        clientService.loginClient(LoginClientReqDTO.builder().clientId(clientId).clientSecret(secret).build());
-        advertiseLogService.addAdvertiseLog(addAdvertiseLogReqDTO);
+        log.info("接收到消息={}", JsonUtil.toJsonString(event));
+        AddAdvertiseLogForClientReqDTO addAdvertiseLogForClientReqDTO = ModelMapperUtil.map(event, AddAdvertiseLogForClientReqDTO.class);
+
+        advertiseLogService.addAdvertiseLogForClient(addAdvertiseLogForClientReqDTO);
     }
 
     @Async
     @EventListener
     public void onPutOnShelvesEvent(PutOnShelvesEvent event) {
-        log.info("接收到消息={}", JsonUtil.toJsonString(event.getSource()));
-        AddAdvertiseLogReqDTO addAdvertiseLogReqDTO = (AddAdvertiseLogReqDTO) event.getSource();
-        clientService.loginClient(LoginClientReqDTO.builder().clientId(clientId).clientSecret(secret).build());
-        advertiseLogService.addAdvertiseLog(addAdvertiseLogReqDTO);
+        log.info("接收到消息={}", JsonUtil.toJsonString(event));
+        AddAdvertiseLogForClientReqDTO addAdvertiseLogForClientReqDTO = ModelMapperUtil.map(event, AddAdvertiseLogForClientReqDTO.class);
+
+        advertiseLogService.addAdvertiseLogForClient(addAdvertiseLogForClientReqDTO);
     }
 
     @Async
     @EventListener
     public void onPutOffShelvesEvent(PutOffShelvesEvent event) {
-        log.info("接收到消息={}", JsonUtil.toJsonString(event.getSource()));
-        AddAdvertiseLogReqDTO addAdvertiseLogReqDTO = (AddAdvertiseLogReqDTO) event.getSource();
-        clientService.loginClient(LoginClientReqDTO.builder().clientId(clientId).clientSecret(secret).build());
-        advertiseLogService.addAdvertiseLog(addAdvertiseLogReqDTO);
+        log.info("接收到消息={}", JsonUtil.toJsonString(event));
+        AddAdvertiseLogForClientReqDTO addAdvertiseLogForClientReqDTO = ModelMapperUtil.map(event, AddAdvertiseLogForClientReqDTO.class);
+
+        advertiseLogService.addAdvertiseLogForClient(addAdvertiseLogForClientReqDTO);
 
     }
 
     @Async
     @EventListener
     public void onDeleteAdvertiseEvent(DeleteAdvertiseEvent event) {
-        log.info("接收到消息={}", JsonUtil.toJsonString(event.getSource()));
-        AddAdvertiseLogReqDTO addAdvertiseLogReqDTO = (AddAdvertiseLogReqDTO) event.getSource();
-        clientService.loginClient(LoginClientReqDTO.builder().clientId(clientId).clientSecret(secret).build());
-        advertiseLogService.addAdvertiseLog(addAdvertiseLogReqDTO);
+        log.info("接收到消息={}", JsonUtil.toJsonString(event));
+        AddAdvertiseLogForClientReqDTO addAdvertiseLogForClientReqDTO = ModelMapperUtil.map(event, AddAdvertiseLogForClientReqDTO.class);
+
+        advertiseLogService.addAdvertiseLogForClient(addAdvertiseLogForClientReqDTO);
     }
 
+    @Async
+    @EventListener
+    public void onFreezeAdvertiseAmountEvent(FreezeAdvertiseAmountEvent event) {
+        log.info("接收到消息={}", JsonUtil.toJsonString(event));
+        //TODO 广告日志
+
+    }
+
+    @Async
+    @EventListener
+    public void onUnFreezeAdvertiseAmountEvent(UnFreezeAdvertiseAmountEvent event) {
+        log.info("接收到消息={}", JsonUtil.toJsonString(event));
+        //TODO 广告日志
+
+    }
+
+    @Async
+    @EventListener
+    public void onDecAdvertiseFrozenAmountEvent(DecAdvertiseFrozenAmountEvent event) {
+        log.info("接收到消息={}", JsonUtil.toJsonString(event));
+        //TODO 广告日志
+
+    }
 }

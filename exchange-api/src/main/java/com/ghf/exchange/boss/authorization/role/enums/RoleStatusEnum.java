@@ -11,8 +11,8 @@ public enum RoleStatusEnum {
     /**
      *
      */
-    DISABLE(0, "角色状态禁用"),
-    ENABLE(1, "角色状态启用"),
+    DISABLE(0, "状态禁用"),
+    ENABLE(1, "状态启用"),
 
     ;
 

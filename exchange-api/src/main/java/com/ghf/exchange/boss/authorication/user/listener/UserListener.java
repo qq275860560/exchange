@@ -1,6 +1,5 @@
 package com.ghf.exchange.boss.authorication.user.listener;
 
-import com.ghf.exchange.boss.authorication.client.service.ClientService;
 import com.ghf.exchange.boss.authorication.user.dto.AddUserReqDTO;
 import com.ghf.exchange.boss.authorication.user.dto.UpdateUserByUsernameEvent;
 import com.ghf.exchange.boss.authorication.user.dto.UpdateUserByUsernameReqDTO;
@@ -20,11 +19,9 @@ import com.ghf.exchange.boss.authorization.userrole.dto.GetUserRoleByUsernameAnd
 import com.ghf.exchange.boss.authorization.userrole.dto.ListRoleByUsernameReqDTO;
 import com.ghf.exchange.boss.authorization.userrole.service.UserRoleService;
 import com.ghf.exchange.config.ClearRedisConfig;
-import com.ghf.exchange.otc.advertiselog.service.AdvertiseLogService;
 import com.ghf.exchange.util.JsonUtil;
 import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
@@ -52,12 +49,6 @@ public class UserListener {
     @Lazy
     @Resource
     private UserService userService;
-    @Lazy
-    @Resource
-    private ClientService clientService;
-    @Lazy
-    @Resource
-    private AdvertiseLogService advertiseLogService;
 
     @Lazy
     @Resource
@@ -90,11 +81,6 @@ public class UserListener {
     @Lazy
     @Resource
     private ClearRedisConfig clearRedisService;
-    @Value("${security.oauth2.client.client-id}")
-    public String clientId;
-
-    @Value("${security.oauth2.client.client-secret}")
-    public String secret;
 
     @Async
     @EventListener

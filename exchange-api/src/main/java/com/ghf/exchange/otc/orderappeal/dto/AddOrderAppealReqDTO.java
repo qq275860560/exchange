@@ -28,6 +28,9 @@ public class AddOrderAppealReqDTO {
 
     private String orderCode;
 
+    @ApiModelProperty("申诉类型,1:对方未付款 2：对方未放行 3:其他")
+    private int orderAppealType;
+
     @ApiModelProperty("申诉内容")
 
     private String orderAppealContent;

@@ -20,11 +20,11 @@ INSERT INTO t_role(id,
                    roledesc)
 VALUES (3,
         'ROLE_ADVERTISE_BUSINESS',
-        '普通注册商家');
+        '普通广告商家');
 
 INSERT INTO t_role(id,
                    rolename,
                    roledesc)
 VALUES (4,
         'ROLE_ORDER_CUSTOMER',
-        '普通注册顾客');
+        '普通订单顾客');

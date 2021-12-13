@@ -14,29 +14,25 @@
                 "Authorization": token_type + " " + access_token,
                 "Content-Type": "application/json"
             }
-        }).then((response) = > {
-            if(response.status == 200
-    )
-        {
+        })
+            .then((response) => {
+            if(response.status == 200       )            {
             return response.json();
-        }
-    else
-        if (response.status == 401) {
+        }  else  if (response.status == 401) {
             console.log("认证失败");
         } else if (response.status == 403) {
             console.log("授权失败");
         } else {
             console.error(response);
         }
-    }).
-        then((result) = > {
+    })
+    .then((result) => {
             console.log("receive=", result);
         success(result);
-    }).
-        catch((e) = > {
-            console.log(e);
     })
-        ;
+    .catch((e) => {
+            console.log(e);
+    })       ;
     }
 
 
@@ -122,13 +118,22 @@
 
     }
 
+
+
+    post("/api/order/pageOrder",{},function(result) {
+        let orderMessage ={};
+        orderMessage.orderCode=result.data.list[0].orderCode;
+        orderMessage.orderMessageContent="你好"+new Date();
+        document.getElementById("content").value = JSON.stringify(orderMessage)
+    });
+
 </script>
 
 
 <button type="button" onclick="connect()">连接</button>
 
-内容：<input id="content" value='{"orderCode":"test-顾客在广告区买币-20211115174206","orderMessageContent":"你好"}'>
-<button type="button" onclick="javascript:send()">发送</button>
+内容：<input id="content" value='{"orderCode":"test-顾客在广告区买币-20211115174206","orderMessageContent":"你好"}'  >
+<button type="button" onclick=" send()">发送</button>
 
 
 <div id="msgList">

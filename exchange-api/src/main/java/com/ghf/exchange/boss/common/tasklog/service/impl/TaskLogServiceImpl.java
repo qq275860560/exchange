@@ -10,8 +10,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
@@ -80,7 +80,7 @@ public class TaskLogServiceImpl extends BaseServiceImpl<TaskLog, Long> implement
         Predicate predicate = QTaskLog.taskLog.tasklogname.eq(tasklogname);
         TaskLog tasklog = tasklogService.get(predicate);
         //返回
-        TaskLogRespDTO tasklogRespDTO = AutoMapUtils.map(tasklog, TaskLogRespDTO.class);
+        TaskLogRespDTO tasklogRespDTO = ModelMapperUtil.map(tasklog, TaskLogRespDTO.class);
         return new Result<>(tasklogRespDTO);
     }
 
@@ -96,19 +96,25 @@ public class TaskLogServiceImpl extends BaseServiceImpl<TaskLog, Long> implement
 
     @Override
     @SneakyThrows
-    public Result<Void> addTaskLog(AddTaskLogReqDTO addTaskLogReqDTO) {
-        TaskLog tasklog = AutoMapUtils.map(addTaskLogReqDTO, TaskLog.class);
-        //TODO 获取当前调用客户端详情
-        //判断唯一性
-        String tasklogname = tasklog.getTasklogname();
-        GetTaskLogByTasklognameReqDTO getTaskLogByTasklognameReqDTO = new GetTaskLogByTasklognameReqDTO();
-        getTaskLogByTasklognameReqDTO.setTasklogname(tasklogname);
-        boolean b = tasklogService.existsTaskLogByTasklogname(getTaskLogByTasklognameReqDTO).getData();
-        if (b) {
-            return new Result<>(ResultCodeEnum.TASK_LOG_EXISTS);
-        }
+    public Result<Void> addTaskLogForClient(AddTaskLogForClientReqDTO addTaskLogForClientReqDTO) {
+        TaskLog tasklog = ModelMapperUtil.map(addTaskLogForClientReqDTO, TaskLog.class);
         //初始化id
         tasklog.setId(IdUtil.generateLongId());
+        //判断唯一性
+        if (!ObjectUtils.isEmpty(addTaskLogForClientReqDTO.getTaskname())) {
+            //判断唯一性
+            String tasklogname = tasklog.getTasklogname();
+            GetTaskLogByTasklognameReqDTO getTaskLogByTasklognameReqDTO = new GetTaskLogByTasklognameReqDTO();
+            getTaskLogByTasklognameReqDTO.setTasklogname(tasklogname);
+            boolean b = tasklogService.existsTaskLogByTasklogname(getTaskLogByTasklognameReqDTO).getData();
+            if (b) {
+                return new Result<>(ResultCodeEnum.TASK_EXISTS);
+            }
+            tasklog.setTaskname(addTaskLogForClientReqDTO.getTaskname());
+        } else {
+            //自动生成
+            tasklog.setTaskname(tasklog.getId() + "");
+        }
         //新增到数据库
         tasklogService.add(tasklog);
         return new Result<>(ResultCodeEnum.OK);

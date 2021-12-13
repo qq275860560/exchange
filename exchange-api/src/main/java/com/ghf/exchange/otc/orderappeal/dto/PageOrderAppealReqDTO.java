@@ -33,7 +33,7 @@ public class PageOrderAppealReqDTO extends PageReqDTO {
 
     private String advertiseCode;
 
-    @ApiModelProperty("状态,1:上架,2:下架,3:删除")
+    @ApiModelProperty("申诉状态,1:已申诉,2:已审核,3:已取消")
     private int status;
 
 }

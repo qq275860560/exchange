@@ -5,7 +5,7 @@ import com.ghf.exchange.boss.authorication.client.service.ClientService;
 import com.ghf.exchange.boss.authorication.user.dto.*;
 import com.ghf.exchange.boss.authorication.user.entity.QUser;
 import com.ghf.exchange.boss.authorication.user.entity.User;
-import com.ghf.exchange.boss.authorication.user.enums.UserStatusEnum;
+import com.ghf.exchange.boss.authorication.user.enums.UsersStatusEnum;
 import com.ghf.exchange.boss.authorication.user.event.AddUserEvent;
 import com.ghf.exchange.boss.authorication.user.event.UpdateUserLastLoginTimeAndLastLoginIpEvent;
 import com.ghf.exchange.boss.authorication.user.repository.UserRepository;
@@ -19,8 +19,8 @@ import com.ghf.exchange.dto.PageRespDTO;
 import com.ghf.exchange.dto.Result;
 import com.ghf.exchange.enums.ResultCodeEnum;
 import com.ghf.exchange.service.impl.BaseServiceImpl;
-import com.ghf.exchange.util.AutoMapUtils;
 import com.ghf.exchange.util.IdUtil;
+import com.ghf.exchange.util.ModelMapperUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.SneakyThrows;
@@ -156,7 +156,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
             predicate.and(QUser.user.rolenames.contains("," + listUserReqDTO.getRolename() + ","));
         }
         //此接口只能获取启用状态的
-        predicate.and(QUser.user.status.eq(UserStatusEnum.ENABLE.getCode()));
+        predicate.and(QUser.user.status.eq(UsersStatusEnum.ENABLE.getCode()));
         List<UserRespDTO> list = userService.list(predicate, UserRespDTO.class);
         list.forEach(e -> {
             if (!ObjectUtils.isEmpty(e.getRolenames())) {
@@ -178,11 +178,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
     @Override
     @SneakyThrows
     public Result<UserRespDTO> getCurrentLoginUser() {
-        if (null == ((OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication()).getUserAuthentication()) {
-            return new Result<>(new UserRespDTO());
-        }
-
         OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        if (oAuth2Authentication == null) {
+            return new Result<>(UserRespDTO.builder().build());
+        }
+        if (oAuth2Authentication.getUserAuthentication() == null) {
+            return new Result<>(UserRespDTO.builder().build());
+        }
+        if (oAuth2Authentication.getUserAuthentication().getPrincipal() == null) {
+            return new Result<>(UserRespDTO.builder().build());
+        }
         //获取登陆账号
         String username = ((org.springframework.security.core.userdetails.User) oAuth2Authentication.getUserAuthentication().getPrincipal()).getUsername();
 
@@ -220,7 +225,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
             return new Result<>();
         }
         //返回
-        UserRespDTO userRespDTO = AutoMapUtils.map(user, UserRespDTO.class);
+        UserRespDTO userRespDTO = ModelMapperUtil.map(user, UserRespDTO.class);
 
         if (!ObjectUtils.isEmpty(userRespDTO.getRolenames())) {
             userRespDTO.setRolenameSet(Arrays.stream(userRespDTO.getRolenames().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
@@ -245,7 +250,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
         Predicate predicate = QUser.user.email.eq(email);
         User user = this.get(predicate);
         //返回
-        UserRespDTO userRespDTO = AutoMapUtils.map(user, UserRespDTO.class);
+        UserRespDTO userRespDTO = ModelMapperUtil.map(user, UserRespDTO.class);
 
         if (!ObjectUtils.isEmpty(userRespDTO.getRolenames())) {
             userRespDTO.setRolenameSet(Arrays.stream(userRespDTO.getRolenames().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
@@ -271,7 +276,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
         Predicate predicate = QUser.user.mobile.eq(mobile);
         User user = this.get(predicate);
         //返回
-        UserRespDTO userRespDTO = AutoMapUtils.map(user, UserRespDTO.class);
+        UserRespDTO userRespDTO = ModelMapperUtil.map(user, UserRespDTO.class);
 
         if (!ObjectUtils.isEmpty(userRespDTO.getRolenames())) {
             userRespDTO.setRolenameSet(Arrays.stream(userRespDTO.getRolenames().split(",")).filter(o -> !ObjectUtils.isEmpty(o)).collect(Collectors.toSet()));
@@ -367,7 +372,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
         if (!passwordEncoder.matches(password, user.getPassword())) {
             return new Result<>(ResultCodeEnum.PASSWORD_ERROR);
         }
-        if (user.getStatus() == UserStatusEnum.DISABLE.getCode()) {
+        if (user.getStatus() == UsersStatusEnum.DISABLE.getCode()) {
             return new Result<>(ResultCodeEnum.USER_STATUS_DISABLE);
         }
 
@@ -395,7 +400,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
         applicationEventPublisher.publishEvent(new UpdateUserLastLoginTimeAndLastLoginIpEvent(updateUserLastLoginTimeAndLastLoginIpDto));
 
         //TODO封装返回对象，包括个人信息菜单按钮请求url权限
-        LoginRespDTO loginRespDTO = AutoMapUtils.map(user, LoginRespDTO.class);
+        LoginRespDTO loginRespDTO = ModelMapperUtil.map(user, LoginRespDTO.class);
         loginRespDTO.setAccessToken(oAuth2AccessToken.getValue());
         loginRespDTO.setTokenType(oAuth2AccessToken.getTokenType());
 
@@ -422,7 +427,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
     @Override
     @SneakyThrows
     public Result<Void> addUser(AddUserReqDTO addUserReqDTO) {
-        User user = AutoMapUtils.map(addUserReqDTO, User.class);
+        User user = ModelMapperUtil.map(addUserReqDTO, User.class);
         //获取当前登陆用户详情
 
         UserRespDTO currentLoginUser = this.getCurrentLoginUser().getData();
@@ -460,7 +465,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
         //密码脱敏处理
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         //用户默认设置为启用
-        user.setStatus(UserStatusEnum.ENABLE.getCode());
+        user.setStatus(UsersStatusEnum.ENABLE.getCode());
         //新增到数据库
         this.add(user);
 
@@ -566,7 +571,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Predicate predicate = QUser.user.username.eq(username);
         User user = this.get(predicate);
-        UpdateUserPasswordByUsernameAndOldPasswordReqDTO updateUserPasswordByUsernameAndOldPasswordReqDTO = AutoMapUtils.map(updateUserPasswordReqDTO, UpdateUserPasswordByUsernameAndOldPasswordReqDTO.class);
+        UpdateUserPasswordByUsernameAndOldPasswordReqDTO updateUserPasswordByUsernameAndOldPasswordReqDTO = ModelMapperUtil.map(updateUserPasswordReqDTO, UpdateUserPasswordByUsernameAndOldPasswordReqDTO.class);
         updateUserPasswordByUsernameAndOldPasswordReqDTO.setUsername(user.getUsername());
         return userService.updateUserPasswordByUsernameAndOldPassword(updateUserPasswordByUsernameAndOldPasswordReqDTO);
 
@@ -692,7 +697,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
             return new Result<>(ResultCodeEnum.USER_NOT_EXISTS);
         }
         //初始化
-        afterUser.setStatus(UserStatusEnum.ENABLE.getCode());
+        afterUser.setStatus(UsersStatusEnum.ENABLE.getCode());
         //更新到数据库
         userService.update(afterUser);
 
@@ -714,7 +719,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
             return new Result<>(ResultCodeEnum.USER_NOT_EXISTS);
         }
         //初始化
-        afterUser.setStatus(UserStatusEnum.DISABLE.getCode());
+        afterUser.setStatus(UsersStatusEnum.DISABLE.getCode());
         //更新到数据库
         userService.update(afterUser);
 

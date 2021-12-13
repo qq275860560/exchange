@@ -22,7 +22,7 @@
                 headers: {
                     "Authorization": token_type + " " + access_token
                 }
-            }).then((response) = > {
+            }).then((response) => {
                 if(response.status == 200
         )
             {
@@ -37,11 +37,11 @@
                 console.error(response);
             }
         }).
-            then((result) = > {
+            then((result) => {
                 console.log("receive=", result);
             success(result);
         }).
-            catch((e) = > {
+            catch((e) => {
                 console.log(e);
         })
             ;

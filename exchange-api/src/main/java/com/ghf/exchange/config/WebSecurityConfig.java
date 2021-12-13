@@ -2,7 +2,7 @@ package com.ghf.exchange.config;
 
 import com.ghf.exchange.boss.authorication.user.entity.QUser;
 import com.ghf.exchange.boss.authorication.user.entity.User;
-import com.ghf.exchange.boss.authorication.user.enums.UserStatusEnum;
+import com.ghf.exchange.boss.authorication.user.enums.UsersStatusEnum;
 import com.ghf.exchange.boss.authorication.user.service.UserService;
 import com.ghf.exchange.boss.authorization.org.dto.OrgRespDTO;
 import com.ghf.exchange.boss.authorization.orgrole.dto.ListRoleByOrgnameReqDTO;
@@ -124,7 +124,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             String password = user.getPassword();
 
             // 帐号是否可用
-            boolean enabled = user.getStatus() == UserStatusEnum.ENABLE.getCode();
+            boolean enabled = user.getStatus() == UsersStatusEnum.ENABLE.getCode();
             // 帐户是否过期
             boolean accountNonExpired = true;
             // 帐户密码是否过期，一般有的密码要求性高的系统会使用到，比较每隔一段时间就要求用户重置密码
