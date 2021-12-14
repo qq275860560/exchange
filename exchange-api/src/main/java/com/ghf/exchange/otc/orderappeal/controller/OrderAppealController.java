@@ -35,7 +35,6 @@ public class OrderAppealController {
         return orderAppealService.pageOrderAppeal(pageOrderAppealReqDTO);
     }
 
-
     @ApiOperation(value = "管理员分页搜索申诉", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/orderappeal/pageOrderAppealForAdmin")
     @SneakyThrows

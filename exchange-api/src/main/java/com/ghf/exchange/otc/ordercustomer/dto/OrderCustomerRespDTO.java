@@ -137,7 +137,6 @@ public class OrderCustomerRespDTO {
 
     private Date orderLastCancelTime;
 
-
     @ApiModelProperty("订单当月下单总数")
     @Column(name = "order_month_buy_sell_count")
     private int orderMonthBuySellCount;
@@ -161,10 +160,6 @@ public class OrderCustomerRespDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date orderLastReleaseTime;
-
-
-
-
 
     @ApiModelProperty("状态,0:禁用,1:启用")
 

@@ -71,15 +71,12 @@ public class PaymentController {
         return paymentService.getPaymentByPaymentCode(getPaymentByPaymentCodeReqDTO);
     }
 
-
     @ApiOperation(value = "微服务客户端根据收款方式编码获取收款方式详情", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/payment/getPaymentByPaymentTypeForClient")
     @SneakyThrows
     public Result<PaymentRespDTO> getPaymentByPaymentTypeForClient(@RequestBody GetPaymentByPaymentTypeForClientReqDTO getPaymentByPaymentTypeForClientReqDTO) {
         return paymentService.getPaymentByPaymentTypeForClient(getPaymentByPaymentTypeForClientReqDTO);
     }
-
-
 
     @ApiOperation(value = "根据收款方式名称判断收款方式是否存在", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/payment/existsPaymentByPaymentCode")
@@ -88,17 +85,12 @@ public class PaymentController {
         return paymentService.existsPaymentByPaymentCode(getPaymentByPaymentCodeReqDTO);
     }
 
-
-
     @ApiOperation(value = "微服务客户端根据收款方式类型判断收款方式是否存在", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/payment/existsPaymentByPaymentTypeForClient")
     @SneakyThrows
     public Result<Boolean> existsPaymentByPaymentTypeForClient(@RequestBody GetPaymentByPaymentTypeForClientReqDTO getPaymentByPaymentTypeForClientReqDTO) {
         return paymentService.existsPaymentByPaymentTypeForClient(getPaymentByPaymentTypeForClientReqDTO);
     }
-
-
-
 
     @ApiOperation(value = "新建收款方式", notes = "<p>新增 网络账号 \n 新增用户 银行卡</p>", httpMethod = "POST")
     @PostMapping(value = "/api/payment/addPayment")

@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,8 +78,10 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
 
     @Override
     public <R> List<R> list(Predicate predicate, Class<R> outputType) {
-        List<T> list = Lists.newArrayList(baseRepository.findAll(predicate));
-        return ModelMapperUtil.mapForList(list, outputType);
+        List<R> targetList = new ArrayList<>();
+        baseRepository.findAll(predicate).forEach(e -> targetList.add(ModelMapperUtil.map(e, outputType)));
+        return targetList;
+
     }
 
     @Override
@@ -112,7 +115,7 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
             ).collect(Collectors.toList());
             sort = Sort.by(orders);
         }
-        PageRespDTO<R> pageRespDTO  = getPageRespDTO(predicate, pageReqDTO, outputType, sort);
+        PageRespDTO<R> pageRespDTO = getPageRespDTO(predicate, pageReqDTO, outputType, sort);
         //refactor page[1,max] 超过当前页边界，返回边界页的列表数据
         if (pageReqDTO.getPageNum() > pageRespDTO.getPages()) {
             pageReqDTO.setPageNum(pageRespDTO.getPages());
@@ -124,9 +127,8 @@ public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<
     private <R> PageRespDTO<R> getPageRespDTO(Predicate predicate, PageReqDTO pageReqDTO, Class<R> outputType, Sort sort) {
         Pageable pageable = PageRequest.of(pageReqDTO.getPageNum() - 1, pageReqDTO.getPageSize(), sort);
         Page<T> page = baseRepository.findAll(predicate, pageable);
-        List<R> list = ModelMapperUtil.mapForList(page.getContent(), outputType);
-        return new PageRespDTO<R>(pageReqDTO.getPageNum(), pageReqDTO.getPageSize(), (int) page.getTotalElements(),list);
-
+        List<R> list = page.getContent().stream().map(e -> ModelMapperUtil.map(e, outputType)).collect(Collectors.toList());
+        return new PageRespDTO<R>(pageReqDTO.getPageNum(), pageReqDTO.getPageSize(), (int) page.getTotalElements(), list);
     }
 
     @Override

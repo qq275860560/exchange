@@ -353,7 +353,7 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
 
         } else if (updatePaymentByPaymentCodeReqDTO.getPaymentType() == PaymentTypeEnum.CASH.getCode()) {
 
-        }else {
+        } else {
             return new Result<>(ResultCodeEnum.PAYMENT_NOT_EXISTS);
         }
         afterPayment.setRemark(updatePaymentByPaymentCodeReqDTO.getRemark());

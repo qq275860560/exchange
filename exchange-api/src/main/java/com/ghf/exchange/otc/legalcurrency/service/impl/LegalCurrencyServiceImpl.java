@@ -332,5 +332,4 @@ public class LegalCurrencyServiceImpl extends BaseServiceImpl<LegalCurrency, Lon
 
     //TODO 兑美元汇率
 
-
 }

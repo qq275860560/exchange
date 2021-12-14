@@ -82,7 +82,7 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         PageRespDTO<OrderCustomerRespDTO> pageRespDTO = orderCustomerService.page(predicate, pageOrderCustomerReqDTO, OrderCustomerRespDTO.class);
 
-        pageRespDTO.getList()  .forEach(orderCustomerRespDTO -> {
+        pageRespDTO.getList().forEach(orderCustomerRespDTO -> {
             if (orderCustomerRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
                 //重置订单当月下单总数为0
                 orderCustomerRespDTO.setOrderMonthBuySellCount(0);
@@ -121,7 +121,7 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         PageRespDTO<OrderCustomerRespDTO> pageRespDTO = orderCustomerService.page(predicate, pageOrderCustomerForAdminReqDTO, OrderCustomerRespDTO.class);
 
-        pageRespDTO.getList()  .forEach(orderCustomerRespDTO -> {
+        pageRespDTO.getList().forEach(orderCustomerRespDTO -> {
             if (orderCustomerRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
                 //重置订单当月下单总数为0
                 orderCustomerRespDTO.setOrderMonthBuySellCount(0);
@@ -278,7 +278,6 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         //返回
         OrderCustomerRespDTO orderCustomerRespDTO = ModelMapperUtil.map(orderCustomer, OrderCustomerRespDTO.class);
-
 
         if (orderCustomerRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(orderCustomerRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
             //重置订单当月下单总数为0
@@ -503,16 +502,11 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
         //设置总完成率=(买币订单放行次数+卖币订单放行次数)/订单顾客下单次数
         afterOrderCustomer.setOrderBuySellReleaseRate(BigDecimal.valueOf(orderCustomerRespDTO.getOrderBuyReleaseCount() + orderCustomerRespDTO.getOrderSellReleaseCount()).divide(BigDecimal.valueOf(orderCustomerRespDTO.getOrderBuySellCount() + 1), 8, BigDecimal.ROUND_UP));
 
-
-
-
         //设置订单当月下单总数
         afterOrderCustomer.setOrderMonthBuySellCount(orderCustomerRespDTO.getOrderMonthBuySellCount() + 1);
 
         //设置订单最后下单时间
         afterOrderCustomer.setOrderLastAddTime(updateOrderCustomerOnAddOrderEventForClientReqDTO.getAddTime());
-
-
 
 //更新到数据库
         orderCustomerService.update(afterOrderCustomer);
@@ -565,18 +559,13 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
         //设置订单平均放行时间
         afterOrderCustomer.setOrderBuySellAvgReleaseTime((orderCustomerRespDTO.getOrderBuyTotalReleaseTime() + orderCustomerRespDTO.getOrderSellTotalReleaseTime() + updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getReleaseTime().getTime() - updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getPayTime().getTime()) / orderCustomerRespDTO.getOrderBuySellCount());
 
-
-
         //创建时间也是当前月才计入
-        if(new SimpleDateFormat("yyyy-MM").format(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getReleaseTime()))) {
-
-
+        if (new SimpleDateFormat("yyyy-MM").format(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getReleaseTime()))) {
 
             //设置订单当月放行总数
             afterOrderCustomer.setOrderMonthBuySellReleaseCount(orderCustomerRespDTO.getOrderMonthBuySellReleaseCount() + 1);
             //设置订单当月放行比例
             afterOrderCustomer.setOrderMonthBuySellReleaseRate(BigDecimal.valueOf(orderCustomerRespDTO.getOrderMonthBuySellReleaseCount() + 1).divide(BigDecimal.valueOf(orderCustomerRespDTO.getOrderMonthBuySellCount()), 8, BigDecimal.ROUND_UP));
-
 
             //设置订单最后放行时间
             afterOrderCustomer.setOrderLastReleaseTime(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getReleaseTime());
@@ -590,7 +579,6 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
             //设置卖币订单总额
             afterOrderCustomer.setOrderSellTotalPrice(orderCustomerRespDTO.getOrderSellTotalPrice().add(updateOrderCustomerOnReleaseOrderEventForClientReqDTO.getOrderTotalPrice()));
         }
-
 
 //更新到数据库
         orderCustomerService.update(afterOrderCustomer);
@@ -618,10 +606,8 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
 
         OrderCustomer afterOrderCustomer = ModelMapperUtil.map(orderCustomerRespDTO, OrderCustomer.class);
 
-
-
         //设置订单当日申诉次数
-            afterOrderCustomer.setOrderTodayAppealCount(orderCustomerRespDTO.getOrderTodayAppealCount() + 1);
+        afterOrderCustomer.setOrderTodayAppealCount(orderCustomerRespDTO.getOrderTodayAppealCount() + 1);
 
         //设置订单最后申诉时间
         afterOrderCustomer.setOrderLastAppealTime(updateOrderCustomerOnAppealOrderEventForClientReqDTO.getAppealTime());
@@ -650,8 +636,6 @@ public class OrderCustomerServiceImpl extends BaseServiceImpl<OrderCustomer, Lon
         }
 
         OrderCustomer afterOrderCustomer = ModelMapperUtil.map(orderCustomerRespDTO, OrderCustomer.class);
-
-
 
         //设置订单当日取消次数
         afterOrderCustomer.setOrderTodayCancelCount(orderCustomerRespDTO.getOrderTodayCancelCount() + 1);

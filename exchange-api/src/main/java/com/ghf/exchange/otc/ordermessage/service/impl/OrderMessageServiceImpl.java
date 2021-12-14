@@ -125,7 +125,7 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
 
         query.skip((pageOrderMessageReqDTO.getPageNum() - 1) * pageOrderMessageReqDTO.getPageSize());
         query.limit(pageOrderMessageReqDTO.getPageSize());
-        List<OrderMessageRespDTO> list = ModelMapperUtil.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
+        List<OrderMessageRespDTO> list = mongoTemplate.find(query, OrderMessageWithMongo.class).stream().map(e -> ModelMapperUtil.map(e, OrderMessageRespDTO.class)).collect(Collectors.toList());
 
         PageRespDTO<OrderMessageRespDTO> pageRespDTO = new PageRespDTO<OrderMessageRespDTO>(pageOrderMessageReqDTO.getPageNum(), pageOrderMessageReqDTO.getPageSize(), (int) total, list);
 
@@ -133,7 +133,7 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
         if (pageOrderMessageReqDTO.getPageNum() > pageRespDTO.getPages()) {
             pageOrderMessageReqDTO.setPageNum(pageRespDTO.getPages());
             query.skip((pageOrderMessageReqDTO.getPageNum() - 1) * pageOrderMessageReqDTO.getPageSize());
-            list = ModelMapperUtil.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
+            list = mongoTemplate.find(query, OrderMessageWithMongo.class).stream().map(e -> ModelMapperUtil.map(e, OrderMessageRespDTO.class)).collect(Collectors.toList());
         }
         pageRespDTO = new PageRespDTO<OrderMessageRespDTO>(pageOrderMessageReqDTO.getPageNum(), pageOrderMessageReqDTO.getPageSize(), (int) total, list);
 
@@ -176,7 +176,7 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
 
         query.skip((pageOrderMessageForAdminReqDTO.getPageNum() - 1) * pageOrderMessageForAdminReqDTO.getPageSize());
         query.limit(pageOrderMessageForAdminReqDTO.getPageSize());
-        List<OrderMessageRespDTO> list = ModelMapperUtil.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
+        List<OrderMessageRespDTO> list = mongoTemplate.find(query, OrderMessageWithMongo.class).stream().map(e -> ModelMapperUtil.map(e, OrderMessageRespDTO.class)).collect(Collectors.toList());
 
         PageRespDTO<OrderMessageRespDTO> pageRespDTO = new PageRespDTO<OrderMessageRespDTO>(pageOrderMessageForAdminReqDTO.getPageNum(), pageOrderMessageForAdminReqDTO.getPageSize(), (int) total, list);
 
@@ -184,7 +184,7 @@ public class OrderMessageServiceImpl extends BaseServiceImpl<OrderMessage, Long>
         if (pageOrderMessageForAdminReqDTO.getPageNum() > pageRespDTO.getPages()) {
             pageOrderMessageForAdminReqDTO.setPageNum(pageRespDTO.getPages());
             query.skip((pageOrderMessageForAdminReqDTO.getPageNum() - 1) * pageOrderMessageForAdminReqDTO.getPageSize());
-            list = ModelMapperUtil.mapForList(mongoTemplate.find(query, OrderMessageWithMongo.class), OrderMessageRespDTO.class);
+            list = mongoTemplate.find(query, OrderMessageWithMongo.class).stream().map(e -> ModelMapperUtil.map(e, OrderMessageRespDTO.class)).collect(Collectors.toList());
         }
         pageRespDTO = new PageRespDTO<OrderMessageRespDTO>(pageOrderMessageForAdminReqDTO.getPageNum(), pageOrderMessageForAdminReqDTO.getPageSize(), (int) total, list);
 

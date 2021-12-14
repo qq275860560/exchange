@@ -91,10 +91,6 @@ public class OrderController {
         return orderService.cancelOrderForClient(cancelOrderForClientReqDTO);
     }
 
-
-
-
-
     @ApiOperation(value = "付款订单", notes = "<p>订单已付款</p>", httpMethod = "POST")
     @PostMapping(value = "/api/order/payOrder")
     @SneakyThrows
@@ -109,21 +105,19 @@ public class OrderController {
         return orderService.releaseOrder(releaseOrderReqDTO);
     }
 
-
-
     @ApiOperation(value = "微服务客户端同意未付款订单申诉", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/order/agreeUnPayOrderAppealForClient")
     @SneakyThrows
     public Result<Void> agreeUnPayOrderAppealForClient(@RequestBody AgreeUnPayOrderAppealForClientReqDTO agreeUnPayOrderAppealForClientReqDTO) {
         return orderService.agreeUnPayOrderAppealForClient(agreeUnPayOrderAppealForClientReqDTO);
     }
+
     @ApiOperation(value = "微服务客户端同意未放行订单申诉", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/order/agreeUnReleaseOrderAppealForClient")
     @SneakyThrows
     public Result<Void> agreeUnReleaseOrderAppealForClient(@RequestBody AgreeUnReleaseOrderAppealForClientReqDTO agreeUnReleaseOrderAppealForClientReqDTO) {
         return orderService.agreeUnReleaseOrderAppealForClient(agreeUnReleaseOrderAppealForClientReqDTO);
     }
-
 
     @ApiOperation(value = "微服务客户端更新订单状态", notes = "<p></p>", httpMethod = "POST")
     @PostMapping(value = "/api/order/updateOrderStatusForClient")

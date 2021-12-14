@@ -127,12 +127,11 @@ public enum ResultCodeEnum {
     ORDER_CUSTOMER_PAYMENT_NOT_EMPTY(80014, "订单顾客支付信息不能为空"),
     ORDER_STATUS_CAN_NOT_APPEAL(80015, "订单当前状态无法申诉"),
     ORDER_STATUS_IS_CANCEL(80016, "订单已经为取消状态"),
-    ORDER_ADD_STATUS_EXISTS(80017,"下单状态的订单已存在"),
+    ORDER_ADD_STATUS_EXISTS(80017, "下单状态的订单已存在"),
     ORDER_STATUS_IS_NOT_ADD_OR_PAY(80018, "订单非下单状态或已付款状态"),
     ORDER_PAY_TIME_LEGAL(80019, "订单支付时间正常"),
     ORDER_RELEASE_TIME_LEGAL(80020, "订单放行时间正常"),
     ORDER_COIN_CODE_CAN_NOT_EMPTY(80021, "订单币种编码不能为空"),
-
 
     /**
      * 币种模块
@@ -219,7 +218,6 @@ public enum ResultCodeEnum {
     ORDER_CUSTOMER_STATUS_DISABLE(180006, "订单顾客状态已经禁用"),
     ORDER_CUSTOMER_STATUS_ENABLE(180007, "订单顾客状态已经启用"),
     ORDER_CUSTOMER_ORDER_TODAY_CANCEL_COUNT_OVERLOAD(180008, "订单顾客每日订单取消次数超过系统规定"),
-
 
     /**
      * 法币模块

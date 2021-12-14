@@ -62,9 +62,12 @@ http://localhost:8080/doc.html
 ## 在线设计文档
 [在线设计文档](https://qq275860560.github.io/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%95%B0%E5%AD%97%E8%B4%A7%E5%B8%81%E4%BA%A4%E6%98%93%E6%89%80-%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1.html#%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9D%97-2)
 
-
+## 单元测试
+[单元测试](https://github.com/qq275860560/exchange/blob/main/exchange-api/src/test/java/com/ghf/exchange/otc/order/service/OrderServiceTest.java)
 
 # TODO LIST
+
+
 
 
 

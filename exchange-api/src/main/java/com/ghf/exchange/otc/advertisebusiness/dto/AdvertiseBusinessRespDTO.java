@@ -137,7 +137,6 @@ public class AdvertiseBusinessRespDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date orderLastAppealTime;
 
-
     @ApiModelProperty("订单当月下单总数")
     @Column(name = "order_month_buy_sell_count")
     private int orderMonthBuySellCount;

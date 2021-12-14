@@ -1241,7 +1241,6 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
         return new Result<>(ResultCodeEnum.OK);
     }
 
-
     //TODO 订单客户只能查看国家跟自己相同的广告，订单客户只能查看法币跟自己支持的广告
     //TODO 订单客户只能交易国家跟自己相同的广告，订单客户只能交易法币跟自己支持的广告
 }

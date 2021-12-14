@@ -15,7 +15,6 @@ public enum AdvertiseBusinessKycEnum {
     KYC_2(2, "kyc1"),
     KYC_3(3, "kyc1"),
 
-
     ;
 
     AdvertiseBusinessKycEnum(int code, String msg) {

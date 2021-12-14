@@ -144,7 +144,6 @@ public class AdvertiseBusiness {
     @Column(name = "order_last_appeal_time")
     private Date orderLastAppealTime;
 
-
     @ApiModelProperty("订单当月下单总数")
     @Column(name = "order_month_buy_sell_count")
     private int orderMonthBuySellCount;
@@ -170,14 +169,6 @@ public class AdvertiseBusiness {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "order_last_release_time")
     private Date orderLastReleaseTime;
-
-
-
-
-
-
-
-
 
     @ApiModelProperty("状态,0:禁用,1:启用")
     @Column(name = "status")

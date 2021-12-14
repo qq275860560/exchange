@@ -44,7 +44,7 @@ public class AccountRespDTO {
     private BigDecimal frozenBalance;
 
     @ApiModelProperty("状态,0:禁用,1:启用")
-     private int status;
+    private int status;
 
     @ApiModelProperty("操作时间")
     @Column(name = "create_time")

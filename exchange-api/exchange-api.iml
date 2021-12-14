@@ -217,6 +217,5 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.12" level="project" />
     <orderEntry type="library" name="Maven: org.quartz-scheduler:quartz:2.3.2" level="project" />
     <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.15" level="project" />
-    <orderEntry type="library" name="Maven: org.modelmapper:modelmapper:2.4.4" level="project" />
   </component>
 </module>

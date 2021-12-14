@@ -85,8 +85,7 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
 
         PageRespDTO<AdvertiseBusinessRespDTO> pageRespDTO = advertiseBusinessService.page(predicate, pageAdvertiseBusinessReqDTO, AdvertiseBusinessRespDTO.class);
 
-
-        pageRespDTO.getList().forEach(advertiseBusinessRespDTO->{
+        pageRespDTO.getList().forEach(advertiseBusinessRespDTO -> {
             if (advertiseBusinessRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(advertiseBusinessRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
                 //重置订单当月下单总数为0
                 advertiseBusinessRespDTO.setOrderMonthBuySellCount(0);
@@ -121,7 +120,7 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
 
         PageRespDTO<AdvertiseBusinessRespDTO> pageRespDTO = advertiseBusinessService.page(predicate, pageAdvertiseBusinessForAdminReqDTO, AdvertiseBusinessRespDTO.class);
 
-        pageRespDTO.getList().forEach(advertiseBusinessRespDTO->{
+        pageRespDTO.getList().forEach(advertiseBusinessRespDTO -> {
             if (advertiseBusinessRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(advertiseBusinessRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
                 //重置订单当月下单总数为0
                 advertiseBusinessRespDTO.setOrderMonthBuySellCount(0);
@@ -160,7 +159,7 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
 
         List<AdvertiseBusinessRespDTO> list = advertiseBusinessService.list(predicate, AdvertiseBusinessRespDTO.class);
 
-        list.forEach(advertiseBusinessRespDTO->{
+        list.forEach(advertiseBusinessRespDTO -> {
             if (advertiseBusinessRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(advertiseBusinessRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
                 //重置订单当月下单总数为0
                 advertiseBusinessRespDTO.setOrderMonthBuySellCount(0);
@@ -196,8 +195,7 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
 
         List<AdvertiseBusinessRespDTO> list = advertiseBusinessService.list(predicate, AdvertiseBusinessRespDTO.class);
 
-
-        list.forEach(advertiseBusinessRespDTO->{
+        list.forEach(advertiseBusinessRespDTO -> {
             if (advertiseBusinessRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(advertiseBusinessRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
                 //重置订单当月下单总数为0
                 advertiseBusinessRespDTO.setOrderMonthBuySellCount(0);
@@ -231,7 +229,7 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
 
         List<AdvertiseBusinessRespDTO> list = advertiseBusinessService.list(predicate, AdvertiseBusinessRespDTO.class);
 
-        list.forEach(advertiseBusinessRespDTO->{
+        list.forEach(advertiseBusinessRespDTO -> {
             if (advertiseBusinessRespDTO.getOrderLastAddTime() == null || !new SimpleDateFormat("yyyy-MM").format(advertiseBusinessRespDTO.getOrderLastAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(new Date()))) {
                 //重置订单当月下单总数为0
                 advertiseBusinessRespDTO.setOrderMonthBuySellCount(0);
@@ -258,8 +256,6 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
         String advertiseBusinessCode = getAdvertiseBusinessByAdvertiseBusinessCodeReqDTO.getAdvertiseBusinessCode();
         Predicate predicate = QAdvertiseBusiness.advertiseBusiness.advertiseBusinessCode.eq(advertiseBusinessCode);
         AdvertiseBusiness advertiseBusiness = advertiseBusinessService.get(predicate);
-
-
 
         //返回
         AdvertiseBusinessRespDTO advertiseBusinessRespDTO = ModelMapperUtil.map(advertiseBusiness, AdvertiseBusinessRespDTO.class);
@@ -339,7 +335,7 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
         advertiseBusiness.setDeposit(addAdvertiseBusinessForAdminReqDTO.getDeposit());
 
         //判断kyc
-        if(addAdvertiseBusinessForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_1.getCode()          && addAdvertiseBusinessForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_2.getCode() &&      addAdvertiseBusinessForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_3.getCode()){
+        if (addAdvertiseBusinessForAdminReqDTO.getKyc() != AdvertiseBusinessKycEnum.KYC_1.getCode() && addAdvertiseBusinessForAdminReqDTO.getKyc() != AdvertiseBusinessKycEnum.KYC_2.getCode() && addAdvertiseBusinessForAdminReqDTO.getKyc() != AdvertiseBusinessKycEnum.KYC_3.getCode()) {
             return new Result<>(ResultCodeEnum.ADVERTISE_BUSINESS_KYC_NOT_EXISTS);
         }
         //设置kyc
@@ -399,7 +395,7 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
         //设置保证金
         afterAdvertiseBusiness.setDeposit(updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getDeposit());
         //判断kyc
-        if(updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_1.getCode()          && updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_2.getCode() &&      updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getKyc()!= AdvertiseBusinessKycEnum.KYC_3.getCode()){
+        if (updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getKyc() != AdvertiseBusinessKycEnum.KYC_1.getCode() && updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getKyc() != AdvertiseBusinessKycEnum.KYC_2.getCode() && updateAdvertiseBusinessByAdvertiseBusinessCodeForAdminReqDTO.getKyc() != AdvertiseBusinessKycEnum.KYC_3.getCode()) {
             return new Result<>(ResultCodeEnum.ADVERTISE_BUSINESS_KYC_NOT_EXISTS);
         }
         //设置kyc
@@ -528,16 +524,11 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
         //设置总完成率=(买币订单放行次数+卖币订单放行次数)/订单顾客下单次数
         afterAdvertiseBusiness.setOrderBuySellReleaseRate(BigDecimal.valueOf(advertiseBusinessRespDTO.getOrderBuyReleaseCount() + advertiseBusinessRespDTO.getOrderSellReleaseCount()).divide(BigDecimal.valueOf(advertiseBusinessRespDTO.getOrderBuySellCount() + 1), 8, BigDecimal.ROUND_UP));
 
-
-
         //设置订单当月下单总数
-            afterAdvertiseBusiness.setOrderMonthBuySellCount(advertiseBusinessRespDTO.getOrderMonthBuySellCount() + 1);
+        afterAdvertiseBusiness.setOrderMonthBuySellCount(advertiseBusinessRespDTO.getOrderMonthBuySellCount() + 1);
 
         //设置订单最后下单时间
         afterAdvertiseBusiness.setOrderLastAddTime(updateAdvertiseBusinessOnAddOrderEventForClientReqDTO.getAddTime());
-
-
-
 
 //更新到数据库
         advertiseBusinessService.update(afterAdvertiseBusiness);
@@ -590,26 +581,18 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
         //设置订单平均放行时间
         afterAdvertiseBusiness.setOrderBuySellAvgReleaseTime((advertiseBusinessRespDTO.getOrderBuyTotalReleaseTime() + advertiseBusinessRespDTO.getOrderSellTotalReleaseTime() + updateAdvertiseBusinessOnReleaseOrderEventForClientReqDTO.getReleaseTime().getTime() - updateAdvertiseBusinessOnReleaseOrderEventForClientReqDTO.getPayTime().getTime()) / advertiseBusinessRespDTO.getOrderBuySellCount());
 
-
-
-
-
-
         //创建时间也是当前月才计入
-        if(new SimpleDateFormat("yyyy-MM").format(updateAdvertiseBusinessOnReleaseOrderEventForClientReqDTO.getAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(updateAdvertiseBusinessOnReleaseOrderEventForClientReqDTO.getReleaseTime()))) {
-
+        if (new SimpleDateFormat("yyyy-MM").format(updateAdvertiseBusinessOnReleaseOrderEventForClientReqDTO.getAddTime()).equals(new SimpleDateFormat("yyyy-MM").format(updateAdvertiseBusinessOnReleaseOrderEventForClientReqDTO.getReleaseTime()))) {
 
             //设置订单当月放行总数
-                afterAdvertiseBusiness.setOrderMonthBuySellReleaseCount(advertiseBusinessRespDTO.getOrderMonthBuySellReleaseCount() + 1);
-                //设置订单当月放行比例
-                afterAdvertiseBusiness.setOrderMonthBuySellReleaseRate(BigDecimal.valueOf(advertiseBusinessRespDTO.getOrderMonthBuySellReleaseCount() + 1).divide(BigDecimal.valueOf(advertiseBusinessRespDTO.getOrderMonthBuySellCount()), 8, BigDecimal.ROUND_UP));
-
+            afterAdvertiseBusiness.setOrderMonthBuySellReleaseCount(advertiseBusinessRespDTO.getOrderMonthBuySellReleaseCount() + 1);
+            //设置订单当月放行比例
+            afterAdvertiseBusiness.setOrderMonthBuySellReleaseRate(BigDecimal.valueOf(advertiseBusinessRespDTO.getOrderMonthBuySellReleaseCount() + 1).divide(BigDecimal.valueOf(advertiseBusinessRespDTO.getOrderMonthBuySellCount()), 8, BigDecimal.ROUND_UP));
 
             //设置订单最后放行时间
             afterAdvertiseBusiness.setOrderLastReleaseTime(updateAdvertiseBusinessOnReleaseOrderEventForClientReqDTO.getReleaseTime());
 
-               }
-
+        }
 
         if (updateAdvertiseBusinessOnReleaseOrderEventForClientReqDTO.getOrderBuySellType() == OrderBuySellTypeEnum.BUY.getCode()) {
             //设置买币订单总额
@@ -644,10 +627,8 @@ public class AdvertiseBusinessServiceImpl extends BaseServiceImpl<AdvertiseBusin
 
         AdvertiseBusiness afterAdvertiseBusiness = ModelMapperUtil.map(advertiseBusinessRespDTO, AdvertiseBusiness.class);
 
-
-
         //设置订单当日申诉次数
-            afterAdvertiseBusiness.setOrderTodayAppealCount(advertiseBusinessRespDTO.getOrderTodayAppealCount() + 1);
+        afterAdvertiseBusiness.setOrderTodayAppealCount(advertiseBusinessRespDTO.getOrderTodayAppealCount() + 1);
 
         //设置订单最后申诉时间
         afterAdvertiseBusiness.setOrderLastAppealTime(updateAdvertiseBusinessOnAppealOrderEventForClientReqDTO.getAppealTime());

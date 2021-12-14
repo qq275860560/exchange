@@ -74,6 +74,4 @@ public class JsonUtil {
         return mapper.readValue(jsonString, listType);
     }
 
-
-
 }
